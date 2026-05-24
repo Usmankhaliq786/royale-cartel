@@ -49,32 +49,46 @@ body.hvr #cur2{width:48px;height:48px;border-color:var(--gold2)}
 ───────────────────────────────────── */
 #intro{position:fixed;inset:0;z-index:5000;background:#000;overflow:hidden;transition:opacity 1.2s var(--ease),transform 1.4s var(--ease)}
 #intro.out{opacity:0;pointer-events:none;transform:scale(1.03)}
-/* Logo splash phase */
-#lsplash{position:absolute;inset:0;z-index:3;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .7s ease}
-#lsplash img{width:clamp(90px,16vw,140px);filter:drop-shadow(0 0 30px rgba(201,148,58,.8));animation:glowPulse 2s ease-in-out infinite;opacity:0;animation:splashImg 1s var(--ease2) .2s forwards,glowPulse 2.5s ease-in-out .5s infinite}
-.ls-name{font-family:var(--f-label);font-size:clamp(14px,3vw,28px);font-weight:700;letter-spacing:clamp(4px,2vw,12px);text-transform:uppercase;color:var(--gold2);opacity:0;animation:fadeUp .8s var(--ease2) .5s forwards}
-.ls-sub{font-family:var(--f-body);font-size:clamp(11px,1.4vw,14px);font-weight:300;letter-spacing:clamp(2px,1vw,5px);color:rgba(201,148,58,.6);opacity:0;animation:fadeUp .8s var(--ease2) .8s forwards}
-.ls-line{height:1px;width:0;background:linear-gradient(90deg,transparent,var(--gold),transparent);animation:lineExp .9s var(--ease2) .6s forwards}
-/* Video phase */
-#vphase{position:absolute;inset:0;z-index:1;opacity:0;transition:opacity .8s ease}
-#ivid{width:100%;height:100%;object-fit:cover;display:block}
-#vphase::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.4) 0%,transparent 25%,transparent 75%,rgba(0,0,0,.55) 100%);pointer-events:none}
-.vbrand{position:absolute;bottom:clamp(44px,8vw,72px);left:50%;transform:translateX(-50%);z-index:2;text-align:center;pointer-events:none}
-.vbrand img{width:clamp(44px,6.5vw,72px);margin:0 auto 8px;filter:drop-shadow(0 0 18px rgba(201,148,58,.9));animation:glowPulse 2.5s ease-in-out infinite}
-.vbrand-name{font-family:var(--f-label);font-size:clamp(12px,2.5vw,22px);font-weight:700;letter-spacing:clamp(4px,1.5vw,10px);text-transform:uppercase;color:var(--gold2);white-space:nowrap}
-.vbrand-sub{font-family:var(--f-body);font-size:clamp(10px,1.2vw,13px);font-weight:300;letter-spacing:3px;color:rgba(255,255,255,.55);white-space:nowrap;margin-top:3px}
+/* ── LOGO SPLASH (intro only) ── */
+#lsplash{
+  position:absolute;inset:0;z-index:3;background:#000;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:18px;cursor:pointer;
+}
+#lsplash img{
+  width:clamp(100px,18vw,160px);
+  filter:drop-shadow(0 0 30px rgba(201,148,58,.8));
+  opacity:0;
+  animation:splashImg 1s var(--ease2) .2s forwards, glowPulse 2.5s ease-in-out .5s infinite;
+}
+.ls-name{
+  font-family:var(--f-label);font-size:clamp(16px,3vw,30px);font-weight:700;
+  letter-spacing:clamp(5px,2vw,14px);text-transform:uppercase;color:var(--gold2);
+  opacity:0;animation:fadeUp .8s var(--ease2) .5s forwards;
+}
+.ls-sub{
+  font-family:var(--f-body);font-size:clamp(11px,1.4vw,14px);font-weight:300;
+  letter-spacing:clamp(2px,1vw,5px);color:rgba(201,148,58,.6);
+  opacity:0;animation:fadeUp .8s var(--ease2) .8s forwards;
+}
+.ls-line{
+  height:1px;width:0;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  animation:lineExp .9s var(--ease2) .6s forwards;
+}
 /* Corner decorations */
 .corners .c{position:absolute;width:clamp(16px,2.8vw,28px);height:clamp(16px,2.8vw,28px)}
 .c.tl{top:clamp(12px,2vw,20px);left:clamp(12px,2vw,20px);border-top:2px solid rgba(201,148,58,.65);border-left:2px solid rgba(201,148,58,.65)}
 .c.tr{top:clamp(12px,2vw,20px);right:clamp(12px,2vw,20px);border-top:2px solid rgba(201,148,58,.65);border-right:2px solid rgba(201,148,58,.65)}
 .c.bl{bottom:clamp(12px,2vw,20px);left:clamp(12px,2vw,20px);border-bottom:2px solid rgba(201,148,58,.65);border-left:2px solid rgba(201,148,58,.65)}
 .c.br{bottom:clamp(12px,2vw,20px);right:clamp(12px,2vw,20px);border-bottom:2px solid rgba(201,148,58,.65);border-right:2px solid rgba(201,148,58,.65)}
-/* Progress bar */
-.iprog{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(201,148,58,.1);z-index:4}
-.iprogfill{height:100%;width:0;background:linear-gradient(90deg,var(--gold4),var(--gold),var(--gold2));transition:width linear}
-/* Skip */
-.iskip{position:absolute;bottom:clamp(12px,2vw,20px);right:clamp(14px,2.2vw,22px);z-index:4;font-family:var(--f-label);font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.5);background:transparent;border:1px solid rgba(255,255,255,.2);padding:8px 16px;cursor:pointer;transition:all .3s;opacity:0;animation:fadeIn .5s 2s forwards}
-.iskip:hover{color:var(--gold2);border-color:rgba(201,148,58,.5)}
+/* tiny tap-to-skip hint */
+.ls-skip-hint{
+  position:absolute;bottom:20px;
+  font-family:var(--f-label);font-size:10px;font-weight:400;letter-spacing:3px;
+  text-transform:uppercase;color:rgba(255,255,255,.3);
+  opacity:0;animation:fadeIn .5s 1.5s forwards;
+}
 @keyframes splashImg{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{to{opacity:1}}
@@ -99,9 +113,9 @@ nav{
 }
 nav.sc{height:60px;background:rgba(5,5,5,.95);backdrop-filter:blur(20px);border-color:rgba(201,148,58,.12)}
 .nlogo{display:flex;align-items:center;gap:10px;flex-shrink:0}
-.nlogo img{height:clamp(70px,4vw,44px);filter:drop-shadow(0 0 8px rgba(201,148,58,.4));transition:filter .3s}
+.nlogo img{height:clamp(75px,4vw,44px);filter:drop-shadow(0 0 8px rgba(201,148,58,.4));transition:filter .3s}
 .nlogo:hover img{filter:drop-shadow(0 0 20px rgba(201,148,58,.9))}
-.nlt .n1{font-family:var(--f-label);font-size:clamp(20px,1.3vw,13px);font-weight:700;letter-spacing:clamp(2px,.8vw,4px);color:var(--wh);text-transform:uppercase}
+.nlt .n1{font-family:var(--f-label);font-size:clamp(18px,1.3vw,13px);font-weight:700;letter-spacing:clamp(2px,.8vw,4px);color:var(--wh);text-transform:uppercase}
 .nlt .n2{font-family:var(--f-body);font-size:clamp(9px,.9vw,11px);font-weight:300;letter-spacing:2px;color:var(--gold);margin-top:1px}
 /* Nav links */
 .nlinks{display:flex;gap:clamp(16px,2.5vw,36px);list-style:none}
@@ -666,12 +680,12 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
 <div id="intro">
   <div id="vphase">
     <video id="ivid" autoplay muted playsinline preload="auto" loop>
-      <source src="royal-cartel1.mp4" type="video/mp4">
+      <source src="royal-e-cartel.mp4" type="video/mp4">
     </video>
     <div class="vbrand">
       <img src="remove-logo.png" alt="Royale Cartel">
       <div class="vbrand-name">ROYALE CARTEL</div>
-      <div class="vbrand-sub"></div>
+      <div class="vbrand-sub">Haute Horlogerie · Geneva</div>
     </div>
     <div class="iprog"><div class="iprogfill" id="ipf"></div></div>
   </div>
@@ -679,13 +693,13 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
     <img src="remove-logo.png" alt="Royale Cartel">
     <div class="ls-line"></div>
     <div class="ls-name">Royale Cartel</div>
-    <div class="ls-sub"></div>
+    <div class="ls-sub">Haute Horlogerie · Geneva</div>
   </div>
   <div class="corners">
     <div class="c tl"></div><div class="c tr"></div>
     <div class="c bl"></div><div class="c br"></div>
   </div>
-  <button class="iskip" id="iskip">Skip &nbsp;›</button>
+  <div class="ls-skip-hint">Tap anywhere to skip</div>
 </div>
 
 <!-- ═══════════ VIDEO POPUP ═══════════ -->
@@ -773,7 +787,7 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
 <nav id="nav">
   <a href="#home" class="nlogo">
     <img src="remove-logo.png" alt="RC">
-    <div class="nlt"><span class="n1">RC</span><span class="n2"></span></div>
+    <div class="nlt"><span class="n1">R C</span><span class="n2"></span></div>
   </a>
   <ul class="nlinks">
     <li><a href="#collection">Collection</a></li>
@@ -813,7 +827,7 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
 <section class="hero" id="home">
   <div class="hero-video-wrap">
     <video autoplay muted playsinline loop preload="auto">
-      <source src="hero_video.mp4" type="video/mp4">
+      <source src="royal-cartel1.mp4" type="video/mp4">
     </video>
   </div>
   <div class="hero-overlay"></div>
@@ -874,7 +888,7 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
   </div>
   <div class="col-grid">
     <div class="dial-card" data-anim>
-      <div class="dial-circle"><img src="royal-2.jpg" alt="Royale Classic"></div>
+      <div class="dial-circle"><img src="royal-1.jpg" alt="Royale Classic"></div>
       <div class="dial-name">Royale Classic</div>
       <div class="dial-sub">Steel · Moonphase</div>
       <div class="dial-price">CHF 128,000</div>
@@ -886,7 +900,7 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
     <div class="center-card" data-anim>
       <div class="center-img-wrap">
         <div class="center-glow"></div>
-        <img src="royal-remove.png" alt="The Royale Signature">
+        <img src="royal-2.jpg" alt="The Royale Signature">
       </div>
       <div class="center-divider"><div class="cdl"></div><span class="cdt">✦ Signature ✦</span><div class="cdl"></div></div>
       <div class="center-info">
@@ -1170,14 +1184,9 @@ if(!isTch){
 }
 
 /* ════════════════════
-   VIDEO INTRO
+   LOGO INTRO → HERO VIDEO
 ════════════════════ */
 const introEl=document.getElementById('intro');
-const lsplash=document.getElementById('lsplash');
-const vphase=document.getElementById('vphase');
-const ivid=document.getElementById('ivid');
-const ipf=document.getElementById('ipf');
-const iskip=document.getElementById('iskip');
 const site=document.getElementById('site');
 let introDone=false;
 
@@ -1186,36 +1195,21 @@ document.body.style.overflow='hidden';
 function endIntro(){
   if(introDone)return;
   introDone=true;
-  ivid.pause();
   introEl.classList.add('out');
   site.classList.add('on');
   document.body.style.overflow='';
 }
 
-// Phase 1: Show logo for 2.5 seconds
+// Show logo for 2.8 seconds, then fade out and reveal site with hero video
 setTimeout(()=>{
-  lsplash.style.transition='opacity .8s ease';
-  lsplash.style.opacity='0';
-  vphase.style.transition='opacity .8s ease .1s';
-  vphase.style.opacity='1';
-  setTimeout(()=>lsplash.style.display='none',900);
-  ivid.play().catch(()=>{});
-},2500);
+  endIntro();
+},2800);
 
-// Progress bar
-ivid.addEventListener('timeupdate',()=>{
-  if(!ivid.duration)return;
-  const p=(ivid.currentTime/ivid.duration)*100;
-  ipf.style.width=Math.min(p,100)+'%';
-  ipf.style.transitionDuration='.1s';
-  if(p>=100)endIntro();
-});
-ivid.addEventListener('ended',endIntro);
-
-// Failsafe timeout
-const fst=setTimeout(()=>{if(!introDone)endIntro()},13000);
-iskip.addEventListener('click',()=>{clearTimeout(fst);endIntro()});
-document.addEventListener('keydown',e=>{if(!introDone&&(e.key==='Escape'||e.key===' ')){clearTimeout(fst);endIntro()}},{once:true});
+// Allow click/tap to skip logo
+introEl.addEventListener('click', ()=>endIntro());
+document.addEventListener('keydown',e=>{
+  if(!introDone&&(e.key==='Escape'||e.key===' '||e.key==='Enter'))endIntro();
+},{once:true});
 
 /* ════════════════════
    VIDEO POPUP
