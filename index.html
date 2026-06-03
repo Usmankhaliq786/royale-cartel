@@ -113,9 +113,9 @@ nav{
 }
 nav.sc{height:60px;background:rgba(5,5,5,.95);backdrop-filter:blur(20px);border-color:rgba(201,148,58,.12)}
 .nlogo{display:flex;align-items:center;gap:10px;flex-shrink:0}
-.nlogo img{height:clamp(75px,4vw,44px);filter:drop-shadow(0 0 8px rgba(201,148,58,.4));transition:filter .3s}
+.nlogo img{height:clamp(60px,4vw,44px);filter:drop-shadow(0 0 8px rgba(201,148,58,.4));transition:filter .3s}
 .nlogo:hover img{filter:drop-shadow(0 0 20px rgba(201,148,58,.9))}
-.nlt .n1{font-family:var(--f-label);font-size:clamp(18px,1.3vw,13px);font-weight:700;letter-spacing:clamp(2px,.8vw,4px);color:var(--wh);text-transform:uppercase}
+.nlt .n1{font-family:var(--f-label);font-size:clamp(10px,1.3vw,13px);font-weight:700;letter-spacing:clamp(2px,.8vw,4px);color:var(--wh);text-transform:uppercase}
 .nlt .n2{font-family:var(--f-body);font-size:clamp(9px,.9vw,11px);font-weight:300;letter-spacing:2px;color:var(--gold);margin-top:1px}
 /* Nav links */
 .nlinks{display:flex;gap:clamp(16px,2.5vw,36px);list-style:none}
@@ -148,7 +148,17 @@ nav.sc{height:60px;background:rgba(5,5,5,.95);backdrop-filter:blur(20px);border-
 .ham.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
 .ham.open span:nth-child(2){opacity:0}
 .ham.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
-@media(max-width:900px){.nlinks,.ncta,.nsoc{display:none}.ham{display:flex}}
+@media(max-width:900px){
+  .nlinks,.ncta,.nsoc{display:none}
+  .ham{display:flex}
+  /* Mobile: cart-left | logo-center | hamburger-right */
+  nav{display:grid;grid-template-columns:auto 1fr auto;align-items:center;padding:0 clamp(14px,4vw,24px)}
+  .ncart{order:0;grid-column:1}
+  .nlogo{order:1;grid-column:2;justify-self:center}
+  .ham{order:2;grid-column:3;justify-self:end}
+  /* Hide text next to logo on mobile, show only image */
+  .nlt{display:none}
+}
 /* Mobile drawer */
 .mdr{position:fixed;top:0;right:-100%;width:min(290px,80vw);height:100vh;background:rgba(5,5,5,.98);backdrop-filter:blur(20px);border-left:1px solid rgba(201,148,58,.15);z-index:499;padding:calc(var(--nh)+24px) 28px 40px;display:flex;flex-direction:column;transition:right .45s var(--ease)}
 .mdr.open{right:0}
@@ -164,7 +174,6 @@ nav.sc{height:60px;background:rgba(5,5,5,.95);backdrop-filter:blur(20px);border-
 .mdr-soc a.wa:hover{background:linear-gradient(135deg,#25D366,#128C7E);border-color:transparent;color:#fff}
 .mov{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:498;display:none}
 .mov.open{display:block}
-
 /* ─────────────────────────────────────
    HERO — FULLSCREEN VIDEO
 ───────────────────────────────────── */
@@ -833,14 +842,14 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
   <div class="hero-overlay"></div>
   <div class="hero-scan"></div>
   <div class="hero-content">
-    <div class="hero-badge">Established Geneva MMXXIV</div>
+    <!-- <div class="hero-badge">Established Geneva MMXXIV</div> -->
     <h1 class="hero-title">
-      Royale Cartel<br>
+      Royal E Cartel<br>
       <span class="gold-text">Luxury Timepieces</span>
     </h1>
-    <p class="hero-subtitle">
+    <!-- <p class="hero-subtitle">
       Every second, a legacy. Hand-crafted skeleton movements that reveal the soul of timekeeping — gold, steel, and centuries of mastery.
-    </p>
+    </p> -->
     <div class="hero-btns">
       <a href="#collection" class="btn-primary"><span>Explore Collection</span></a>
       <button class="btn-secondary" onclick="openVid()">▶ Watch Film</button>
