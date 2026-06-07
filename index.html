@@ -818,20 +818,421 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
 </nav>
 
 <div class="mov" id="mov"></div>
-<div class="mdr" id="mdr">
-  <a href="#collection" class="mlink">Collection</a>
-  <a href="#watches" class="mlink">Watches</a>
-  <a href="#craft" class="mlink">Craft</a>
-  <a href="#atelier" class="mlink">Atelier</a>
-  <a href="#contact" class="mlink">Contact</a>
-  <a href="#contact" class="mcta mlink">Reserve a Viewing</a>
+ <div class="mdr" id="mdr">
+
+  <a href="#collection" class="mlink">Collections</a>
+  <a href="#watches" class="mlink">Timepieces</a>
+  <a href="#craft" class="mlink">Craftsmanship</a>
+  <a href="#atelier" class="mlink">Our Story</a>
+  <a href="#contact" class="mlink">Contact Us</a>
+
+  <a href="#contact" class="mcta mlink">
+    Book Private Viewing
+  </a>
+
   <div class="mdr-soc">
-    <a href="https://www.instagram.com/royale_cartel1?utm_source=qr&igsh=NDRxbzBseTBkazJz" target="_blank" rel="noopener" class="ig"><svg><use href="#ico-ig"/></svg></a>
-    <a href="https://www.facebook.com/share/18osoDXftA/" target="_blank" rel="noopener" class="fb"><svg><use href="#ico-fb"/></svg></a>
-    <a href="https://wa.me/923030555566" target="_blank" rel="noopener" class="wa"><svg><use href="#ico-wa"/></svg></a>
+
+    <a href="https://www.instagram.com/royale_cartel1?utm_source=qr&igsh=NDRxbzBseTBkazJz"
+       target="_blank"
+       rel="noopener"
+       aria-label="Instagram"
+       class="ig">
+      <svg><use href="#ico-ig"/></svg>
+    </a>
+
+    <a href="https://www.facebook.com/share/18osoDXftA/"
+       target="_blank"
+       rel="noopener"
+       aria-label="Facebook"
+       class="fb">
+      <svg><use href="#ico-fb"/></svg>
+    </a>
+
+    <a href="https://wa.me/923030555566"
+       target="_blank"
+       rel="noopener"
+       aria-label="WhatsApp"
+       class="wa">
+      <svg><use href="#ico-wa"/></svg>
+    </a>
+
   </div>
+
+</div>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#C9943A;--gold2:#E8C060;--gold3:#F5D78A;
+  --bk:#050505;
+  --f-head:'Playfair Display',Georgia,serif;
+  --f-body:'Inter',system-ui,sans-serif;
+  --f-label:'Montserrat',system-ui,sans-serif;
+}
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400&family=Montserrat:wght@400;500;600;700&display=swap');
+
+.galaxy-hero{
+  position:relative;
+  width:100%;
+  height:100vh;
+  min-height:560px;
+  max-height:700px;
+  overflow:hidden;
+  background:#000;
+  display:flex;align-items:center;justify-content:center;
+}
+canvas#gc{
+  position:absolute;inset:0;width:100%;height:100%;display:block;
+}
+.gh-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,
+    rgba(0,0,0,.25) 0%,
+    rgba(0,0,0,.05) 35%,
+    rgba(0,0,0,.1) 65%,
+    rgba(0,0,0,.65) 100%
+  );
+  z-index:1;pointer-events:none;
+}
+.gh-content{
+  position:relative;z-index:2;
+  text-align:center;
+  padding:0 clamp(20px,5vw,60px);
+  max-width:860px;
+  width:100%;
+}
+.gh-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  border:1px solid rgba(201,148,58,.4);
+  background:rgba(201,148,58,.08);
+  padding:7px 18px;margin-bottom:24px;
+  font-family:var(--f-label);font-size:10px;font-weight:600;
+  letter-spacing:4px;text-transform:uppercase;
+  color:var(--gold2);
+}
+.gh-badge::before,.gh-badge::after{content:'✦';font-size:7px;color:var(--gold)}
+.gh-title{
+  font-family:var(--f-head);font-weight:700;
+  font-size:clamp(32px,6.5vw,80px);
+  line-height:1.08;color:#fff;
+  margin-bottom:18px;
+  text-shadow:0 2px 40px rgba(0,0,0,.9);
+  letter-spacing:-0.5px;
+}
+.gh-title em{
+  font-style:italic;
+  color:var(--gold2);
+}
+.gh-sub{
+  font-family:var(--f-body);
+  font-size:clamp(13px,1.6vw,18px);
+  font-weight:300;
+  color:rgba(255,255,255,.75);
+  line-height:1.7;
+  max-width:560px;margin:0 auto 36px;
+  text-shadow:0 1px 16px rgba(0,0,0,.9);
+  letter-spacing:.3px;
+}
+.gh-btns{
+  display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;
+}
+.gh-btn-primary{
+  font-family:var(--f-label);font-size:11px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;
+  padding:14px 36px;
+  background:linear-gradient(135deg,#8B6014,#C9943A,#E8C060);
+  color:#000;border:none;cursor:pointer;
+  position:relative;overflow:hidden;
+  transition:transform .3s,box-shadow .3s;
+}
+.gh-btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(201,148,58,.45)}
+.gh-btn-secondary{
+  font-family:var(--f-label);font-size:11px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;
+  padding:13px 28px;
+  border:1.5px solid rgba(255,255,255,.35);
+  color:rgba(255,255,255,.9);
+  background:rgba(255,255,255,.06);
+  cursor:pointer;
+  transition:all .3s;
+}
+.gh-btn-secondary:hover{border-color:var(--gold2);color:var(--gold2);background:rgba(201,148,58,.08)}
+.gh-line-bottom{
+  position:absolute;bottom:0;left:0;right:0;height:2px;z-index:3;
+  background:linear-gradient(90deg,transparent 0%,rgba(201,148,58,.4) 25%,rgba(232,192,96,.85) 50%,rgba(201,148,58,.4) 75%,transparent 100%);
+}
+.gh-scroll{
+  position:absolute;bottom:28px;left:50%;transform:translateX(-50%);
+  z-index:3;display:flex;flex-direction:column;align-items:center;gap:6px;
+  opacity:.7;
+}
+.gh-scroll span{
+  font-family:var(--f-label);font-size:9px;font-weight:600;
+  letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.5);
+}
+.gh-scroll-bar{
+  width:1px;height:32px;background:rgba(201,148,58,.25);
+  position:relative;overflow:hidden;
+}
+.gh-scroll-bar::after{
+  content:'';position:absolute;top:-100%;left:0;
+  width:100%;height:100%;
+  background:linear-gradient(to bottom,transparent,var(--gold));
+  animation:sdrop 2s ease-in-out infinite;
+}
+
+/* Corner accents */
+.gh-corner{position:absolute;width:clamp(16px,2.5vw,26px);height:clamp(16px,2.5vw,26px);z-index:3}
+.gh-corner.tl{top:16px;left:16px;border-top:2px solid rgba(201,148,58,.55);border-left:2px solid rgba(201,148,58,.55)}
+.gh-corner.tr{top:16px;right:16px;border-top:2px solid rgba(201,148,58,.55);border-right:2px solid rgba(201,148,58,.55)}
+.gh-corner.bl{bottom:16px;left:16px;border-bottom:2px solid rgba(201,148,58,.55);border-left:2px solid rgba(201,148,58,.55)}
+.gh-corner.br{bottom:16px;right:16px;border-bottom:2px solid rgba(201,148,58,.55);border-right:2px solid rgba(201,148,58,.55)}
+
+/* Stats strip */
+.gh-stats{
+  position:absolute;bottom:70px;left:50%;transform:translateX(-50%);
+  z-index:3;display:flex;gap:clamp(24px,5vw,60px);
+  align-items:center;
+}
+.gh-stat{text-align:center}
+.gh-stat-val{
+  font-family:var(--f-head);font-size:clamp(20px,3vw,30px);
+  font-weight:700;font-style:italic;color:var(--gold);
+  display:block;line-height:1;margin-bottom:4px;
+}
+.gh-stat-lbl{
+  font-family:var(--f-label);font-size:clamp(7px,1vw,9px);
+  font-weight:600;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(255,255,255,.45);
+}
+.gh-stat-div{width:1px;height:36px;background:rgba(201,148,58,.2)}
+
+@keyframes sdrop{0%{top:-100%}60%,100%{top:100%}}
+</style>
+</head>
+<body style="margin:0;background:#000">
+
+<div class="galaxy-hero" id="gh">
+
+  <canvas id="gc"></canvas>
+  <div class="gh-overlay"></div>
+
+  <div class="gh-corner tl"></div>
+  <div class="gh-corner tr"></div>
+  <div class="gh-corner bl"></div>
+  <div class="gh-corner br"></div>
+
+  <div class="gh-content">
+    <!-- <div class="gh-badge">Established · Geneva · MMXXIV</div> -->
+    <h1 class="gh-title">
+      Royale Cartel<br>
+      <em>Luxury Timepieces</em>
+    </h1>
+    <!-- <p class="gh-sub">
+      Every second, a dynasty. Hand-crafted skeleton movements that reveal the soul of timekeeping — gold, steel, and centuries of uncompromising mastery.
+    </p> -->
+    <!-- <div class="gh-btns">
+      <button class="gh-btn-primary">Explore Collection</button>
+      <button class="gh-btn-secondary">▶ &nbsp;Watch Film</button>
+    </div> -->
+  </div>
+
+  <div class="gh-stats">
+    <div class="gh-stat">
+      <span class="gh-stat-val">184+</span>
+      <span class="gh-stat-lbl">Years Heritage</span>
+    </div>
+    <div class="gh-stat-div"></div>
+    <div class="gh-stat">
+      <span class="gh-stat-val">324</span>
+      <span class="gh-stat-lbl">Components</span>
+    </div>
+    <div class="gh-stat-div"></div>
+    <div class="gh-stat">
+      <span class="gh-stat-val">800h</span>
+      <span class="gh-stat-lbl">Per Piece</span>
+    </div>
+    <div class="gh-stat-div"></div>
+    <div class="gh-stat">
+      <span class="gh-stat-val">12</span>
+      <span class="gh-stat-lbl">Pieces / Year</span>
+    </div>
+  </div>
+
+  <div class="gh-scroll">
+    <span>Scroll</span>
+    <div class="gh-scroll-bar"></div>
+  </div>
+
+  <div class="gh-line-bottom"></div>
 </div>
 
+<script>
+(function(){
+  const cv=document.getElementById('gc');
+  const ctx=cv.getContext('2d');
+  const hero=document.getElementById('gh');
+  let W,H,stars=[],nebulas=[],shootStar=null,dust=[];
+
+  function resize(){
+    W=cv.width=hero.offsetWidth||window.innerWidth;
+    H=cv.height=hero.offsetHeight||600;
+    buildNebulas();
+  }
+
+  function buildStars(){
+    stars=[];
+    const n=Math.floor(W*H/2800);
+    for(let i=0;i<n;i++){
+      const d=Math.random();
+      stars.push({
+        x:Math.random()*W, y:Math.random()*H,
+        r:d*2.8+.12,
+        speed:d*.28+.025,
+        b:Math.random()*.75+.25,
+        tw:Math.random()*Math.PI*2,
+        ts:Math.random()*.022+.006,
+        gold:Math.random()>.8,
+        cross:Math.random()>.88
+      });
+    }
+  }
+
+  function buildNebulas(){
+    nebulas=[
+      {x:W*.12, y:H*.22, r:W*.35, c:'rgba(80,0,160,'},
+      {x:W*.82, y:H*.6,  r:W*.3,  c:'rgba(0,30,150,'},
+      {x:W*.5,  y:H*.9,  r:W*.25, c:'rgba(140,50,0,'},
+      {x:W*.9,  y:H*.1,  r:W*.2,  c:'rgba(40,0,110,'},
+      {x:W*.05, y:H*.65, r:W*.22, c:'rgba(0,60,140,'},
+      {x:W*.6,  y:H*.3,  r:W*.18, c:'rgba(100,0,70,'},
+    ];
+  }
+
+  function buildDust(){
+    dust=[];
+    for(let i=0;i<60;i++){
+      dust.push({
+        x:Math.random()*W,y:Math.random()*H,
+        r:Math.random()*1.2+.3,
+        a:Math.random()*.07+.01,
+        speed:Math.random()*.08+.01,
+        gold:Math.random()>.7
+      });
+    }
+  }
+
+  function spawnShoot(){
+    if(!shootStar&&Math.random()>.993){
+      const a=(Math.random()*30+12)*Math.PI/180;
+      const spd=Math.random()*7+5;
+      shootStar={
+        x:Math.random()*W*.75, y:Math.random()*H*.35,
+        vx:spd*Math.cos(a), vy:spd*Math.sin(a),
+        len:Math.random()*130+55,
+        life:1, fade:.017
+      };
+    }
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+
+    // Deep space BG
+    const bg=ctx.createRadialGradient(W*.5,H*.5,0,W*.5,H*.5,Math.max(W,H)*.8);
+    bg.addColorStop(0,'#07001a');
+    bg.addColorStop(.35,'#04000d');
+    bg.addColorStop(.7,'#02000a');
+    bg.addColorStop(1,'#000205');
+    ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+
+    // Nebulas
+    nebulas.forEach(n=>{
+      const g=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r);
+      g.addColorStop(0,n.c+'0.13)');
+      g.addColorStop(.5,n.c+'0.04)');
+      g.addColorStop(1,n.c+'0)');
+      ctx.fillStyle=g;
+      ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fill();
+    });
+
+    // Milky Way ribbon
+    const mw=ctx.createLinearGradient(0,H*.2,W,H*.8);
+    mw.addColorStop(0,'rgba(50,20,90,0)');
+    mw.addColorStop(.25,'rgba(70,40,130,.06)');
+    mw.addColorStop(.5,'rgba(90,55,160,.095)');
+    mw.addColorStop(.75,'rgba(70,40,130,.06)');
+    mw.addColorStop(1,'rgba(50,20,90,0)');
+    ctx.fillStyle=mw;ctx.fillRect(0,0,W,H);
+
+    // Dust particles
+    dust.forEach(d=>{
+      d.y-=d.speed;
+      if(d.y<-2){d.y=H+2;d.x=Math.random()*W}
+      const rgb=d.gold?'201,148,58':'180,180,220';
+      ctx.beginPath();ctx.arc(d.x,d.y,d.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(${rgb},${d.a})`;ctx.fill();
+    });
+
+    // Stars
+    stars.forEach(s=>{
+      s.tw+=s.ts;
+      s.y-=s.speed;
+      if(s.y<-4){s.y=H+4;s.x=Math.random()*W}
+      const glow=s.b*(0.6+0.4*Math.sin(s.tw));
+      const rgb=s.gold?'201,148,58':'215,220,255';
+
+      // Outer glow
+      const g=ctx.createRadialGradient(s.x,s.y,0,s.x,s.y,s.r*5);
+      g.addColorStop(0,`rgba(${rgb},${glow*.7})`);
+      g.addColorStop(.3,`rgba(${rgb},${glow*.15})`);
+      g.addColorStop(1,`rgba(${rgb},0)`);
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r*5,0,Math.PI*2);
+      ctx.fillStyle=g;ctx.fill();
+
+      // Core
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r*.6,0,Math.PI*2);
+      ctx.fillStyle=`rgba(${rgb},${Math.min(glow*1.1,1)})`;ctx.fill();
+
+      // Cross sparkle
+      if(s.cross&&s.r>1.4&&glow>.6){
+        const len=s.r*6;
+        ctx.save();
+        ctx.strokeStyle=`rgba(${rgb},${glow*.25})`;
+        ctx.lineWidth=.8;
+        ctx.beginPath();ctx.moveTo(s.x-len,s.y);ctx.lineTo(s.x+len,s.y);ctx.stroke();
+        ctx.beginPath();ctx.moveTo(s.x,s.y-len);ctx.lineTo(s.x,s.y+len);ctx.stroke();
+        ctx.restore();
+      }
+    });
+
+    // Shooting star
+    spawnShoot();
+    if(shootStar){
+      shootStar.x+=shootStar.vx;
+      shootStar.y+=shootStar.vy;
+      shootStar.life-=shootStar.fade;
+      if(shootStar.life>0){
+        const hyp=Math.hypot(shootStar.vx,shootStar.vy);
+        const ex=shootStar.x-shootStar.vx*(shootStar.len/hyp);
+        const ey=shootStar.y-shootStar.vy*(shootStar.len/hyp);
+        const sg=ctx.createLinearGradient(ex,ey,shootStar.x,shootStar.y);
+        sg.addColorStop(0,'rgba(255,255,255,0)');
+        sg.addColorStop(.65,`rgba(255,240,190,${shootStar.life*.45})`);
+        sg.addColorStop(1,`rgba(255,250,220,${shootStar.life})`);
+        ctx.save();
+        ctx.strokeStyle=sg;ctx.lineWidth=1.6;ctx.lineCap='round';
+        ctx.beginPath();ctx.moveTo(ex,ey);ctx.lineTo(shootStar.x,shootStar.y);ctx.stroke();
+        ctx.restore();
+      }else{shootStar=null}
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  resize();buildStars();buildDust();draw();
+  window.addEventListener('resize',()=>{resize();buildStars();buildDust()});
+})();
+</script>
 <!-- ═══════════ HERO — FULLSCREEN VIDEO ═══════════ -->
 <section class="hero" id="home">
   <div class="hero-video-wrap">
@@ -1011,32 +1412,194 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
 </section>
 
 <!-- STORY / CRAFT -->
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#C9943A;--gold2:#E8C060;
+  --bk3:#101010;--bk2:#0A0A0A;--bk:#050505;
+  --gr:#9A9289;--wh:#FFFFFF;--wh2:#F5F0E8;
+  --f-head:'Playfair Display',Georgia,serif;
+  --f-body:'Inter',system-ui,sans-serif;
+  --f-label:'Montserrat',system-ui,sans-serif;
+}
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400&family=Montserrat:wght@500;600;700&display=swap');
+body{background:var(--bk3);color:var(--wh2)}
+
+.story{display:grid;grid-template-columns:1fr 1fr;overflow:hidden;min-height:560px}
+
+/* ── BANNER SLIDER ── */
+.simg{position:relative;overflow:hidden;min-height:360px}
+.simg-slides{position:absolute;inset:0;display:flex;transition:transform .9s cubic-bezier(.76,0,.24,1)}
+.simg-slide{flex:0 0 100%;position:relative;overflow:hidden}
+.simg-slide img{width:100%;height:100%;object-fit:cover;filter:grayscale(8%) brightness(.75);display:block;
+  transform:scale(1.08);transition:transform 6s linear}
+.simg-slide.active img{transform:scale(1.0)}
+.simgov{position:absolute;inset:0;background:linear-gradient(90deg,transparent 45%,var(--bk3) 100%);z-index:1}
+/* Scan line */
+.simg::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;z-index:2;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  animation:scan 4s ease-in-out infinite;opacity:.4}
+/* Slide dots */
+.simg-dots{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);
+  display:flex;gap:7px;z-index:3}
+.simg-dot{width:22px;height:2px;background:rgba(201,148,58,.25);border:none;padding:0;
+  cursor:pointer;transition:background .4s,width .4s}
+.simg-dot.on{background:var(--gold);width:36px}
+/* Slide caption */
+.simg-cap{position:absolute;bottom:40px;left:20px;z-index:3;
+  font-family:var(--f-label);font-size:9px;font-weight:600;letter-spacing:3px;
+  text-transform:uppercase;color:rgba(201,148,58,.7);
+  opacity:0;transform:translateY(6px);transition:opacity .5s,transform .5s}
+.simg-slide.active .simg-cap{opacity:1;transform:translateY(0)}
+/* Prev/Next arrows */
+.simg-prev,.simg-next{position:absolute;top:50%;transform:translateY(-50%);
+  z-index:3;background:rgba(0,0,0,.45);border:1px solid rgba(201,148,58,.3);
+  color:var(--gold);width:34px;height:34px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:16px;transition:background .3s,border-color .3s;
+  border-radius:0}
+.simg-prev{left:14px}.simg-next{right:14px}
+.simg-prev:hover,.simg-next:hover{background:rgba(201,148,58,.18);border-color:var(--gold)}
+
+/* ── RIGHT CONTENT ── */
+.scnt{padding:clamp(40px,5.5vw,88px) clamp(22px,4.5vw,68px);background:var(--bk3);
+  display:flex;flex-direction:column;justify-content:center}
+.section-label{font-family:var(--f-label);font-size:11px;font-weight:600;letter-spacing:5px;
+  text-transform:uppercase;color:var(--gold);margin-bottom:12px;
+  display:flex;align-items:center;gap:12px}
+.section-label::after{content:'';height:1px;flex:0 0 36px;background:linear-gradient(90deg,var(--gold),transparent)}
+.section-h2{font-family:var(--f-head);font-size:clamp(22px,3.8vw,44px);font-weight:700;
+  color:var(--wh);line-height:1.15;margin-bottom:0}
+.section-h2 em{font-style:italic;color:var(--gold2)}
+.silist{display:flex;flex-direction:column;gap:clamp(18px,2.5vw,30px);margin-top:clamp(24px,3.5vw,40px)}
+.si{display:flex;gap:clamp(12px,1.8vw,18px);padding-bottom:clamp(18px,2.5vw,30px);
+  border-bottom:1px solid rgba(201,148,58,.06)}
+.si:last-child{border-bottom:none;padding-bottom:0}
+.si-num{font-family:var(--f-head);font-size:clamp(22px,3vw,34px);font-weight:700;
+  font-style:italic;color:rgba(201,148,58,.22);flex-shrink:0;line-height:1;
+  transition:color .4s}
+.si:hover .si-num{color:var(--gold)}
+.si-title{font-family:var(--f-label);font-size:12px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;color:var(--wh);margin-bottom:6px}
+.si-desc{font-family:var(--f-body);font-size:clamp(11px,1.2vw,13px);
+  font-weight:300;line-height:1.9;color:var(--gr)}
+
+@media(max-width:740px){
+  .story{grid-template-columns:1fr}
+  .simg{height:52vw;min-height:220px}
+  .simgov{background:linear-gradient(180deg,transparent 50%,var(--bk3) 100%)}
+  .simg-prev,.simg-next{display:none}
+  .scnt{padding:32px 20px}
+}
+@keyframes scan{0%{top:0;opacity:.5}50%{opacity:.2}100%{top:100%;opacity:.5}}
+</style>
+
 <section class="story" id="craft">
-  <div class="simg"><img src="royal-2.jpg" alt="Craftsmanship"><div class="simgov"></div></div>
-  <div class="scnt" data-anim>
+  <div class="simg" id="storySlider">
+    <div class="simg-slides" id="storySlides">
+      <div class="simg-slide active">
+        <img src="royal-2.jpg" alt="Kansai Yamamoto Movement">
+        <div class="simg-cap">Kansai Yamamoto · Automatic</div>
+      </div>
+      <div class="simg-slide">
+        <img src="royal-3.jpg" alt="Aqua Crown Seiko">
+        <div class="simg-cap">Seiko · Teal Automatic</div>
+      </div>
+      <div class="simg-slide">
+        <img src="royal-1.jpg" alt="Royale Classic">
+        <div class="simg-cap">Royale Classic · Moonphase</div>
+      </div>
+      <div class="simg-slide">
+        <img src="royal-remove.png" alt="Royale Signature">
+        <div class="simg-cap">Royale Signature · Steel</div>
+      </div>
+    </div>
+    <div class="simgov"></div>
+    <button class="simg-prev" id="sPrev">&#8592;</button>
+    <button class="simg-next" id="sNext">&#8594;</button>
+    <div class="simg-dots" id="sDots">
+      <button class="simg-dot on" data-i="0"></button>
+      <button class="simg-dot" data-i="1"></button>
+      <button class="simg-dot" data-i="2"></button>
+      <button class="simg-dot" data-i="3"></button>
+    </div>
+  </div>
+
+  <div class="scnt">
     <div class="section-label left">The Royal Craft</div>
-    <h2 class="section-h2" style="font-size:clamp(26px,3.8vw,48px)">Mechanical <em>Royalty</em></h2>
+    <h2 class="section-h2">Mechanical <em>Royalty</em></h2>
     <div class="silist">
-      <div class="si" data-anim>
+      <div class="si">
         <span class="si-num">I</span>
-        <div><div class="si-title">The Royal Skeleton</div><p class="si-desc">Material removed with surgical precision — revealing gears and springs in their perpetual, breathtaking dance of timekeeping.</p></div>
+        <div>
+          <div class="si-title">The Royal Skeleton</div>
+          <p class="si-desc">Material removed with surgical precision — revealing gears and springs in their perpetual, breathtaking dance of timekeeping.</p>
+        </div>
       </div>
-      <div class="si" data-anim>
+      <div class="si">
         <span class="si-num">II</span>
-        <div><div class="si-title">18 Karat Perfection</div><p class="si-desc">Solid 18K gold cases, hand-forged in Geneva. Every surface alternates between mirror polish and satin brushing.</p></div>
+        <div>
+          <div class="si-title">18 Karat Perfection</div>
+          <p class="si-desc">Solid 18K gold cases, hand-forged in Geneva. Every surface alternates between mirror polish and satin brushing.</p>
+        </div>
       </div>
-      <div class="si" data-anim>
+      <div class="si">
         <span class="si-num">III</span>
-        <div><div class="si-title">The Lion's Precision</div><p class="si-desc">324 individual parts, each finished to 0.01mm tolerance — unwavering strength, like the lions of our crest.</p></div>
+        <div>
+          <div class="si-title">The Lion's Precision</div>
+          <p class="si-desc">324 individual parts, each finished to 0.01mm tolerance — unwavering strength, like the lions of our crest.</p>
+        </div>
       </div>
-      <div class="si" data-anim>
+      <div class="si">
         <span class="si-num">IV</span>
-        <div><div class="si-title">Crown & Shield Guarantee</div><p class="si-desc">Every Royale Cartel piece carries our crest seal — our unbreakable promise of quality and lifetime service.</p></div>
+        <div>
+          <div class="si-title">Crown &amp; Shield Guarantee</div>
+          <p class="si-desc">Every Royale Cartel piece carries our crest seal — our unbreakable promise of quality and lifetime service.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
+<script>
+(function(){
+  const slides=document.querySelectorAll('.simg-slide');
+  const track=document.getElementById('storySlides');
+  const dots=document.querySelectorAll('.simg-dot');
+  let cur=0, busy=false, timer;
+  const TOTAL=slides.length, INTERVAL=3800;
+
+  function goTo(n){
+    if(busy||n===cur)return;
+    busy=true;
+    slides[cur].classList.remove('active');
+    dots[cur].classList.remove('on');
+    cur=(n+TOTAL)%TOTAL;
+    track.style.transform=`translateX(-${cur*100}%)`;
+    slides[cur].classList.add('active');
+    dots[cur].classList.add('on');
+    setTimeout(()=>busy=false, 950);
+    clearInterval(timer);
+    timer=setInterval(()=>goTo(cur+1), INTERVAL);
+  }
+
+  dots.forEach(d=>d.addEventListener('click',()=>goTo(+d.dataset.i)));
+  document.getElementById('sPrev').addEventListener('click',()=>goTo(cur-1));
+  document.getElementById('sNext').addEventListener('click',()=>goTo(cur+1));
+
+  // Touch swipe
+  let tx=0;
+  const sl=document.getElementById('storySlider');
+  sl.addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
+  sl.addEventListener('touchend',e=>{
+    const dx=tx-e.changedTouches[0].clientX;
+    if(Math.abs(dx)>40) goTo(dx>0?cur+1:cur-1);
+  },{passive:true});
+
+  // Auto-play
+  slides[0].classList.add('active');
+  timer=setInterval(()=>goTo(cur+1), INTERVAL);
+})();
+</script>
 <!-- TESTIMONIALS -->
 <section class="tst">
   <div class="sec-hd" data-anim style="text-align:center">
