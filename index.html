@@ -796,7 +796,7 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
 <nav id="nav">
   <a href="#home" class="nlogo">
     <img src="remove-logo.png" alt="RC">
-    <div class="nlt"><span class="n1">R C</span><span class="n2"></span></div>
+    <div class="nlt"><span class="n1"></span><span class="n2"></span></div>
   </a>
   <ul class="nlinks">
     <li><a href="#collection">Collection</a></li>
@@ -1024,7 +1024,7 @@ canvas#gc{
   <div class="gh-content">
     <!-- <div class="gh-badge">Established · Geneva · MMXXIV</div> -->
     <h1 class="gh-title">
-      Royale Cartel<br>
+      Royal E Cartel<br>
       <em>Luxury Timepieces</em>
     </h1>
     <!-- <p class="gh-sub">
@@ -1244,10 +1244,10 @@ canvas#gc{
   <div class="hero-scan"></div>
   <div class="hero-content">
     <!-- <div class="hero-badge">Established Geneva MMXXIV</div> -->
-    <h1 class="hero-title">
+    <!-- <h1 class="hero-title">
       Royal E Cartel<br>
       <span class="gold-text">Luxury Timepieces</span>
-    </h1>
+    </h1> -->
     <!-- <p class="hero-subtitle">
       Every second, a legacy. Hand-crafted skeleton movements that reveal the soul of timekeeping — gold, steel, and centuries of mastery.
     </p> -->
@@ -1340,76 +1340,997 @@ canvas#gc{
 </section>
 
 <!-- WATCHES HORIZONTAL SCROLL -->
-<section class="ws" id="watches">
-  <div class="ws-hd">
+<style>
+/* ── MODAL OVERLAY ── */
+.wmod-ov{
+  position:fixed;inset:0;z-index:3500;
+  background:rgba(0,0,0,.94);
+  display:none;align-items:center;justify-content:center;
+  padding:clamp(10px,2vw,20px);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+}
+.wmod-ov.open{display:flex}
+
+.wmod{
+  width:min(1000px,96vw);
+  max-height:94vh;
+  overflow:hidden;
+  background:var(--bk2);
+  border:1px solid rgba(201,148,58,.25);
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  animation:wmodIn .45s cubic-bezier(.22,1,.36,1);
+  box-shadow:0 30px 80px rgba(0,0,0,.8),0 0 0 1px rgba(201,148,58,.08);
+}
+@keyframes wmodIn{from{opacity:0;transform:translateY(28px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+/* Corner accents */
+.wm-c{position:absolute;width:18px;height:18px;z-index:2;pointer-events:none}
+.wm-c.tl{top:-1px;left:-1px;border-top:2px solid var(--gold);border-left:2px solid var(--gold)}
+.wm-c.tr{top:-1px;right:-1px;border-top:2px solid var(--gold);border-right:2px solid var(--gold)}
+.wm-c.bl{bottom:-1px;left:-1px;border-bottom:2px solid var(--gold);border-left:2px solid var(--gold)}
+.wm-c.br{bottom:-1px;right:-1px;border-bottom:2px solid var(--gold);border-right:2px solid var(--gold)}
+
+/* Modal header */
+.wm-hdr{
+  padding:16px 22px;
+  border-bottom:1px solid rgba(201,148,58,.14);
+  background:var(--bk3);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;gap:12px;
+}
+.wm-hdr-left{display:flex;align-items:center;gap:14px}
+.wm-brand-badge{
+  font-family:var(--f-label);font-size:9px;font-weight:700;letter-spacing:3px;
+  text-transform:uppercase;color:var(--bk);
+  background:linear-gradient(135deg,var(--gold4),var(--gold),var(--gold2));
+  padding:5px 12px;
+}
+.wm-hdr-title{
+  font-family:var(--f-label);font-size:11px;font-weight:600;letter-spacing:3px;
+  text-transform:uppercase;color:rgba(255,255,255,.6);
+}
+.wm-close{
+  width:34px;height:34px;border-radius:50%;
+  border:1px solid rgba(201,148,58,.3);background:transparent;
+  color:var(--gold);cursor:pointer;font-size:15px;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .3s,color .3s;flex-shrink:0;
+}
+.wm-close:hover{background:var(--gold);color:var(--bk)}
+
+/* Modal body: 2 columns */
+.wm-body{
+  display:grid;grid-template-columns:1fr 1fr;
+  flex:1;overflow:hidden;
+}
+
+/* ── GALLERY SIDE ── */
+.wm-gallery{
+  position:relative;overflow:hidden;
+  background:var(--bk4);
+  min-height:clamp(280px,40vh,520px);
+}
+.wm-slides{display:flex;height:100%;transition:transform .55s cubic-bezier(.76,0,.24,1)}
+.wm-slide{flex:0 0 100%;position:relative;overflow:hidden}
+.wm-slide img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform 6s linear;
+  filter:brightness(.82);
+}
+.wm-slide.active img{transform:scale(1.06)}
+.wm-slide-ov{
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(0,0,0,.1) 0%,transparent 35%,transparent 60%,rgba(0,0,0,.7) 100%);
+}
+/* Gallery zoom badge */
+.wm-zoom{
+  position:absolute;top:12px;right:12px;z-index:3;
+  background:rgba(0,0,0,.6);border:1px solid rgba(201,148,58,.3);
+  color:rgba(255,255,255,.6);font-family:var(--f-label);font-size:9px;
+  font-weight:600;letter-spacing:2px;text-transform:uppercase;
+  padding:5px 10px;pointer-events:none;
+}
+/* Arrow buttons */
+.wm-arr{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:3;
+  width:36px;height:36px;
+  background:rgba(0,0,0,.65);border:1px solid rgba(201,148,58,.35);
+  color:var(--gold);cursor:pointer;font-size:16px;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .3s,border-color .3s;
+}
+.wm-arr:hover{background:rgba(201,148,58,.25);border-color:var(--gold)}
+.wm-prev{left:10px}.wm-next{right:10px}
+
+/* Thumbnail strip */
+.wm-thumbs{
+  position:absolute;bottom:0;left:0;right:0;z-index:3;
+  display:flex;gap:4px;padding:10px 12px;
+  background:linear-gradient(to top,rgba(0,0,0,.85) 0%,transparent 100%);
+  overflow-x:auto;scrollbar-width:none;
+}
+.wm-thumbs::-webkit-scrollbar{display:none}
+.wm-thumb{
+  flex:0 0 52px;height:40px;overflow:hidden;cursor:pointer;
+  border:2px solid rgba(201,148,58,.2);opacity:.55;
+  transition:opacity .3s,border-color .3s;
+}
+.wm-thumb.on{opacity:1;border-color:var(--gold)}
+.wm-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* ── DETAILS SIDE ── */
+.wm-info{
+  padding:clamp(18px,2.5vw,28px);
+  overflow-y:auto;
+  display:flex;flex-direction:column;
+  gap:0;
+  scrollbar-width:thin;
+  scrollbar-color:var(--gold4) transparent;
+}
+.wm-info::-webkit-scrollbar{width:2px}
+.wm-info::-webkit-scrollbar-thumb{background:var(--gold4)}
+
+.wm-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--f-label);font-size:9px;font-weight:700;letter-spacing:3px;
+  text-transform:uppercase;color:var(--gold);
+  margin-bottom:10px;
+}
+.wm-tag::after{content:'';flex:0 0 28px;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+.wm-name{
+  font-family:var(--f-head);font-size:clamp(20px,2.6vw,28px);
+  font-weight:700;font-style:italic;color:var(--wh);
+  line-height:1.15;margin-bottom:6px;
+}
+.wm-model{
+  font-family:var(--f-label);font-size:10px;font-weight:500;letter-spacing:2px;
+  text-transform:uppercase;color:var(--gr);margin-bottom:14px;
+}
+.wm-price-row{
+  display:flex;align-items:baseline;gap:12px;
+  padding:12px 0;border-top:1px solid rgba(201,148,58,.1);
+  border-bottom:1px solid rgba(201,148,58,.1);
+  margin-bottom:16px;
+}
+.wm-price{
+  font-family:var(--f-head);font-size:clamp(22px,3vw,30px);
+  font-weight:700;font-style:italic;color:var(--gold2);
+}
+.wm-avail{
+  font-family:var(--f-label);font-size:9px;font-weight:600;letter-spacing:2px;
+  text-transform:uppercase;
+  color:#4ade80;display:flex;align-items:center;gap:5px;
+}
+.wm-avail::before{content:'';width:6px;height:6px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.wm-desc{
+  font-family:var(--f-body);font-size:clamp(12px,1.3vw,13px);font-weight:300;
+  color:var(--gr);line-height:1.85;margin-bottom:18px;
+}
+/* Specs table */
+.wm-specs-title{
+  font-family:var(--f-label);font-size:9px;font-weight:700;letter-spacing:4px;
+  text-transform:uppercase;color:var(--gold);margin-bottom:8px;
+  display:flex;align-items:center;gap:10px;
+}
+.wm-specs-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(201,148,58,.3),transparent)}
+.wm-specs{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:0;margin-bottom:20px;
+  border:1px solid rgba(201,148,58,.1);
+}
+.wm-spec{
+  padding:8px 12px;
+  border-bottom:1px solid rgba(201,148,58,.07);
+  border-right:1px solid rgba(201,148,58,.07);
+}
+.wm-spec:nth-child(even){border-right:none}
+.wm-spec:nth-last-child(1),.wm-spec:nth-last-child(2){border-bottom:none}
+.wm-spec-k{
+  font-family:var(--f-label);font-size:8px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:var(--gold);margin-bottom:3px;
+}
+.wm-spec-v{
+  font-family:var(--f-body);font-size:11px;font-weight:300;
+  color:var(--wh2);line-height:1.4;
+}
+/* Action buttons */
+.wm-actions{display:flex;gap:8px;margin-top:auto;padding-top:16px;flex-wrap:wrap}
+.wm-btn-cart{
+  flex:1;min-width:120px;
+  font-family:var(--f-label);font-size:10px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;padding:13px 16px;
+  background:linear-gradient(135deg,var(--gold4),var(--gold),var(--gold2));
+  color:var(--bk);border:none;cursor:pointer;
+  position:relative;overflow:hidden;
+  transition:transform .3s,box-shadow .3s;
+  box-shadow:0 4px 20px rgba(201,148,58,.3);
+}
+.wm-btn-cart:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(201,148,58,.5)}
+.wm-btn-wa{
+  flex:0 0 48px;height:48px;
+  background:linear-gradient(135deg,#25D366,#128C7E);
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .3s;
+}
+.wm-btn-wa:hover{opacity:.85}
+.wm-btn-wa svg{width:22px;height:22px;fill:#fff}
+.wm-btn-wish{
+  flex:0 0 48px;height:48px;
+  background:transparent;border:1px solid rgba(201,148,58,.3);
+  color:var(--gold);cursor:pointer;font-size:18px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .3s;
+}
+.wm-btn-wish:hover{background:rgba(201,148,58,.12);border-color:var(--gold)}
+
+/* Mobile modal layout */
+@media(max-width:700px){
+  .wm-body{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .wm-gallery{min-height:200px;height:52vw}
+  .wm-info{max-height:52vh}
+  .wm-specs{grid-template-columns:1fr}
+  .wm-spec{border-right:none!important}
+  .wm-spec:nth-last-child(1){border-bottom:none}
+  .wm-spec:nth-last-child(2){border-bottom:1px solid rgba(201,148,58,.07)}
+}
+
+/* ══════════════════════════════════
+   CATALOGUE SECTION
+══════════════════════════════════ */
+.wcat{
+  position:relative;z-index:2;
+  padding:clamp(60px,8vw,120px) clamp(16px,4.5vw,60px);
+  background:var(--bk4);
+}
+/* Section header */
+.wcat-hd{margin-bottom:clamp(32px,4vw,52px)}
+/* Brand filter strip */
+.wcat-filters{
+  display:flex;gap:6px;flex-wrap:wrap;
+  margin-top:22px;
+}
+.wcat-f{
+  font-family:var(--f-label);font-size:10px;font-weight:600;letter-spacing:2px;
+  text-transform:uppercase;padding:8px 20px;
+  border:1px solid rgba(201,148,58,.2);
+  background:transparent;color:rgba(255,255,255,.45);
+  cursor:pointer;transition:all .3s;
+}
+.wcat-f:hover{border-color:rgba(201,148,58,.5);color:rgba(255,255,255,.75)}
+.wcat-f.on{
+  background:linear-gradient(135deg,var(--gold4),var(--gold),var(--gold2));
+  border-color:transparent;color:var(--bk);
+}
+/* Results count */
+.wcat-count{
+  font-family:var(--f-body);font-size:12px;font-weight:300;
+  color:var(--gr);margin-top:14px;letter-spacing:.5px;
+}
+.wcat-count span{color:var(--gold);font-weight:500}
+
+/* Cards grid */
+.wcat-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(clamp(220px,24vw,280px),1fr));
+  gap:clamp(10px,1.5vw,16px);
+  margin-top:clamp(28px,4vw,44px);
+}
+
+/* Watch card */
+.wcard{
+  background:var(--bk2);
+  border:1px solid rgba(201,148,58,.1);
+  position:relative;overflow:hidden;cursor:pointer;
+  opacity:0;transform:translateY(20px);
+  transition:opacity .6s cubic-bezier(.22,1,.36,1),
+              transform .6s cubic-bezier(.22,1,.36,1),
+              border-color .3s,box-shadow .3s;
+}
+.wcard.vis{opacity:1;transform:translateY(0)}
+.wcard:hover{
+  border-color:rgba(201,148,58,.38);
+  box-shadow:0 12px 40px rgba(0,0,0,.5),0 0 0 1px rgba(201,148,58,.08);
+}
+/* Card top corner accent */
+.wcard::before{
+  content:'';position:absolute;top:0;left:0;
+  width:0;height:2px;
+  background:linear-gradient(90deg,var(--gold4),var(--gold2));
+  transition:width .4s var(--ease);z-index:2;
+}
+.wcard:hover::before{width:100%}
+
+/* Card image */
+.wcard-img{
+  height:clamp(190px,22vw,260px);
+  overflow:hidden;position:relative;
+  background:var(--bk3);
+}
+.wcard-img img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .7s cubic-bezier(.76,0,.24,1),filter .4s;
+  filter:brightness(.82) saturate(.9);
+}
+.wcard:hover .wcard-img img{transform:scale(1.08);filter:brightness(.95) saturate(1)}
+.wcard-img-ov{
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,transparent 30%,rgba(0,0,0,.7) 100%);
+  transition:opacity .3s;
+}
+/* Photo count indicator */
+.wcard-pics{
+  position:absolute;bottom:10px;right:10px;z-index:2;
+  font-family:var(--f-label);font-size:8px;font-weight:600;letter-spacing:1px;
+  color:rgba(255,255,255,.7);background:rgba(0,0,0,.6);
+  border:1px solid rgba(201,148,58,.25);padding:3px 8px;
+  display:flex;align-items:center;gap:5px;
+}
+.wcard-pics svg{width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:1.5}
+/* Badges */
+.wcard-badge{
+  position:absolute;top:10px;left:10px;z-index:2;
+  font-family:var(--f-label);font-size:8px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;padding:4px 10px;
+}
+.wcard-badge.new{background:linear-gradient(135deg,#1a6b3a,#25D366);color:#fff}
+.wcard-badge.sig{background:linear-gradient(135deg,var(--gold4),var(--gold2));color:var(--bk)}
+.wcard-badge.rare{background:linear-gradient(135deg,#6b1a1a,#c0392b);color:#fff}
+.wcard-badge.excl{background:rgba(0,0,0,.7);border:1px solid rgba(201,148,58,.4);color:var(--gold)}
+/* Hover view overlay */
+.wcard-hover{
+  position:absolute;inset:0;z-index:3;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  background:rgba(0,0,0,.55);
+  opacity:0;transition:opacity .35s;pointer-events:none;
+}
+.wcard:hover .wcard-hover{opacity:1;pointer-events:auto}
+.wcard-hover-btn{
+  font-family:var(--f-label);font-size:10px;font-weight:700;letter-spacing:3px;
+  text-transform:uppercase;color:var(--gold2);
+  border:1px solid rgba(201,148,58,.6);padding:10px 24px;
+  background:rgba(0,0,0,.5);
+  transition:background .3s,border-color .3s;
+  pointer-events:none;
+}
+.wcard-hover-sub{
+  font-family:var(--f-body);font-size:10px;color:rgba(255,255,255,.55);
+  letter-spacing:1px;pointer-events:none;
+}
+
+/* Card body */
+.wcard-body{padding:clamp(12px,1.5vw,18px)}
+.wcard-brand{
+  font-family:var(--f-label);font-size:8px;font-weight:700;letter-spacing:3px;
+  text-transform:uppercase;color:var(--gold);margin-bottom:5px;
+}
+.wcard-name{
+  font-family:var(--f-head);font-size:clamp(15px,1.8vw,19px);font-weight:700;
+  font-style:italic;color:var(--wh);line-height:1.2;margin-bottom:3px;
+}
+.wcard-sub{
+  font-family:var(--f-body);font-size:11px;font-weight:300;
+  color:var(--gr);margin-bottom:12px;font-style:italic;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.wcard-foot{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:10px;border-top:1px solid rgba(201,148,58,.1);gap:8px;
+}
+.wcard-price{
+  font-family:var(--f-head);font-size:clamp(14px,1.7vw,17px);
+  font-weight:700;font-style:italic;color:var(--gold);
+}
+.wcard-actions{display:flex;gap:5px}
+.wcard-a-detail{
+  font-family:var(--f-label);font-size:8px;font-weight:600;
+  letter-spacing:1.5px;text-transform:uppercase;
+  padding:6px 12px;border:1px solid rgba(201,148,58,.3);
+  color:var(--gold);background:transparent;cursor:pointer;
+  transition:all .3s;white-space:nowrap;
+}
+.wcard-a-detail:hover{background:rgba(201,148,58,.1);border-color:var(--gold)}
+.wcard-a-cart{
+  width:30px;height:30px;
+  border:1px solid rgba(201,148,58,.3);background:transparent;
+  color:var(--gold);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .3s;flex-shrink:0;
+}
+.wcard-a-cart svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.5}
+.wcard-a-cart:hover{background:var(--gold);color:var(--bk);border-color:var(--gold)}
+
+/* Stagger animation delays */
+.wcat-grid .wcard:nth-child(1){transition-delay:0s}
+.wcat-grid .wcard:nth-child(2){transition-delay:.06s}
+.wcat-grid .wcard:nth-child(3){transition-delay:.12s}
+.wcat-grid .wcard:nth-child(4){transition-delay:.18s}
+.wcat-grid .wcard:nth-child(5){transition-delay:.24s}
+.wcat-grid .wcard:nth-child(6){transition-delay:.30s}
+.wcat-grid .wcard:nth-child(7){transition-delay:.36s}
+.wcat-grid .wcard:nth-child(8){transition-delay:.42s}
+.wcat-grid .wcard:nth-child(9){transition-delay:.48s}
+.wcat-grid .wcard:nth-child(10){transition-delay:.54s}
+
+/* No results */
+.wcat-empty{
+  grid-column:1/-1;text-align:center;padding:60px 20px;
+  font-family:var(--f-body);font-size:15px;font-weight:300;
+  color:var(--gr);font-style:italic;
+}
+</style>
+
+<!-- MODAL HTML -->
+<div class="wmod-ov" id="wmodOv" role="dialog" aria-modal="true" aria-label="Watch Details">
+  <div class="wmod" id="wmod">
+    <div class="wm-c tl"></div><div class="wm-c tr"></div>
+    <div class="wm-c bl"></div><div class="wm-c br"></div>
+    <!-- Header -->
+    <div class="wm-hdr">
+      <div class="wm-hdr-left">
+        <div class="wm-brand-badge" id="wmBadge">Brand</div>
+        <div class="wm-hdr-title" id="wmHdrTitle">Watch Details</div>
+      </div>
+      <button class="wm-close" id="wmClose" aria-label="Close">&#x2715;</button>
+    </div>
+    <!-- Body -->
+    <div class="wm-body">
+      <!-- Gallery -->
+      <div class="wm-gallery">
+        <div class="wm-slides" id="wmSlides"></div>
+        <button class="wm-arr wm-prev" id="wmPrev" aria-label="Previous photo">&#8592;</button>
+        <button class="wm-arr wm-next" id="wmNext" aria-label="Next photo">&#8594;</button>
+        <div class="wm-zoom" id="wmZoom">1 / 1</div>
+        <div class="wm-thumbs" id="wmThumbs"></div>
+      </div>
+      <!-- Info -->
+      <div class="wm-info">
+        <div class="wm-tag" id="wmTag">Collection</div>
+        <div class="wm-name" id="wmName">Watch Name</div>
+        <div class="wm-model" id="wmModel">Model Reference</div>
+        <div class="wm-price-row">
+          <div class="wm-price" id="wmPrice">PKR 0</div>
+          <div class="wm-avail">In Stock</div>
+        </div>
+        <p class="wm-desc" id="wmDesc"></p>
+        <div class="wm-specs-title">Specifications</div>
+        <div class="wm-specs" id="wmSpecs"></div>
+        <div class="wm-actions" id="wmActions"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CATALOGUE SECTION -->
+<section class="wcat" id="watches">
+  <div class="wcat-hd">
     <div class="sec-hd" data-anim>
       <div class="section-label left">Our Catalogue</div>
-      <h2 class="section-h2">Royal <em>Editions</em></h2>
+      <h2 class="section-h2">Royal <em>Timepieces</em></h2>
+      <p class="section-sub">Tap any watch to explore full specifications &amp; gallery</p>
     </div>
+    <div class="wcat-filters" id="wcatFilters">
+      <button class="wcat-f on" data-f="all">All Brands</button>
+      <button class="wcat-f" data-f="casirui">CASIRUI</button>
+      <button class="wcat-f" data-f="seiko">Seiko Series</button>
+      <button class="wcat-f" data-f="kansai">Kansai Edition</button>
+      <button class="wcat-f" data-f="royale">Royale Originals</button>
+    </div>
+    <div class="wcat-count" id="wcatCount">Showing <span id="wcatNum">0</span> timepieces</div>
   </div>
-  <div class="wscr" id="wscr">
-    <div class="wc" data-anim>
-      <img src="royal-remove.png" alt="Royale Signature">
-      <div class="wov"></div><div class="wnum">01</div>
-      <div class="wbody">
-        <div class="wref">Ref. RC-001</div>
-        <div class="wname">Royale Signature</div>
-        <div class="wsubr">Steel · Multiphase Complication</div>
-        <div class="wbot">
-          <div class="wpri">CHF 148,000</div>
-          <button class="btn-cart" onclick="addToCart('Royale Signature','Steel · Multiphase','CHF 148,000',148000,'royal-remove.png')" style="width:auto;padding:8px 14px">
-            <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add
-          </button>
-        </div>
-      </div>
-    </div>
-    <div class="wc" data-anim>
-      <img src="royal-2.jpg" alt="Grand Kansai">
-      <div class="wov"></div><div class="wnum">02</div>
-      <div class="wbody">
-        <div class="wref">Ref. RC-002</div>
-        <div class="wname">Grand Kansai</div>
-        <div class="wsubr">Kansai Yamamoto · Automatic</div>
-        <div class="wbot">
-          <div class="wpri">CHF 248,000</div>
-          <button class="btn-cart" onclick="addToCart('Grand Kansai','Kansai Yamamoto · Automatic','CHF 248,000',248000,'royal-2.jpg')" style="width:auto;padding:8px 14px">
-            <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add
-          </button>
-        </div>
-      </div>
-    </div>
-    <div class="wc" data-anim>
-      <img src="royal-3.jpg" alt="Aqua Crown">
-      <div class="wov"></div><div class="wnum">03</div>
-      <div class="wbody">
-        <div class="wref">Ref. RC-003</div>
-        <div class="wname">Aqua Crown</div>
-        <div class="wsubr">Seiko · Teal Automatic</div>
-        <div class="wbot">
-          <div class="wpri">CHF 196,000</div>
-          <button class="btn-cart" onclick="addToCart('Aqua Crown','Seiko · Teal Automatic','CHF 196,000',196000,'royal-3.jpg')" style="width:auto;padding:8px 14px">
-            <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add
-          </button>
-        </div>
-      </div>
-    </div>
-    <div class="wc" data-anim>
-      <img src="royal-1.jpg" alt="The Dynasty Collection">
-      <div class="wov"></div><div class="wnum">04</div>
-      <div class="wbody">
-        <div class="wref">Ref. RC-004</div>
-        <div class="wname">The Dynasty</div>
-        <div class="wsubr">Multi-Watch Collector Set</div>
-        <div class="wbot">
-          <div class="wpri">CHF 380,000</div>
-          <button class="btn-cart" onclick="addToCart('The Dynasty Collection','Multi-Watch Set','CHF 380,000',380000,'royal-4.jpg')" style="width:auto;padding:8px 14px">
-            <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="wcat-grid" id="wcatGrid"></div>
 </section>
+
+<script>
+/* ══════════════════════════════════
+   WATCH DATA — add more objects here
+══════════════════════════════════ */
+const WCATALOGUE = [
+
+  /* ── CASIRUI ── */
+  {
+    id:'c1', brand:'CASIRUI', filter:'casirui',
+    badge:{text:'New Arrival', cls:'new'},
+    name:'Automatic Skeleton',
+    model:'Automatic Skeleton Series',
+    ref:'CS-001',
+    sub:'Stainless Steel · Open-Heart Dial',
+    price:'PKR 12,500',
+    priceNum:12500,
+    photos:['royal-1.jpg','royal-2.jpg','royal-3.jpg'],
+    desc:'A mesmerising open-heart skeleton dial that reveals the intricate automatic movement within. Gold-tone mechanics against a black dial create dramatic contrast worthy of any distinguished wrist.',
+    specs:[
+      {k:'Movement',      v:'Automatic Mechanical'},
+      {k:'Dial Type',     v:'Skeleton Open-Heart'},
+      {k:'Case Material', v:'Stainless Steel Alloy'},
+      {k:'Strap',         v:'Stainless Steel Bracelet'},
+      {k:'Strap Color',   v:'Silver'},
+      {k:'Dial Color',    v:'Black & Gold Skeleton'},
+      {k:'Glass',         v:'Hardlex / Mineral Crystal'},
+      {k:'Clasp',         v:'Fold-Over Clasp'},
+      {k:'Water Resist.', v:'Daily Splash Resistant'},
+      {k:'Case Size',     v:'Approx. 40–42mm'},
+      {k:'Weight',        v:'Approx. 130–150g'},
+      {k:'Caseback',      v:'Solid Stainless Steel'},
+    ]
+  },
+  {
+    id:'c2', brand:'CASIRUI', filter:'casirui',
+    badge:{text:'Premium', cls:'sig'},
+    name:'Gold Skeleton Elite',
+    model:'Elite Skeleton Series',
+    ref:'CS-002',
+    sub:'Full Gold-Tone · Exhibition Caseback',
+    price:'PKR 18,500',
+    priceNum:18500,
+    photos:['royal-2.jpg','royal-1.jpg','royal-3.jpg'],
+    desc:'The premium tier of the CASIRUI skeleton collection. Fully gold-plated case and bracelet with a mesmerising open-heart automatic movement visible through both dial and exhibition caseback.',
+    specs:[
+      {k:'Movement',      v:'Automatic Mechanical'},
+      {k:'Dial Type',     v:'Full Open Skeleton'},
+      {k:'Case Material', v:'Gold-Plated Steel Alloy'},
+      {k:'Strap',         v:'Gold-Tone Steel Bracelet'},
+      {k:'Dial Color',    v:'Gold & Black'},
+      {k:'Glass',         v:'Mineral Crystal'},
+      {k:'Clasp',         v:'Butterfly Push-Button'},
+      {k:'Water Resist.', v:'Splash Resistant'},
+      {k:'Case Size',     v:'41mm'},
+      {k:'Caseback',      v:'Exhibition Transparent'},
+      {k:'Weight',        v:'Approx. 140g'},
+      {k:'Finish',        v:'High-Polish Gold PVD'},
+    ]
+  },
+  {
+    id:'c3', brand:'CASIRUI', filter:'casirui',
+    badge:{text:'Sport', cls:'excl'},
+    name:'Sport Skeleton Pro',
+    model:'Sport Pro Series',
+    ref:'CS-003',
+    sub:'IP Black · Silicone Strap',
+    price:'PKR 9,800',
+    priceNum:9800,
+    photos:['royal-3.jpg','royal-1.jpg','royal-2.jpg'],
+    desc:'The sport-oriented CASIRUI skeleton for the active gentleman. IP black coated steel pairs with a premium silicone strap — equally at home at the gym or the boardroom.',
+    specs:[
+      {k:'Movement',      v:'Automatic Mechanical'},
+      {k:'Dial Type',     v:'Skeleton Open-Heart'},
+      {k:'Case Material', v:'IP Black Steel Alloy'},
+      {k:'Strap',         v:'Premium Silicone'},
+      {k:'Strap Color',   v:'Black / Gold Accent'},
+      {k:'Glass',         v:'Hardened Mineral Crystal'},
+      {k:'Clasp',         v:'Pin Buckle'},
+      {k:'Water Resist.', v:'Splash & Sweat Resistant'},
+      {k:'Case Size',     v:'44mm (Sport Oversized)'},
+      {k:'Weight',        v:'Approx. 95g'},
+      {k:'Lume',          v:'Luminous Hands'},
+      {k:'Caseback',      v:'Solid Black Steel'},
+    ]
+  },
+  {
+    id:'c4', brand:'CASIRUI', filter:'casirui',
+    badge:{text:'Classic', cls:'excl'},
+    name:'Rose Gold Skeleton',
+    model:'Rose Gold Series',
+    ref:'CS-004',
+    sub:'Rose Gold-Tone · Leather Strap',
+    price:'PKR 15,000',
+    priceNum:15000,
+    photos:['royal-2.jpg','royal-3.jpg','royal-1.jpg'],
+    desc:'Warmth and elegance combined. The rose gold-tone skeleton features a genuine leather strap with a sophisticated tang buckle — a perfect companion for formal occasions.',
+    specs:[
+      {k:'Movement',      v:'Automatic Mechanical'},
+      {k:'Dial Type',     v:'Open Skeleton'},
+      {k:'Case Material', v:'Rose Gold-Plated Alloy'},
+      {k:'Strap',         v:'Genuine Leather'},
+      {k:'Strap Color',   v:'Brown / Tan'},
+      {k:'Dial Color',    v:'Rose Gold Skeleton'},
+      {k:'Glass',         v:'Mineral Crystal'},
+      {k:'Clasp',         v:'Tang Pin Buckle'},
+      {k:'Water Resist.', v:'Splash Resistant'},
+      {k:'Case Size',     v:'40mm'},
+      {k:'Weight',        v:'Approx. 85g (with strap)'},
+      {k:'Caseback',      v:'Exhibition Back'},
+    ]
+  },
+
+  /* ── SEIKO SERIES ── */
+  {
+    id:'s1', brand:'Seiko Series', filter:'seiko',
+    badge:{text:'Exclusive', cls:'sig'},
+    name:'Aqua Crown',
+    model:'Ref. RC-003 · Diver',
+    ref:'RC-003',
+    sub:'Seiko NH35 · Teal Skeleton Dial',
+    price:'CHF 196,000',
+    priceNum:196000,
+    photos:['royal-3.jpg','royal-2.jpg','royal-1.jpg'],
+    desc:'The Aqua Crown marries Seiko\'s legendary NH35 movement with Royale Cartel\'s bespoke case and dial artistry. The deep teal skeleton dial shimmers like the Mediterranean at midnight.',
+    specs:[
+      {k:'Base Movement',  v:'Seiko NH35 Automatic'},
+      {k:'Accuracy',       v:'±10 sec / day'},
+      {k:'Dial Color',     v:'Deep Teal Skeleton'},
+      {k:'Case Material',  v:'316L Stainless Steel'},
+      {k:'Strap',          v:'Teal Rubber / Steel'},
+      {k:'Glass',          v:'Sapphire Crystal AR-Coated'},
+      {k:'Clasp',          v:'Diver\'s Extension Clasp'},
+      {k:'Power Reserve',  v:'41 Hours'},
+      {k:'Water Resist.',  v:'200m (Diver Grade)'},
+      {k:'Case Size',      v:'43mm'},
+      {k:'Lume',           v:'SuperLuminova BGW9'},
+      {k:'Bezel',          v:'Uni-Directional Rotating'},
+    ]
+  },
+  {
+    id:'s2', brand:'Seiko Series', filter:'seiko',
+    badge:{text:'Limited', cls:'rare'},
+    name:'Midnight Diver',
+    model:'Ref. RC-006 · Deep Black',
+    ref:'RC-006',
+    sub:'Seiko NH36 · All-Black Edition',
+    price:'CHF 210,000',
+    priceNum:210000,
+    photos:['royal-1.jpg','royal-3.jpg','royal-2.jpg'],
+    desc:'Darkness perfected. The Midnight Diver features an all-black DLC-coated case paired with the reliable Seiko NH36 movement. Its skeleton dial reveals luminous components against absolute black.',
+    specs:[
+      {k:'Base Movement',  v:'Seiko NH36 Automatic'},
+      {k:'Accuracy',       v:'±10 sec / day'},
+      {k:'Dial Color',     v:'All-Black Skeleton'},
+      {k:'Case Material',  v:'DLC Black Coated Steel'},
+      {k:'Strap',          v:'Black Rubber / NATO'},
+      {k:'Glass',          v:'Anti-Reflective Sapphire'},
+      {k:'Clasp',          v:'DLC Diver Extension'},
+      {k:'Power Reserve',  v:'41 Hours'},
+      {k:'Water Resist.',  v:'200m'},
+      {k:'Case Size',      v:'44mm'},
+      {k:'Lume',           v:'C3 SuperLuminova Green'},
+      {k:'Edition',        v:'Limited — 50 Pieces'},
+    ]
+  },
+
+  /* ── KANSAI EDITION ── */
+  {
+    id:'k1', brand:'Kansai Edition', filter:'kansai',
+    badge:{text:'Flagship', cls:'sig'},
+    name:'Grand Kansai',
+    model:'Ref. RC-002 · Automatic',
+    ref:'RC-002',
+    sub:'Kansai Yamamoto × Royale Cartel',
+    price:'CHF 248,000',
+    priceNum:248000,
+    photos:['royal-2.jpg','royal-1.jpg','royal-3.jpg'],
+    desc:'A cultural masterpiece born from the collaboration between Royale Cartel and the legendary Kansai Yamamoto fashion house. Japanese artistry fused with Swiss watchmaking excellence.',
+    specs:[
+      {k:'Movement',      v:'Automatic, 28,800 VPH'},
+      {k:'Dial Type',     v:'Lacquered Skeleton'},
+      {k:'Case Material', v:'18K Yellow Gold'},
+      {k:'Strap',         v:'Hand-Stitched Silk / Gold'},
+      {k:'Glass',         v:'Domed Sapphire Crystal'},
+      {k:'Complications', v:'Date, Seconds Subdial'},
+      {k:'Power Reserve', v:'48 Hours'},
+      {k:'Water Resist.', v:'30m'},
+      {k:'Case Size',     v:'44mm'},
+      {k:'Weight',        v:'Approx. 195g'},
+      {k:'Edition',       v:'Limited — 12 Pieces Worldwide'},
+      {k:'Certificate',   v:'Individual Provenance Doc'},
+    ]
+  },
+  {
+    id:'k2', brand:'Kansai Edition', filter:'kansai',
+    badge:{text:'Ultra Rare', cls:'rare'},
+    name:'Sakura Tourbillon',
+    model:'Ref. RC-007 · Tourbillon',
+    ref:'RC-007',
+    sub:'Kansai · Hand-Wound Tourbillon',
+    price:'CHF 480,000',
+    priceNum:480000,
+    photos:['royal-3.jpg','royal-2.jpg','royal-1.jpg'],
+    desc:'The pinnacle of the Kansai collaboration. A hand-wound flying tourbillon inspired by the Sakura blossom — 1,200 hours of artisanal labour encased in hand-engraved 18K rose gold.',
+    specs:[
+      {k:'Movement',      v:'Manual-Wind Flying Tourbillon'},
+      {k:'Tourbillon',    v:'60-sec rotation, 0 o\'clock'},
+      {k:'Dial',          v:'Sakura Enamel + Skeleton'},
+      {k:'Case Material', v:'18K Rose Gold, Hand-Engraved'},
+      {k:'Strap',         v:'Ostrich Leather, Bespoke'},
+      {k:'Glass',         v:'Curved Sapphire, AR-Coated'},
+      {k:'Power Reserve', v:'96 Hours'},
+      {k:'Water Resist.', v:'30m'},
+      {k:'Case Size',     v:'42mm'},
+      {k:'Weight',        v:'Approx. 215g'},
+      {k:'Edition',       v:'3 Pieces Worldwide'},
+      {k:'Certification', v:'COSC + Geneva Seal'},
+    ]
+  },
+
+  /* ── ROYALE ORIGINALS ── */
+  {
+    id:'r1', brand:'Royale Cartel', filter:'royale',
+    badge:{text:'Signature', cls:'sig'},
+    name:'Royale Signature',
+    model:'Ref. RC-001 · Skeleton',
+    ref:'RC-001',
+    sub:'Hand-Wound · Multiphase Complication',
+    price:'CHF 148,000',
+    priceNum:148000,
+    photos:['royal-1.jpg','royal-2.jpg','royal-3.jpg'],
+    desc:'The Royale Signature — a masterwork of skeleton engineering. 324 hand-finished components assembled over 800 hours by a single master watchmaker in Geneva. The definitive statement of horological mastery.',
+    specs:[
+      {k:'Movement',      v:'Manual-Wind Skeleton, In-House'},
+      {k:'Frequency',     v:'21,600 VPH (3 Hz)'},
+      {k:'Dial Type',     v:'Full Open Skeleton'},
+      {k:'Case Material', v:'18K White Gold'},
+      {k:'Strap',         v:'Alligator Leather + Steel Bracelet'},
+      {k:'Glass',         v:'Sapphire Crystal, AR Both Sides'},
+      {k:'Complications', v:'Multiphase Moon Display'},
+      {k:'Power Reserve', v:'72 Hours'},
+      {k:'Water Resist.', v:'50m'},
+      {k:'Case Size',     v:'42mm'},
+      {k:'Certification', v:'Geneva Seal Certified'},
+      {k:'Components',    v:'324 Hand-Finished Parts'},
+    ]
+  },
+  {
+    id:'r2', brand:'Royale Cartel', filter:'royale',
+    badge:{text:'Classic', cls:'excl'},
+    name:'Royale Classic',
+    model:'Ref. RC-005 · Moonphase',
+    ref:'RC-005',
+    sub:'Swiss ETA · Moonphase Guilloché',
+    price:'CHF 128,000',
+    priceNum:128000,
+    photos:['royal-2.jpg','royal-3.jpg','royal-1.jpg'],
+    desc:'Timeless elegance distilled into pure form. The Royale Classic tracks lunar cycles with poetic accuracy via its guilloché-decorated moonphase complication — a dress watch of exceptional refinement.',
+    specs:[
+      {k:'Movement',      v:'Swiss ETA 2824-2'},
+      {k:'Accuracy',      v:'±3 sec / day (Chronometer)'},
+      {k:'Dial Type',     v:'Guilloché with Moonphase'},
+      {k:'Case Material', v:'Polished 316L Steel'},
+      {k:'Strap',         v:'Crocodile Leather, Black'},
+      {k:'Glass',         v:'Flat Sapphire Crystal'},
+      {k:'Complications', v:'Moonphase, Date'},
+      {k:'Power Reserve', v:'38 Hours'},
+      {k:'Water Resist.', v:'30m'},
+      {k:'Case Size',     v:'40mm'},
+      {k:'Dial Color',    v:'Champagne / Silver'},
+      {k:'Clasp',         v:'Deployment Clasp, Steel'},
+    ]
+  },
+  {
+    id:'r3', brand:'Royale Cartel', filter:'royale',
+    badge:{text:'Ultra Rare', cls:'rare'},
+    name:'The Dynasty Set',
+    model:'Ref. RC-004 · Collector Vault',
+    ref:'RC-004',
+    sub:'3-Watch Collector Edition in Mahogany Vault',
+    price:'CHF 380,000',
+    priceNum:380000,
+    photos:['royal-3.jpg','royal-1.jpg','royal-2.jpg'],
+    desc:'The Dynasty — three watches, one legacy. This collector set includes the Signature, the Classic, and a bespoke commission piece with royal crest engraving. Presented in a hand-crafted mahogany and gold vault.',
+    specs:[
+      {k:'Pieces',        v:'3 Timepieces + Vault'},
+      {k:'Includes',      v:'Signature + Classic + Bespoke'},
+      {k:'Vault',         v:'Mahogany & 18K Gold Fittings'},
+      {k:'Engraving',     v:'Custom Royal Crest (all 3)'},
+      {k:'Certificate',   v:'Individual Provenance Documents'},
+      {k:'Edition',       v:'3 Complete Sets Worldwide'},
+      {k:'Delivery',      v:'White Glove, Fully Insured'},
+      {k:'Service',       v:'Lifetime Royal Guarantee'},
+      {k:'Insurance',     v:'Lloyds of London Coverage'},
+      {k:'Presentation',  v:'Private Ceremony Included'},
+      {k:'Packaging',     v:'Bespoke Leather Outer Case'},
+      {k:'Dedicated',     v:'Royal Advisor Assigned'},
+    ]
+  },
+];
+
+/* ══ RENDER ══ */
+const wcatGrid   = document.getElementById('wcatGrid');
+const wcatCount  = document.getElementById('wcatNum');
+const modalOv    = document.getElementById('wmodOv');
+
+let activeWatch = null, galIdx = 0;
+
+function renderWatches(filter) {
+  const list = filter === 'all' ? WCATALOGUE : WCATALOGUE.filter(w => w.filter === filter);
+  wcatCount.textContent = list.length;
+  wcatGrid.innerHTML = '';
+
+  if (!list.length) {
+    wcatGrid.innerHTML = '<div class="wcat-empty">No watches found in this category.</div>';
+    return;
+  }
+
+  list.forEach((w, i) => {
+    const el = document.createElement('div');
+    el.className = 'wcard';
+    el.innerHTML = `
+      <div class="wcard-img">
+        <img src="${w.photos[0]}" alt="${w.name}" loading="lazy">
+        <div class="wcard-img-ov"></div>
+        ${w.badge ? `<div class="wcard-badge ${w.badge.cls}">${w.badge.text}</div>` : ''}
+        <div class="wcard-pics">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          ${w.photos.length} photo${w.photos.length > 1 ? 's' : ''}
+        </div>
+        <div class="wcard-hover">
+          <div class="wcard-hover-btn">View Details</div>
+          <div class="wcard-hover-sub">${w.specs.length} Specifications</div>
+        </div>
+      </div>
+      <div class="wcard-body">
+        <div class="wcard-brand">${w.brand} &nbsp;·&nbsp; ${w.ref}</div>
+        <div class="wcard-name">${w.name}</div>
+        <div class="wcard-sub">${w.sub}</div>
+        <div class="wcard-foot">
+          <div class="wcard-price">${w.price}</div>
+          <div class="wcard-actions">
+            <button class="wcard-a-detail" data-id="${w.id}">Details</button>
+            <button class="wcard-a-cart" data-id="${w.id}" title="Add to cart">
+              <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>`;
+
+    // Click card → open modal
+    el.addEventListener('click', () => openWatchModal(w.id));
+    // Detail button
+    el.querySelector('.wcard-a-detail').addEventListener('click', e => {
+      e.stopPropagation();
+      openWatchModal(w.id);
+    });
+    // Cart button
+    el.querySelector('.wcard-a-cart').addEventListener('click', e => {
+      e.stopPropagation();
+      addToCart(w.name, w.sub, w.price, w.priceNum, w.photos[0]);
+    });
+
+    wcatGrid.appendChild(el);
+    // Trigger animation after brief delay
+    requestAnimationFrame(() => {
+      setTimeout(() => el.classList.add('vis'), 50 + i * 65);
+    });
+  });
+
+  // Re-observe new cards
+  wcatGrid.querySelectorAll('.wcard').forEach(c => catObs.observe(c));
+}
+
+// Filter tabs
+document.getElementById('wcatFilters').querySelectorAll('.wcat-f').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.wcat-f').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    renderWatches(btn.dataset.f);
+  });
+});
+
+// Initial render
+renderWatches('all');
+
+// Intersection Observer for animation on scroll
+const catObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.05 });
+
+/* ══ MODAL ══ */
+function openWatchModal(id) {
+  const w = WCATALOGUE.find(x => x.id === id);
+  if (!w) return;
+  activeWatch = w;
+  galIdx = 0;
+
+  // Header
+  document.getElementById('wmBadge').textContent = w.brand;
+  document.getElementById('wmHdrTitle').textContent = w.ref + ' · ' + w.model;
+
+  // Info
+  document.getElementById('wmTag').textContent = w.brand + ' Collection';
+  document.getElementById('wmName').textContent = w.name;
+  document.getElementById('wmModel').textContent = w.ref + ' · ' + w.model;
+  document.getElementById('wmPrice').textContent = w.price;
+  document.getElementById('wmDesc').textContent = w.desc;
+
+  // Slides
+  const slidesEl = document.getElementById('wmSlides');
+  slidesEl.innerHTML = '';
+  w.photos.forEach((p, i) => {
+    slidesEl.innerHTML += `
+      <div class="wm-slide${i === 0 ? ' active' : ''}">
+        <img src="${p}" alt="${w.name} — photo ${i+1}" loading="${i === 0 ? 'eager' : 'lazy'}">
+        <div class="wm-slide-ov"></div>
+      </div>`;
+  });
+  slidesEl.style.transform = 'translateX(0)';
+
+  // Thumbnails
+  const thumbsEl = document.getElementById('wmThumbs');
+  thumbsEl.innerHTML = '';
+  if (w.photos.length > 1) {
+    w.photos.forEach((p, i) => {
+      const t = document.createElement('div');
+      t.className = `wm-thumb${i === 0 ? ' on' : ''}`;
+      t.innerHTML = `<img src="${p}" alt="thumb ${i+1}" loading="lazy">`;
+      t.addEventListener('click', e => { e.stopPropagation(); galTo(i); });
+      thumbsEl.appendChild(t);
+    });
+  }
+
+  updateGalZoom();
+
+  // Specs grid
+  const specsEl = document.getElementById('wmSpecs');
+  specsEl.innerHTML = w.specs.map(s =>
+    `<div class="wm-spec"><div class="wm-spec-k">${s.k}</div><div class="wm-spec-v">${s.v}</div></div>`
+  ).join('');
+
+  // Actions
+  document.getElementById('wmActions').innerHTML = `
+    <button class="wm-btn-cart" onclick="addToCart('${w.name.replace(/'/g,"\\'")}','${w.sub.replace(/'/g,"\\'")}','${w.price}',${w.priceNum},'${w.photos[0]}')">
+      &#x2756; &nbsp; Add to Selection
+    </button>
+    <a href="https://wa.me/923030555566?text=Hello%20Royale%20Cartel%2C%20I%20am%20interested%20in%20the%20${encodeURIComponent(w.name)}%20(${encodeURIComponent(w.ref)})" target="_blank" rel="noopener" class="wm-btn-wa" title="Enquire on WhatsApp">
+      <svg viewBox="0 0 24 24"><use href="#ico-wa"/></svg>
+    </a>
+    <button class="wm-btn-wish" title="Save to wishlist" onclick="showToast('${w.name.replace(/'/g,"\\'")} saved to wishlist')">&#x2661;</button>`;
+
+  modalOv.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function galTo(n) {
+  if (!activeWatch) return;
+  const total = activeWatch.photos.length;
+  galIdx = ((n % total) + total) % total;
+  document.getElementById('wmSlides').style.transform = `translateX(-${galIdx * 100}%)`;
+  document.querySelectorAll('.wm-slide').forEach((s, i) => {
+    s.classList.toggle('active', i === galIdx);
+  });
+  document.querySelectorAll('.wm-thumb').forEach((t, i) => {
+    t.classList.toggle('on', i === galIdx);
+  });
+  updateGalZoom();
+}
+
+function updateGalZoom() {
+  const total = activeWatch ? activeWatch.photos.length : 1;
+  document.getElementById('wmZoom').textContent = `${galIdx + 1} / ${total}`;
+}
+
+function closeWatchModal() {
+  modalOv.classList.remove('open');
+  document.body.style.overflow = '';
+  activeWatch = null;
+}
+
+document.getElementById('wmClose').addEventListener('click', closeWatchModal);
+modalOv.addEventListener('click', e => { if (e.target === modalOv) closeWatchModal(); });
+document.getElementById('wmPrev').addEventListener('click', e => { e.stopPropagation(); galTo(galIdx - 1); });
+document.getElementById('wmNext').addEventListener('click', e => { e.stopPropagation(); galTo(galIdx + 1); });
+
+// Touch swipe support on gallery
+let _tx = 0;
+const galEl = document.querySelector('.wm-gallery');
+if (galEl) {
+  galEl.addEventListener('touchstart', e => { _tx = e.touches[0].clientX; }, {passive:true});
+  galEl.addEventListener('touchend', e => {
+    const dx = _tx - e.changedTouches[0].clientX;
+    if (Math.abs(dx) > 40) galTo(dx > 0 ? galIdx + 1 : galIdx - 1);
+  }, {passive:true});
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  if (!modalOv.classList.contains('open')) return;
+  if (e.key === 'ArrowLeft')  { e.preventDefault(); galTo(galIdx - 1); }
+  if (e.key === 'ArrowRight') { e.preventDefault(); galTo(galIdx + 1); }
+  if (e.key === 'Escape')     closeWatchModal();
+});
+</script>
+
 
 <!-- STORY / CRAFT -->
 <style>
@@ -1532,28 +2453,32 @@ body{background:var(--bk3);color:var(--wh2)}
         <span class="si-num">I</span>
         <div>
           <div class="si-title">The Royal Skeleton</div>
-          <p class="si-desc">Material removed with surgical precision — revealing gears and springs in their perpetual, breathtaking dance of timekeeping.</p>
+          <p class="si-desc">Sapphire Crystal Protection
+Scratch-resistant sapphire crystal for lasting clarity and elegance.</p>
         </div>
       </div>
       <div class="si">
         <span class="si-num">II</span>
         <div>
           <div class="si-title">18 Karat Perfection</div>
-          <p class="si-desc">Solid 18K gold cases, hand-forged in Geneva. Every surface alternates between mirror polish and satin brushing.</p>
+          <p class="si-desc">Swiss Precision Movement
+Engineered for exceptional accuracy and reliable performance.</p>
         </div>
       </div>
       <div class="si">
         <span class="si-num">III</span>
         <div>
           <div class="si-title">The Lion's Precision</div>
-          <p class="si-desc">324 individual parts, each finished to 0.01mm tolerance — unwavering strength, like the lions of our crest.</p>
+          <p class="si-desc">316L Stainless Steel Case
+Corrosion-resistant premium steel with a refined finish.</p>
         </div>
       </div>
       <div class="si">
         <span class="si-num">IV</span>
         <div>
           <div class="si-title">Crown &amp; Shield Guarantee</div>
-          <p class="si-desc">Every Royale Cartel piece carries our crest seal — our unbreakable promise of quality and lifetime service.</p>
+          <p class="si-desc">Water Resistance Assurance
+Built to withstand everyday splashes and active lifestyles.</p>
         </div>
       </div>
     </div>
@@ -1656,8 +2581,8 @@ body{background:var(--bk3);color:var(--wh2)}
     <h2 class="section-h2" style="font-size:clamp(26px,4vw,50px)">Reserve Your <em>Royal Viewing</em></h2>
     <p class="ctcdesc">Our Royal Advisors await you by private appointment only. Discretion, elegance, and the finest horology — exclusively for those who command the very best.</p>
     <div class="ctcinfo">
-      <div class="ci"><div class="cii">✦</div><div class="cit"><strong>Showrooms</strong><span>Geneva · London · Dubai · Lahore</span></div></div>
-      <div class="ci"><div class="cii">✉</div><div class="cit"><strong>Email</strong><span>atelier@royalecartel.com</span></div></div>
+      <div class="ci"><div class="cii">✦</div><div class="cit"><strong>Showrooms</strong><span>Gulburg· Lahore</span></div></div>
+      <div class="ci"><div class="cii">✉</div><div class="cit"><strong>Email</strong><span>royalEcartel3@gmail.com</span></div></div>
       <div class="ci"><div class="cii">📱</div><div class="cit"><strong>WhatsApp Business</strong><a href="https://wa.me/923030555566?text=Hello%20Royale%20Cartel" target="_blank" rel="noopener">+92 303 055 5566</a></div></div>
     </div>
     <div class="ctcsoc">
