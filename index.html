@@ -809,12 +809,12 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
     <a href="https://www.instagram.com/royale_cartel1?utm_source=qr&igsh=NDRxbzBseTBkazJz" target="_blank" rel="noopener" class="ig" title="Instagram"><svg><use href="#ico-ig"/></svg></a>
     <a href="https://www.facebook.com/share/18osoDXftA/" target="_blank" rel="noopener" class="fb" title="Facebook"><svg><use href="#ico-fb"/></svg></a>
   </div>
+<button class="ham" id="ham"><span></span><span></span><span></span></button>
+  <a href="#contact" class="ncta"><span>Reserve a Viewing</span></a>
   <button class="ncart" onclick="openCart()" title="View Cart">
     <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
     <div class="cbadge" id="cbadge">0</div>
   </button>
-  <a href="#contact" class="ncta"><span>Reserve a Viewing</span></a>
-  <button class="ham" id="ham"><span></span><span></span><span></span></button>
 </nav>
 
 <div class="mov" id="mov"></div>
@@ -1300,11 +1300,11 @@ canvas#gc{
   </div>
   <div class="col-grid">
     <div class="dial-card" data-anim>
-      <div class="dial-circle"><img src="single-1.jpeg" alt="Royale Classic"></div>
-      <div class="dial-name">Tubular</div>
-      <div class="dial-sub">Tubular Skeleton Tonneau</div>
-      <div class="dial-price">Price: 4699</div>
-      <button class="btn-cart" onclick="addToCart('Tubular','Tubular Skeleton Tonneau','Price: 4699',4699,'single-1.jpeg')">
+      <div class="dial-circle"><img src="Masterpcs-1.png" alt="Patek Philippe Nautilus"></div>
+      <div class="dial-name">Patek</div>
+      <div class="dial-sub">Patek Philippe Nautilus</div>
+      <div class="dial-price">Price: 7499</div>
+      <button class="btn-cart" onclick="addToCart('Patek ','Patek Philippe Nautilus','Price: 7499',7499,'Masterpcs-1.png')">
         <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
         Add to Cart
       </button>
@@ -1312,14 +1312,14 @@ canvas#gc{
     <div class="center-card" data-anim>
       <div class="center-img-wrap">
         <div class="center-glow"></div>
-        <img src="Patek Philippe.jpeg" alt="The Royale Signature">
+        <img src="Masterpcs-2.png" alt="The Royale Signature">
       </div>
       <div class="center-divider"><div class="cdl"></div><span class="cdt">✦ Signature ✦</span><div class="cdl"></div></div>
       <div class="center-info">
-        <div class="center-name">The Royale</div>
-        <div class="center-sub">Flagship · Kansai Yamamoto Collection</div>
-        <div class="center-price">RS 3999</div>
-        <button class="btn-cart" onclick="addToCart('The Royale Signature','Flagship · Kansai Yamamoto','Price 3999',3999,'Patek Philippe.jpeg')">
+        <div class="center-name">Patek Philippe</div>
+        <div class="center-sub">Patek Philippe Nautilus</div>
+        <div class="center-price">RS 7499</div>
+        <button class="btn-cart" onclick="addToCart('Patek Philippe','Patek Philippe Nautilus','Price 7499',7499,'Masterpcs-2.png')">
           <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
           Add to Cart
         </button>
@@ -1825,9 +1825,9 @@ canvas#gc{
     </div>
     <div class="wcat-filters" id="wcatFilters">
       <button class="wcat-f on" data-f="all">All Brands</button>
-      <button class="wcat-f" data-f="casirui">CASIRUI</button>
+      <button class="wcat-f" data-f="tissot">Tissot</button>
       <button class="wcat-f" data-f="seiko">Seiko Series</button>
-      <button class="wcat-f" data-f="kansai">Kansai Edition</button>
+      <button class="wcat-f" data-f="franck-muller">Franck Muller</button>
       <button class="wcat-f" data-f="royale">Royale Originals</button>
     </div>
     <div class="wcat-count" id="wcatCount">Showing <span id="wcatNum">0</span> timepieces</div>
@@ -1851,7 +1851,7 @@ const WCATALOGUE = [
     sub:'Stainless Steel · Open-Heart Dial',
     price:'PKR 3999',
     priceNum:3999,
-    photos:['Rolex Oyster-1.jpeg','Rolex Oyster-1.jpeg','Rolex Oyster-1.jpeg', 'Rolex Oyster-1.jpeg','Rolex Oyster-1.jpeg'],
+    photos:['Rolex Oyster-1.jpeg','Rolex Oyster-2.jpeg','Rolex Oyster-3.png', 'Rolex Oyster-4.png'],
     desc: `A striking open-heart skeleton dial showcases the precision automatic mechanical movement in motion. The black and gold skeleton design, paired with a polished stainless steel bracelet, delivers a bold luxury timepiece crafted for those who appreciate modern elegance and timeless engineering.
 
 MOVEMENT
@@ -1917,271 +1917,487 @@ CASIRUI Automatic Skeleton Watch + Premium Gift Box + Delivery Charges Included`
     ]
   },
   {
-    id:'c2', brand:'CASIRUI', filter:'casirui',
+    id:'c2',
+    brand:'Rolex',
+    filter:'rolex',
+
     badge:{text:'Premium', cls:'sig'},
-    name:'Gold Skeleton Elite',
-    model:'Elite Skeleton Series',
-    ref:'CS-002',
-    sub:'Full Gold-Tone · Exhibition Caseback',
-    price:'PKR 18,500',
-    priceNum:18500,
-    photos:['royal-2.jpg','royal-1.jpg','royal-3.jpg'],
-    desc:'The premium tier of the CASIRUI skeleton collection. Fully gold-plated case and bracelet with a mesmerising open-heart automatic movement visible through both dial and exhibition caseback.',
+
+    name:'Rolex Oyster Perpetual Datejust',
+    model:'Rolex Oyster Perpetual Datejust Charcoal Diamond Dial',
+    ref:'RX-002',
+
+    sub:'Two-Tone Stainless Steel · Diamond Dial',
+
+    price:'PKR 3,999',
+    priceNum:3999,
+
+    photos:[
+      'second-slot1.png',
+      'second-slot2.png',
+      'second-slot3.png'
+    ],
+
+    desc:`A refined Rolex Oyster Perpetual Datejust featuring an elegant charcoal diamond dial with sparkling diamond hour markers. The gold-tone diamond-set bezel, two-tone stainless steel bracelet, and luxurious finish make it a perfect choice for both formal occasions and everyday sophistication.
+
+PACKAGE INCLUDES
+
+• Rolex Watch
+• Royale Cartel Box
+• Delivery Charges Included`,
+
     specs:[
-      {k:'Movement',      v:'Automatic Mechanical'},
-      {k:'Dial Type',     v:'Full Open Skeleton'},
-      {k:'Case Material', v:'Gold-Plated Steel Alloy'},
-      {k:'Strap',         v:'Gold-Tone Steel Bracelet'},
-      {k:'Dial Color',    v:'Gold & Black'},
-      {k:'Glass',         v:'Mineral Crystal'},
-      {k:'Clasp',         v:'Butterfly Push-Button'},
-      {k:'Water Resist.', v:'Splash Resistant'},
-      {k:'Case Size',     v:'41mm'},
-      {k:'Caseback',      v:'Exhibition Transparent'},
-      {k:'Weight',        v:'Approx. 140g'},
-      {k:'Finish',        v:'High-Polish Gold PVD'},
+      {k:'Brand',          v:'Rolex'},
+      {k:'Movement',       v:'Quartz Movement'},
+      {k:'Case Material',  v:'Stainless Steel'},
+      {k:'Bracelet',       v:'Two-Tone Stainless Steel Bracelet'},
+      {k:'Dial Color',     v:'Charcoal Diamond Dial'},
+      {k:'Bezel',          v:'Gold-Tone Diamond-Set Bezel'},
+      {k:'Markers',        v:'Diamond Hour Markers'},
+      {k:'Display',        v:'Date Display Window'},
+      {k:'Glass',          v:'Scratch-Resistant Crystal Glass'},
+      {k:'Water Resist.',  v:'3 ATM Water Resistant'},
+      {k:'Weight',         v:'Approx. 160–180 Grams'},
+      {k:'Lock',           v:'Butterfly Clasp Lock'},
+      {k:'Style',          v:'Luxury Formal & Casual Wear'},
+      {k:'Package',        v:'Watch + Royale Cartel Box + Delivery Included'}
     ]
-  },
+},
   {
-    id:'c3', brand:'CASIRUI', filter:'casirui',
+    id:'c3',
+    brand:'Rolex',
+    filter:'rolex',
+
     badge:{text:'Sport', cls:'excl'},
-    name:'Sport Skeleton Pro',
-    model:'Sport Pro Series',
-    ref:'CS-003',
-    sub:'IP Black · Silicone Strap',
-    price:'PKR 9,800',
-    priceNum:9800,
-    photos:['royal-3.jpg','royal-1.jpg','royal-2.jpg'],
-    desc:'The sport-oriented CASIRUI skeleton for the active gentleman. IP black coated steel pairs with a premium silicone strap — equally at home at the gym or the boardroom.',
+
+    name:'Rolex Oyster Perpetual',
+    model:'Rolex Oyster Perpetual Datejust Silver Diamond Dial',
+    ref:'RX-003',
+
+    sub:'Silver Diamond Dial · Stainless Steel Bracelet',
+
+    price:'PKR 3,999',
+    priceNum:3999,
+
+    photos:[
+      'Next-1.png',
+      'Next-2.png',
+      'Next-3.png',
+      'Next-4.png',
+      'Next-5.png'
+    ],
+
+    desc:`A sophisticated Rolex Oyster Perpetual Datejust featuring a luxurious silver diamond dial accented with brilliant diamond hour markers. The elegant silver fluted bezel and premium stainless steel bracelet create a timeless design suitable for both formal occasions and everyday wear.
+
+PACKAGE INCLUDES
+
+• Rolex Watch
+• Royale Cartel Box
+• Delivery Charges Included`,
+
     specs:[
-      {k:'Movement',      v:'Automatic Mechanical'},
-      {k:'Dial Type',     v:'Skeleton Open-Heart'},
-      {k:'Case Material', v:'IP Black Steel Alloy'},
-      {k:'Strap',         v:'Premium Silicone'},
-      {k:'Strap Color',   v:'Black / Gold Accent'},
-      {k:'Glass',         v:'Hardened Mineral Crystal'},
-      {k:'Clasp',         v:'Pin Buckle'},
-      {k:'Water Resist.', v:'Splash & Sweat Resistant'},
-      {k:'Case Size',     v:'44mm (Sport Oversized)'},
-      {k:'Weight',        v:'Approx. 95g'},
-      {k:'Lume',          v:'Luminous Hands'},
-      {k:'Caseback',      v:'Solid Black Steel'},
+      {k:'Brand',          v:'Rolex'},
+      {k:'Movement',       v:'Quartz Movement'},
+      {k:'Case Material',  v:'Stainless Steel'},
+      {k:'Bracelet',       v:'Stainless Steel Bracelet'},
+      {k:'Dial Color',     v:'Silver Diamond Dial'},
+      {k:'Bezel',          v:'Silver Fluted Bezel'},
+      {k:'Markers',        v:'Diamond Hour Markers'},
+      {k:'Display',        v:'Date Display Window'},
+      {k:'Glass',          v:'Scratch-Resistant Crystal Glass'},
+      {k:'Water Resist.',  v:'3 ATM Water Resistant'},
+      {k:'Weight',         v:'Approx. 160–180 Grams'},
+      {k:'Lock',           v:'Butterfly Clasp Lock'},
+      {k:'Style',          v:'Luxury Formal & Casual Wear'},
+      {k:'Package',        v:'Watch + Royale Cartel Box + Delivery Included'}
     ]
-  },
+},
   {
-    id:'c4', brand:'CASIRUI', filter:'casirui',
+    id:'c4',
+    brand:'Rolex',
+    filter:'rolex',
+
     badge:{text:'Classic', cls:'excl'},
-    name:'Rose Gold Skeleton',
-    model:'Rose Gold Series',
-    ref:'CS-004',
-    sub:'Rose Gold-Tone · Leather Strap',
-    price:'PKR 15,000',
-    priceNum:15000,
-    photos:['royal-2.jpg','royal-3.jpg','royal-1.jpg'],
-    desc:'Warmth and elegance combined. The rose gold-tone skeleton features a genuine leather strap with a sophisticated tang buckle — a perfect companion for formal occasions.',
+
+    name:'Rolex Oyster Perpetual',
+    model:'Rolex Oyster Perpetual Datejust Green Diamond Dial',
+    ref:'RX-004',
+
+    sub:'Emerald Green Diamond Dial · Jubilee Bracelet',
+
+    price:'PKR 3,999',
+    priceNum:3999,
+
+    photos:[
+      'Next-6.png',
+      'Next-7.png',
+      'Next-8.png',
+      'Next-9.png',
+      'Next-10.png'
+    ],
+
+    desc:`Experience timeless luxury with the Rolex Oyster Perpetual Datejust featuring a stunning emerald green diamond dial. Crafted with a stainless steel case, elegant Jubilee bracelet, and signature silver fluted bezel, this premium timepiece combines sophistication with everyday versatility.
+
+PACKAGE INCLUDES
+
+• Rolex Watch
+• Premium Luxury Green Box
+• Delivery Charges Included`,
+
     specs:[
-      {k:'Movement',      v:'Automatic Mechanical'},
-      {k:'Dial Type',     v:'Open Skeleton'},
-      {k:'Case Material', v:'Rose Gold-Plated Alloy'},
-      {k:'Strap',         v:'Genuine Leather'},
-      {k:'Strap Color',   v:'Brown / Tan'},
-      {k:'Dial Color',    v:'Rose Gold Skeleton'},
-      {k:'Glass',         v:'Mineral Crystal'},
-      {k:'Clasp',         v:'Tang Pin Buckle'},
-      {k:'Water Resist.', v:'Splash Resistant'},
-      {k:'Case Size',     v:'40mm'},
-      {k:'Weight',        v:'Approx. 85g (with strap)'},
-      {k:'Caseback',      v:'Exhibition Back'},
+      {k:'Brand',          v:'Rolex'},
+      {k:'Model',          v:'Oyster Perpetual Datejust'},
+      {k:'Movement',       v:'Quartz Movement'},
+      {k:'Case Material',  v:'Stainless Steel'},
+      {k:'Bracelet',       v:'Stainless Steel Jubilee Bracelet'},
+      {k:'Dial Color',     v:'Emerald Green Diamond Dial'},
+      {k:'Bezel',          v:'Silver Fluted Bezel'},
+      {k:'Markers',        v:'Diamond Hour Markers'},
+      {k:'Display',        v:'Date Display Window with Magnified Lens'},
+      {k:'Glass',          v:'Scratch-Resistant Crystal Glass'},
+      {k:'Water Resist.',  v:'3 ATM Water Resistant'},
+      {k:'Lock Type',      v:'Fold-Over Clasp Lock'},
+      {k:'Style',          v:'Luxury Formal & Casual Wear'},
+      {k:'Weight',         v:'Approx. 160–180 Grams'},
+      {k:'Package',        v:'Watch + Premium Luxury Green Box + Delivery Included'}
     ]
-  },
+},
 
   /* ── SEIKO SERIES ── */
   {
-    id:'s1', brand:'Seiko Series', filter:'seiko',
+    id:'s1',
+    brand:'Tissot',
+    filter:'tissot',
+
     badge:{text:'Exclusive', cls:'sig'},
-    name:'Aqua Crown',
-    model:'Ref. RC-003 · Diver',
-    ref:'RC-003',
-    sub:'Seiko NH35 · Teal Skeleton Dial',
-    price:'Price 3999',
+
+    name:'Tissot PRX Green Sunburst Dial',
+    model:'Tissot PRX Quartz',
+    ref:'TS-001',
+
+    sub:'Green Sunburst Dial · Swiss Quartz',
+
+    price:'PKR 3,999',
     priceNum:3999,
-    photos:['royal-3.jpg','royal-2.jpg','royal-1.jpg'],
-    desc:'The Aqua Crown marries Seiko\'s legendary NH35 movement with Royale Cartel\'s bespoke case and dial artistry. The deep teal skeleton dial shimmers like the Mediterranean at midnight.',
+
+    photos:[
+      'Tissot-1.png',
+      'Tissot-2.png',
+      'Tissot-3.png',
+      'Tissot-4.png',
+      'Tissot-5.png'
+    ],
+
+    desc:`The Tissot PRX Quartz blends iconic Swiss craftsmanship with contemporary styling. Featuring a stunning green sunburst dial, integrated stainless steel bracelet, and scratch-resistant sapphire crystal, this luxury timepiece is designed for both everyday elegance and formal sophistication.
+
+PACKAGE INCLUDES
+
+• Tissot PRX Watch
+• Premium Luxury Watch Box
+• Delivery Charges Included`,
+
     specs:[
-      {k:'Base Movement',  v:'Seiko NH35 Automatic'},
-      {k:'Accuracy',       v:'±10 sec / day'},
-      {k:'Dial Color',     v:'Deep Teal Skeleton'},
-      {k:'Case Material',  v:'316L Stainless Steel'},
-      {k:'Strap',          v:'Teal Rubber / Steel'},
-      {k:'Glass',          v:'Sapphire Crystal AR-Coated'},
-      {k:'Clasp',          v:'Diver\'s Extension Clasp'},
-      {k:'Power Reserve',  v:'41 Hours'},
-      {k:'Water Resist.',  v:'200m (Diver Grade)'},
-      {k:'Case Size',      v:'43mm'},
-      {k:'Lume',           v:'SuperLuminova BGW9'},
-      {k:'Bezel',          v:'Uni-Directional Rotating'},
+      {k:'Brand',          v:'Tissot'},
+      {k:'Model',          v:'PRX Quartz'},
+      {k:'Movement',       v:'Swiss Quartz Movement (Battery Operated)'},
+      {k:'Case Material',  v:'Stainless Steel'},
+      {k:'Bracelet',       v:'Stainless Steel Integrated Bracelet'},
+      {k:'Dial',           v:'Green Sunburst Dial (Smooth Metallic Finish)'},
+      {k:'Bezel',          v:'Silver Stainless Steel Bezel'},
+      {k:'Markers',        v:'Silver Baton Hour Markers'},
+      {k:'Display',        v:'Date Display Window at 3 o\'clock'},
+      {k:'Glass',          v:'Scratch-Resistant Sapphire Crystal Glass'},
+      {k:'Water Resist.',  v:'Water Resistant'},
+      {k:'Style',          v:'Luxury Formal & Casual Wear'},
+      {k:'Weight',         v:'Approx. 140–160 Grams'},
+      {k:'Package',        v:'Watch + Premium Luxury Watch Box + Delivery Included'}
     ]
-  },
+},
   {
-    id:'s2', brand:'Seiko Series', filter:'seiko',
+    id:'s2',
+    brand:'Franck Muller',
+    filter:'franck-muller',
+
     badge:{text:'Limited', cls:'rare'},
-    name:'Midnight Diver',
-    model:'Ref. RC-006 · Deep Black',
-    ref:'RC-006',
-    sub:'Seiko NH36 · All-Black Edition',
-    price:'CHF 210,000',
-    priceNum:210000,
-    photos:['royal-1.jpg','royal-3.jpg','royal-2.jpg'],
-    desc:'Darkness perfected. The Midnight Diver features an all-black DLC-coated case paired with the reliable Seiko NH36 movement. Its skeleton dial reveals luminous components against absolute black.',
+
+    name:'Franck Muller Vanguard',
+    model:'Franck Muller Vanguard Full Diamond Green Edition',
+    ref:'FM-001',
+
+    sub:'Full Diamond Green Edition · Quartz Movement',
+
+    price:'PKR 3,999',
+    priceNum:3999,
+
+    photos:[
+      'Franck-Muller1.png',
+      'Franck-Muller2.png'
+    ],
+
+    desc:`The Franck Muller Vanguard Full Diamond Green Edition is a bold luxury timepiece designed to make a statement. Featuring a fully iced-out diamond dial, signature oversized green Arabic numerals, and a premium green hybrid strap, this watch blends modern elegance with iconic Franck Muller styling.
+
+PACKAGE INCLUDES
+
+• Franck Muller Watch
+• Premium Luxury Watch Box
+• Delivery Charges Included`,
+
     specs:[
-      {k:'Base Movement',  v:'Seiko NH36 Automatic'},
-      {k:'Accuracy',       v:'±10 sec / day'},
-      {k:'Dial Color',     v:'All-Black Skeleton'},
-      {k:'Case Material',  v:'DLC Black Coated Steel'},
-      {k:'Strap',          v:'Black Rubber / NATO'},
-      {k:'Glass',          v:'Anti-Reflective Sapphire'},
-      {k:'Clasp',          v:'DLC Diver Extension'},
-      {k:'Power Reserve',  v:'41 Hours'},
-      {k:'Water Resist.',  v:'200m'},
-      {k:'Case Size',      v:'44mm'},
-      {k:'Lume',           v:'C3 SuperLuminova Green'},
-      {k:'Edition',        v:'Limited — 50 Pieces'},
+      {k:'Brand',          v:'Franck Muller'},
+      {k:'Model',          v:'Vanguard (Cintrée Curvex Shape)'},
+      {k:'Movement',       v:'Quartz Movement (Battery Operated)'},
+      {k:'Case Material',  v:'Stainless Steel Case with High-Quality Diamonds/Crystals'},
+      {k:'Strap',          v:'Premium Green Leather / Rubber Hybrid Strap (Crocodile Texture)'},
+      {k:'Dial',           v:'Full Diamond-Paved Iced-Out Dial with Green Arabic Numerals & Compass Motif'},
+      {k:'Bezel',          v:'Full Diamond-Set Stainless Steel Bezel'},
+      {k:'Markers',        v:'Bold Oversized Green Arabic Numerals'},
+      {k:'Display',        v:'Date Display Window at 6 o\'clock'},
+      {k:'Glass',          v:'Scratch-Resistant Curved Mineral/Sapphire Glass'},
+      {k:'Water Resist.',  v:'Water Resistant'},
+      {k:'Style',          v:'High-End Luxury & Statement Fashion Wear'},
+      {k:'Weight',         v:'Approx. 140–160 Grams'},
+      {k:'Package',        v:'Watch + Premium Luxury Watch Box + Delivery Included'}
     ]
-  },
+},
 
   /* ── KANSAI EDITION ── */
   {
-    id:'k1', brand:'Kansai Edition', filter:'kansai',
+    id:'k1',
+    brand:'Patek Philippe',
+    filter:'patekphilippe',
+
     badge:{text:'Flagship', cls:'sig'},
-    name:'Grand Kansai',
-    model:'Ref. RC-002 · Automatic',
-    ref:'RC-002',
-    sub:'Kansai Yamamoto × Royale Cartel',
-    price:'CHF 248,000',
-    priceNum:248000,
-    photos:['royal-2.jpg','royal-1.jpg','royal-3.jpg'],
-    desc:'A cultural masterpiece born from the collaboration between Royale Cartel and the legendary Kansai Yamamoto fashion house. Japanese artistry fused with Swiss watchmaking excellence.',
+
+    name:'Patek Philippe Nautilus Black Dial',
+    model:'Patek Philippe Nautilus',
+    ref:'PP-001',
+
+    sub:'Black Horizontal Embossed Dial · Quartz Movement',
+
+    price:'PKR 3,699',
+    priceNum:3699,
+
+    photos:[
+      'Patek-Philippe1.png',
+      'Patek-Philippe2.png'
+    ],
+
+    desc:`The Patek Philippe Nautilus Black Dial embodies timeless elegance with its iconic rounded octagonal bezel and sophisticated black textured dial. Finished with a premium crocodile-texture leather strap and scratch-resistant sapphire crystal, this luxury timepiece is crafted for executives and collectors who appreciate refined Swiss-inspired design.
+
+PACKAGE INCLUDES
+
+• Patek Philippe Watch
+• Premium Luxury Watch Box
+• Delivery Charges Included`,
+
     specs:[
-      {k:'Movement',      v:'Automatic, 28,800 VPH'},
-      {k:'Dial Type',     v:'Lacquered Skeleton'},
-      {k:'Case Material', v:'18K Yellow Gold'},
-      {k:'Strap',         v:'Hand-Stitched Silk / Gold'},
-      {k:'Glass',         v:'Domed Sapphire Crystal'},
-      {k:'Complications', v:'Date, Seconds Subdial'},
-      {k:'Power Reserve', v:'48 Hours'},
-      {k:'Water Resist.', v:'30m'},
-      {k:'Case Size',     v:'44mm'},
-      {k:'Weight',        v:'Approx. 195g'},
-      {k:'Edition',       v:'Limited — 12 Pieces Worldwide'},
-      {k:'Certificate',   v:'Individual Provenance Doc'},
+      {k:'Brand',          v:'Patek Philippe'},
+      {k:'Model',          v:'Nautilus'},
+      {k:'Movement',       v:'Quartz Movement (Battery Operated)'},
+      {k:'Case Material',  v:'High-Quality Stainless Steel'},
+      {k:'Strap',          v:'Premium Black Leather Strap (Crocodile Texture)'},
+      {k:'Dial',           v:'Black Horizontal Embossed Dial (Textured Ribbed Pattern)'},
+      {k:'Bezel',          v:'Rounded Octagonal Stainless Steel Bezel (Brushed Finish)'},
+      {k:'Markers',        v:'Luminous Silver Baton Hour Markers'},
+      {k:'Display',        v:'Date Display Window at 3 o\'clock'},
+      {k:'Glass',          v:'Scratch-Resistant Sapphire Crystal Glass'},
+      {k:'Water Resist.',  v:'Water Resistant'},
+      {k:'Style',          v:'High-End Luxury Formal & Executive Wear'},
+      {k:'Weight',         v:'Approx. 140–160 Grams'},
+      {k:'Package',        v:'Watch + Premium Luxury Watch Box + Delivery Included'}
     ]
-  },
+},
   {
-    id:'k2', brand:'Kansai Edition', filter:'kansai',
+    id:'k2',
+    brand:'Audemars Piguet',
+    filter:'audemarspiguet',
+
     badge:{text:'Ultra Rare', cls:'rare'},
-    name:'Sakura Tourbillon',
-    model:'Ref. RC-007 · Tourbillon',
-    ref:'RC-007',
-    sub:'Kansai · Hand-Wound Tourbillon',
-    price:'CHF 480,000',
-    priceNum:480000,
-    photos:['royal-3.jpg','royal-2.jpg','royal-1.jpg'],
-    desc:'The pinnacle of the Kansai collaboration. A hand-wound flying tourbillon inspired by the Sakura blossom — 1,200 hours of artisanal labour encased in hand-engraved 18K rose gold.',
+
+    name:'Audemars Piguet Royal Oak',
+    model:'Audemars Piguet Royal Oak Black Dial',
+    ref:'AP-001',
+
+    sub:'Black Grande Tapisserie Dial · Quartz Movement',
+
+    price:'PKR 3,999',
+    priceNum:3999,
+
+    photos:[
+      'Patek-Philippe3.png',
+      'Patek-Philippe2.png'
+    ],
+
+    desc:`The Audemars Piguet Royal Oak Black Dial is an icon of luxury sports watch design. Featuring the signature Grande Tapisserie textured dial, octagonal bezel with exposed hexagonal screws, and an integrated stainless steel bracelet, this timepiece delivers timeless elegance with modern performance.
+
+PACKAGE INCLUDES
+
+• Audemars Piguet Watch
+• Premium Luxury Watch Box
+• Delivery Charges Included`,
+
     specs:[
-      {k:'Movement',      v:'Manual-Wind Flying Tourbillon'},
-      {k:'Tourbillon',    v:'60-sec rotation, 0 o\'clock'},
-      {k:'Dial',          v:'Sakura Enamel + Skeleton'},
-      {k:'Case Material', v:'18K Rose Gold, Hand-Engraved'},
-      {k:'Strap',         v:'Ostrich Leather, Bespoke'},
-      {k:'Glass',         v:'Curved Sapphire, AR-Coated'},
-      {k:'Power Reserve', v:'96 Hours'},
-      {k:'Water Resist.', v:'30m'},
-      {k:'Case Size',     v:'42mm'},
-      {k:'Weight',        v:'Approx. 215g'},
-      {k:'Edition',       v:'3 Pieces Worldwide'},
-      {k:'Certification', v:'COSC + Geneva Seal'},
+      {k:'Brand',          v:'Audemars Piguet'},
+      {k:'Model',          v:'Royal Oak'},
+      {k:'Movement',       v:'Quartz Movement (Battery Operated)'},
+      {k:'Case Material',  v:'High-Quality Stainless Steel'},
+      {k:'Bracelet',       v:'Stainless Steel Integrated Bracelet'},
+      {k:'Dial',           v:'Black Grande Tapisserie Dial (Waffle/Chequered Pattern)'},
+      {k:'Bezel',          v:'Iconic Octagonal Stainless Steel Bezel with 8 Hexagonal Screws'},
+      {k:'Markers',        v:'Luminous Silver Baton Hour Markers'},
+      {k:'Display',        v:'Date Display Window at 3 o\'clock'},
+      {k:'Glass',          v:'Scratch-Resistant Sapphire Crystal Glass'},
+      {k:'Water Resist.',  v:'Water Resistant'},
+      {k:'Style',          v:'High-End Luxury Royal & Sports Wear'},
+      {k:'Weight',         v:'Approx. 140–160 Grams'},
+      {k:'Package',        v:'Watch + Premium Luxury Watch Box + Delivery Included'}
     ]
-  },
+},
 
   /* ── ROYALE ORIGINALS ── */
   {
-    id:'r1', brand:'Royale Cartel', filter:'royale',
+    id:'r1',
+    brand:'Rolex Submariner',
+    filter:'rolexsubmariner',
+
     badge:{text:'Signature', cls:'sig'},
-    name:'Royale Signature',
-    model:'Ref. RC-001 · Skeleton',
-    ref:'RC-001',
-    sub:'Hand-Wound · Multiphase Complication',
-    price:'Price 3999',
+
+    name:'Rolex Submariner Date',
+    model:'Rolex Submariner Date Two-Tone Green Edition',
+    ref:'RS-001',
+
+    sub:'Two-Tone Green Edition · Quartz Movement',
+
+    price:'PKR 3,999',
     priceNum:3999,
-    photos:['royal-1.jpg','royal-2.jpg','royal-3.jpg'],
-    desc:'The Royale Signature — a masterwork of skeleton engineering. 324 hand-finished components assembled over 800 hours by a single master watchmaker in Geneva. The definitive statement of horological mastery.',
+
+    photos:[
+      'Rolex-Submariner1.png',
+      'Rolex-Submariner2.png',
+      'Rolex-Submariner3.png'
+    ],
+
+    desc:`The Rolex Submariner Date Two-Tone Green Edition combines iconic diving heritage with modern luxury. Featuring a striking sunburst green dial, two-tone Oyster bracelet, and signature green rotatable bezel, this premium timepiece is crafted for those who appreciate timeless style and everyday performance.
+
+PACKAGE INCLUDES
+
+• Rolex Submariner Watch
+• Premium Luxury Watch Box
+• Delivery Charges Included`,
+
     specs:[
-      {k:'Movement',      v:'Manual-Wind Skeleton, In-House'},
-      {k:'Frequency',     v:'21,600 VPH (3 Hz)'},
-      {k:'Dial Type',     v:'Full Open Skeleton'},
-      {k:'Case Material', v:'18K White Gold'},
-      {k:'Strap',         v:'Alligator Leather + Steel Bracelet'},
-      {k:'Glass',         v:'Sapphire Crystal, AR Both Sides'},
-      {k:'Complications', v:'Multiphase Moon Display'},
-      {k:'Power Reserve', v:'72 Hours'},
-      {k:'Water Resist.', v:'50m'},
-      {k:'Case Size',     v:'42mm'},
-      {k:'Certification', v:'Geneva Seal Certified'},
-      {k:'Components',    v:'324 Hand-Finished Parts'},
+      {k:'Brand',          v:'Rolex'},
+      {k:'Model',          v:'Submariner Date'},
+      {k:'Movement',       v:'Quartz Movement (Battery Operated)'},
+      {k:'Case Material',  v:'High-Quality Stainless Steel & Gold-Plated Details'},
+      {k:'Bracelet',       v:'Two-Tone Stainless Steel & Gold-Plated Oyster Bracelet'},
+      {k:'Dial',           v:'Sunburst Green Dial'},
+      {k:'Bezel',          v:'Green & Gold Unidirectional Rotatable Bezel with 60-Minute Graduations'},
+      {k:'Markers',        v:'Luminous Geometric Hour Markers (Circles, Rectangles & Triangle)'},
+      {k:'Display',        v:'Date Display Window with Cyclops Magnifying Lens at 3 o\'clock'},
+      {k:'Glass',          v:'Scratch-Resistant Sapphire Crystal Glass'},
+      {k:'Water Resist.',  v:'Water Resistant'},
+      {k:'Style',          v:'Iconic Luxury Divers & Premium Casual Wear'},
+      {k:'Weight',         v:'Approx. 140–160 Grams'},
+      {k:'Package',        v:'Watch + Premium Luxury Watch Box + Delivery Included'}
     ]
-  },
+},
   {
-    id:'r2', brand:'Royale Cartel', filter:'royale',
+    id:'r2',
+    brand:'Hublot',
+    filter:'hublot',
+
     badge:{text:'Classic', cls:'excl'},
-    name:'Royale Classic',
-    model:'Ref. RC-005 · Moonphase',
-    ref:'RC-005',
-    sub:'Swiss ETA · Moonphase Guilloché',
-    price:' 4699',
-    priceNum:128000,
-    photos:['royal-2.jpg','royal-3.jpg','royal-1.jpg'],
-    desc:'Timeless elegance distilled into pure form. The Royale Classic tracks lunar cycles with poetic accuracy via its guilloché-decorated moonphase complication — a dress watch of exceptional refinement.',
+
+    name:'Hublot Classic Fusion Orlinski',
+    model:'Hublot Classic Fusion Orlinski Titanium/Grey Edition',
+    ref:'HB-005',
+
+    sub:'Geometric Orlinski Design · Quartz Movement',
+
+    price:'PKR 3,999',
+    priceNum:3999,
+
+    photos:[
+      'Hublot1.png',
+      'Hublot2.png',
+      'Hublot3.png'
+    ],
+
+    desc:`The Hublot Classic Fusion Orlinski Edition is a bold fusion of modern art and luxury watchmaking. Featuring a faceted geometric case design inspired by Richard Orlinski, this timepiece delivers a powerful aesthetic with a dark grey skeleton-style dial and integrated sculpted bracelet.
+
+PACKAGE INCLUDES
+
+• Hublot Watch
+• Premium Luxury Watch Box
+• Delivery Charges Included`,
+
     specs:[
-      {k:'Movement',      v:'Swiss ETA 2824-2'},
-      {k:'Accuracy',      v:'±3 sec / day (Chronometer)'},
-      {k:'Dial Type',     v:'Guilloché with Moonphase'},
-      {k:'Case Material', v:'Polished 316L Steel'},
-      {k:'Strap',         v:'Crocodile Leather, Black'},
-      {k:'Glass',         v:'Flat Sapphire Crystal'},
-      {k:'Complications', v:'Moonphase, Date'},
-      {k:'Power Reserve', v:'38 Hours'},
-      {k:'Water Resist.', v:'30m'},
-      {k:'Case Size',     v:'40mm'},
-      {k:'Dial Color',    v:'Champagne / Silver'},
-      {k:'Clasp',         v:'Deployment Clasp, Steel'},
+      {k:'Brand',          v:'Hublot'},
+      {k:'Model',          v:'Classic Fusion Orlinski'},
+      {k:'Movement',       v:'Quartz Movement (Battery Operated)'},
+      {k:'Case Material',  v:'Stainless Steel / Titanium-Tone Alloy with Orlinski Faceted Cuts'},
+      {k:'Bracelet',       v:'Integrated Metal Bracelet with 3D Geometric Faceted Links'},
+      {k:'Dial',           v:'Dark Grey/Black Skeleton Chronograph Dial with Sub-Dials'},
+      {k:'Bezel',          v:'Dodecahedral (12-Sided) Bezel with H-Shaped Screws'},
+      {k:'Markers',        v:'Silver Baton Hour Markers'},
+      {k:'Display',        v:'Date Window at 6 o\'clock with Chronograph Sub-Dials'},
+      {k:'Glass',          v:'Scratch-Resistant Sapphire Crystal Glass'},
+      {k:'Water Resist.',  v:'Water Resistant'},
+      {k:'Style',          v:'Bold Avant-Garde Luxury & Modern Artistic Wear'},
+      {k:'Weight',         v:'Approx. 140–160 Grams'},
+      {k:'Package',        v:'Watch + Premium Luxury Watch Box + Delivery Included'}
     ]
-  },
+},
   {
-    id:'r3', brand:'Royale Cartel', filter:'royale',
+    id:'r3',
+    brand:'Hublot',
+    filter:'hublot',
+
     badge:{text:'Ultra Rare', cls:'rare'},
-    name:'The Dynasty Set',
-    model:'Ref. RC-004 · Collector Vault',
-    ref:'RC-004',
-    sub:'3-Watch Collector Edition in Mahogany Vault',
-    price:'CHF 380,000',
-    priceNum:380000,
-    photos:['royal-3.jpg','royal-1.jpg','royal-2.jpg'],
-    desc:'The Dynasty — three watches, one legacy. This collector set includes the Signature, the Classic, and a bespoke commission piece with royal crest engraving. Presented in a hand-crafted mahogany and gold vault.',
+
+    name:'Hublot Classic Fusion Orlinski Skeleton',
+    model:'Hublot Classic Fusion Orlinski Skeleton Brown/White Edition',
+    ref:'HB-004',
+
+    sub:'Collector Vault Edition · 3-Watch Set',
+
+    price:'PKR 3,999',
+    priceNum:3999,
+
+    photos:[
+      'Hublot4.png',
+      'Hublot5.png',
+      'Hublot6.png'
+    ],
+
+    desc:`The Dynasty Collector Set represents the peak of luxury watch collecting. This exclusive 3-piece vault includes signature Hublot-inspired designs housed in a handcrafted mahogany and gold presentation case. A true symbol of legacy, exclusivity, and royal craftsmanship.
+
+PACKAGE INCLUDES
+
+• 3 Luxury Timepieces
+• Premium Collector Vault
+• Delivery Charges Included`,
+
     specs:[
-      {k:'Pieces',        v:'3 Timepieces + Vault'},
-      {k:'Includes',      v:'Signature + Classic + Bespoke'},
-      {k:'Vault',         v:'Mahogany & 18K Gold Fittings'},
-      {k:'Engraving',     v:'Custom Royal Crest (all 3)'},
-      {k:'Certificate',   v:'Individual Provenance Documents'},
-      {k:'Edition',       v:'3 Complete Sets Worldwide'},
-      {k:'Delivery',      v:'White Glove, Fully Insured'},
-      {k:'Service',       v:'Lifetime Royal Guarantee'},
-      {k:'Insurance',     v:'Lloyds of London Coverage'},
-      {k:'Presentation',  v:'Private Ceremony Included'},
-      {k:'Packaging',     v:'Bespoke Leather Outer Case'},
-      {k:'Dedicated',     v:'Royal Advisor Assigned'},
+      {k:'Brand',          v:'Hublot'},
+      {k:'Model',          v:'Classic Fusion Orlinski'},
+      {k:'Movement',       v:'Quartz Movement (Battery Operated)'},
+      {k:'Case Material',  v:'Stainless Steel / Silver-Tone Alloy with Orlinski Faceted Cuts'},
+      {k:'Bracelet',       v:'Integrated Metal Bracelet with 3D Geometric Faceted Links'},
+      {k:'Dial',           v:'Maroon-Brown Skeleton Framework with White Textured Background & Sub-Dials'},
+      {k:'Bezel',          v:'Dodecahedral (12-Sided) Bezel with H-Shaped Screws'},
+      {k:'Markers',        v:'Silver Baton Hour Markers'},
+      {k:'Display',        v:'Date Window (4–5 o\'clock) with Chronograph Sub-Dials'},
+      {k:'Glass',          v:'Scratch-Resistant Sapphire Crystal Glass'},
+      {k:'Pieces',         v:'3 Watches (Collector Set)'},
+      {k:'Vault',          v:'Mahogany Wood with Gold Fittings'},
+      {k:'Edition',        v:'Ultra Limited – 3 Sets Worldwide'},
+      {k:'Service',        v:'Lifetime Royal Guarantee'},
+      {k:'Delivery',       v:'White Glove Insured Delivery'},
+      {k:'Package',        v:'3 Watches + Collector Vault + Delivery Included'}
     ]
-  },
+},
 ];
 
 /* ══ RENDER ══ */
@@ -2476,19 +2692,19 @@ body{background:var(--bk3);color:var(--wh2)}
   <div class="simg" id="storySlider">
     <div class="simg-slides" id="storySlides">
       <div class="simg-slide active">
-        <img src="royal-2.jpg" alt="Kansai Yamamoto Movement">
+        <img src="carusal-2.png" alt="Kansai Yamamoto Movement">
         <div class="simg-cap">Kansai Yamamoto · Automatic</div>
       </div>
       <div class="simg-slide">
-        <img src="royal-3.jpg" alt="Aqua Crown Seiko">
+        <img src="carusal-1.png" alt="Aqua Crown Seiko">
         <div class="simg-cap">Seiko · Teal Automatic</div>
       </div>
       <div class="simg-slide">
-        <img src="royal-1.jpg" alt="Royale Classic">
+        <img src="carusal-3.png" alt="Royale Classic">
         <div class="simg-cap">Royale Classic · Moonphase</div>
       </div>
       <div class="simg-slide">
-        <img src="royal-remove.png" alt="Royale Signature">
+        <img src="carusal-4.png" alt="Royale Signature">
         <div class="simg-cap">Royale Signature · Steel</div>
       </div>
     </div>
