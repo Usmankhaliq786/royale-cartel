@@ -685,32 +685,43 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
 <div id="cur"></div><div id="cur2"></div>
 <div class="toast" id="toast"></div>
 
-<!-- ═══════════ VIDEO INTRO ═══════════ -->
+
+<!-- ═══════════ INTRO — VIDEO ONLY (no logo) ═══════════ -->
 <div id="intro">
+
+  <!-- Full-screen background video -->
   <div id="vphase">
     <video id="ivid" autoplay muted playsinline preload="auto" loop>
-      <source src="royal-e-cartel.mp4" type="video/mp4">
+      <source src="Royel-cartel-video.mp4" type="video/mp4">
     </video>
-    <div class="vbrand">
-      <img src="remove-logo.png" alt="Royale Cartel">
-      <div class="vbrand-name">ROYALE CARTEL</div>
-      <div class="vbrand-sub">Haute Horlogerie · Geneva</div>
+
+    <!-- Dark overlay so text is readable over video -->
+    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.35) 0%,rgba(0,0,0,.15) 45%,rgba(0,0,0,.55) 100%);z-index:1;pointer-events:none"></div>
+
+    <!-- Brand text over video (no logo image) -->
+    <div class="vbrand" style="position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;pointer-events:none">
+      <div style="height:1px;width:clamp(50px,8vw,90px);background:linear-gradient(90deg,transparent,rgba(201,148,58,.7),transparent);margin-bottom:4px"></div>
+      <div class="vbrand-name" style="font-family:'Montserrat',system-ui,sans-serif;font-size:clamp(18px,4vw,38px);font-weight:700;letter-spacing:clamp(6px,2vw,16px);text-transform:uppercase;color:#fff;text-shadow:0 2px 20px rgba(0,0,0,.8)">ROYALE CARTEL</div>
+      <div class="vbrand-sub" style="font-family:'Inter',system-ui,sans-serif;font-size:clamp(10px,1.5vw,14px);font-weight:300;letter-spacing:clamp(3px,1.2vw,7px);color:rgba(201,148,58,.85);text-shadow:0 1px 10px rgba(0,0,0,.8)">Haute Horlogerie &nbsp;·&nbsp; Geneva</div>
+      <div style="height:1px;width:clamp(50px,8vw,90px);background:linear-gradient(90deg,transparent,rgba(201,148,58,.7),transparent);margin-top:4px"></div>
     </div>
-    <div class="iprog"><div class="iprogfill" id="ipf"></div></div>
+
+    <!-- Progress bar -->
+    <div class="iprog" style="position:absolute;bottom:0;left:0;right:0;height:2px;background:rgba(255,255,255,.08);z-index:3">
+      <div class="iprogfill" id="ipf" style="height:100%;width:0;background:linear-gradient(90deg,rgba(201,148,58,.5),rgba(232,192,96,.9),rgba(201,148,58,.5));transition:width .1s linear"></div>
+    </div>
   </div>
-  <div id="lsplash">
-    <img src="remove-logo.png" alt="Royale Cartel">
-    <div class="ls-line"></div>
-    <div class="ls-name">Royale Cartel</div>
-    <div class="ls-sub">Haute Horlogerie · Geneva</div>
-  </div>
-  <div class="corners">
+
+  <!-- Corner decorations -->
+  <div class="corners" style="position:absolute;inset:0;z-index:4;pointer-events:none">
     <div class="c tl"></div><div class="c tr"></div>
     <div class="c bl"></div><div class="c br"></div>
   </div>
-  <div class="ls-skip-hint">Tap anywhere to skip</div>
-</div>
 
+  <!-- Skip hint -->
+  <div class="ls-skip-hint" style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);z-index:5;font-family:'Montserrat',system-ui,sans-serif;font-size:10px;font-weight:400;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);opacity:0;animation:fadeIn .5s 1.5s forwards">Tap anywhere to skip</div>
+
+</div>
 <!-- ═══════════ VIDEO POPUP ═══════════ -->
 <div class="vpop" id="vpop">
   <div class="vpin">
@@ -809,12 +820,12 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
     <a href="https://www.instagram.com/royale_cartel1?utm_source=qr&igsh=NDRxbzBseTBkazJz" target="_blank" rel="noopener" class="ig" title="Instagram"><svg><use href="#ico-ig"/></svg></a>
     <a href="https://www.facebook.com/share/18osoDXftA/" target="_blank" rel="noopener" class="fb" title="Facebook"><svg><use href="#ico-fb"/></svg></a>
   </div>
-<button class="ham" id="ham"><span></span><span></span><span></span></button>
-  <a href="#contact" class="ncta"><span>Reserve a Viewing</span></a>
   <button class="ncart" onclick="openCart()" title="View Cart">
     <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
     <div class="cbadge" id="cbadge">0</div>
   </button>
+  <a href="#contact" class="ncta"><span>Reserve a Viewing</span></a>
+  <button class="ham" id="ham"><span></span><span></span><span></span></button>
 </nav>
 
 <div class="mov" id="mov"></div>
@@ -1255,17 +1266,109 @@ canvas#gc{
 </div></div>
 
 <!-- STATS -->
-<div class="stats">
-  <div class="sb" data-anim><span class="sv" data-count="184">0</span><span class="sl">Years of Heritage</span><p class="sd">Six generations of master watchmakers building upon each other.</p></div>
-  <div class="sb" data-anim><span class="sv" data-count="324">0</span><span class="sl">Components Per Piece</span><p class="sd">Every part individually hand-finished to mirror perfection.</p></div>
-  <div class="sb" data-anim><span class="sv" data-count="800">0</span><span class="sl">Hours of Craft</span><p class="sd">Each skeleton movement demands 800 hours of artisan work.</p></div>
-  <div class="sb" data-anim><span class="sv" data-count="12">0</span><span class="sl">Pieces Per Year</span><p class="sd">True rarity — the natural result of uncompromising standards.</p></div>
+<!-- ═══ GALAXY STATS SECTION — replace your existing .stats div ═══ -->
+<style>
+.gstats-wrap{position:relative;overflow:hidden;background:#000;width:100%}
+#gsc{position:absolute;inset:0;width:100%;height:100%;display:block}
+.gstats-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.18) 0%,rgba(0,0,0,.04) 40%,rgba(0,0,0,.04) 60%,rgba(0,0,0,.22) 100%);pointer-events:none}
+.gstats-grid{position:relative;z-index:2;display:grid;grid-template-columns:repeat(4,1fr);width:100%}
+.gsb{padding:clamp(32px,5vw,60px) clamp(14px,2vw,32px);text-align:center;border-right:1px solid rgba(201,148,58,.18);position:relative;transition:background .4s}
+.gsb:last-child{border-right:none}
+.gsb::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:linear-gradient(90deg,transparent,#C9943A,transparent);transition:width .7s cubic-bezier(.76,0,.24,1)}
+.gsb:hover::after{width:100%}
+.gsb:hover{background:rgba(201,148,58,.05)}
+.gsb::before{content:'';position:absolute;top:-1px;left:-1px;width:12px;height:12px;border-top:1px solid rgba(201,148,58,.4);border-left:1px solid rgba(201,148,58,.4);opacity:0;transition:opacity .4s}
+.gsb:hover::before{opacity:1}
+.gstats-line{position:relative;z-index:2;height:1px;background:linear-gradient(90deg,transparent,rgba(201,148,58,.35) 20%,rgba(232,192,96,.7) 50%,rgba(201,148,58,.35) 80%,transparent);box-shadow:0 0 14px rgba(201,148,58,.15)}
+.gsv{font-family:var(--f-head);font-size:clamp(30px,4vw,54px);font-weight:700;font-style:italic;color:#E8C060;line-height:1;margin-bottom:7px;display:block;text-shadow:0 0 30px rgba(201,148,58,.4)}
+.gsl{font-family:var(--f-label);font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--wh3);margin-bottom:8px;display:block}
+.gsd{font-family:var(--f-body);font-size:clamp(10px,1.1vw,12px);font-weight:300;line-height:1.75;color:rgba(154,146,137,.85)}
+@media(max-width:700px){
+  .gstats-grid{grid-template-columns:repeat(2,1fr)}
+  .gsb:nth-child(2){border-right:none}
+  .gsb:nth-child(3),.gsb:nth-child(4){border-top:1px solid rgba(201,148,58,.15)}
+  .gsb:nth-child(odd){border-right:1px solid rgba(201,148,58,.18)}
+}
+</style>
+
+<div class="gstats-wrap" id="gstatsWrap">
+  <canvas id="gsc"></canvas>
+  <div class="gstats-overlay"></div>
+  <div class="gstats-line"></div>
+  <div class="gstats-grid">
+    <div class="gsb">
+      <span class="gsv" data-target="50" data-suffix="+">0</span>
+      <span class="gsl">Years of Heritage</span>
+      <p class="gsd">Six generations of master watchmakers building upon each other.</p>
+    </div>
+    <div class="gsb">
+      <span class="gsv" data-target="324" data-suffix="">0</span>
+      <span class="gsl">Components Per Piece</span>
+      <p class="gsd">Every part individually hand-finished to mirror perfection.</p>
+    </div>
+    <div class="gsb">
+      <span class="gsv" data-target="800" data-suffix="h">0</span>
+      <span class="gsl">Hours of Craft</span>
+      <p class="gsd">Each skeleton movement demands 800 hours of artisan work.</p>
+    </div>
+    <div class="gsb">
+      <span class="gsv" data-target="12" data-suffix="">0</span>
+      <span class="gsl">Pieces Per Year</span>
+      <p class="gsd">True rarity — the natural result of uncompromising standards.</p>
+    </div>
+  </div>
+  <div class="gstats-line"></div>
 </div>
+
+<script>
+(function(){
+  const wrap=document.getElementById('gstatsWrap');
+  const cv=document.getElementById('gsc');
+  const ctx=cv.getContext('2d');
+  let W,H,stars=[],nebulas=[],dust=[],shootStar=null;
+  function resize(){W=cv.width=wrap.offsetWidth||window.innerWidth;H=cv.height=wrap.offsetHeight||260;buildNebulas();}
+  function buildStars(){stars=[];const n=Math.floor(W*H/1800);for(let i=0;i<n;i++){const d=Math.random();stars.push({x:Math.random()*W,y:Math.random()*H,r:d*2.2+.1,speed:d*.2+.018,b:Math.random()*.75+.25,tw:Math.random()*Math.PI*2,ts:Math.random()*.02+.005,gold:Math.random()>.82,cross:Math.random()>.9});}}
+  function buildNebulas(){nebulas=[{x:W*.1,y:H*.5,r:W*.28,c:'rgba(80,0,160,'},{x:W*.55,y:H*.3,r:W*.22,c:'rgba(0,30,150,'},{x:W*.85,y:H*.6,r:W*.2,c:'rgba(130,45,0,'},{x:W*.35,y:H*.8,r:W*.18,c:'rgba(40,0,110,'}];}
+  function buildDust(){dust=[];for(let i=0;i<40;i++)dust.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.1+.2,a:Math.random()*.06+.01,speed:Math.random()*.06+.008,gold:Math.random()>.65});}
+  function spawnShoot(){if(!shootStar&&Math.random()>.994){const a=(Math.random()*28+10)*Math.PI/180,spd=Math.random()*7+4;shootStar={x:Math.random()*W*.7,y:Math.random()*H*.4,vx:spd*Math.cos(a),vy:spd*Math.sin(a),len:Math.random()*100+50,life:1,fade:.02};}}
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    const bg=ctx.createRadialGradient(W*.5,H*.5,0,W*.5,H*.5,Math.max(W,H)*.75);bg.addColorStop(0,'#07001a');bg.addColorStop(.4,'#04000d');bg.addColorStop(1,'#000206');ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+    nebulas.forEach(n=>{const g=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r);g.addColorStop(0,n.c+'0.11)');g.addColorStop(.5,n.c+'0.04)');g.addColorStop(1,n.c+'0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fill();});
+    const mw=ctx.createLinearGradient(0,H*.25,W,H*.75);mw.addColorStop(0,'rgba(50,20,90,0)');mw.addColorStop(.5,'rgba(85,50,150,.08)');mw.addColorStop(1,'rgba(50,20,90,0)');ctx.fillStyle=mw;ctx.fillRect(0,0,W,H);
+    dust.forEach(d=>{d.y-=d.speed;if(d.y<-2){d.y=H+2;d.x=Math.random()*W}const rgb=d.gold?'201,148,58':'175,175,215';ctx.beginPath();ctx.arc(d.x,d.y,d.r,0,Math.PI*2);ctx.fillStyle=`rgba(${rgb},${d.a})`;ctx.fill();});
+    stars.forEach(s=>{s.tw+=s.ts;s.y-=s.speed;if(s.y<-4){s.y=H+4;s.x=Math.random()*W}
+      const glow=s.b*(0.6+0.4*Math.sin(s.tw)),rgb=s.gold?'201,148,58':'210,215,255';
+      const g=ctx.createRadialGradient(s.x,s.y,0,s.x,s.y,s.r*4.5);g.addColorStop(0,`rgba(${rgb},${glow*.7})`);g.addColorStop(.35,`rgba(${rgb},${glow*.12})`);g.addColorStop(1,`rgba(${rgb},0)`);ctx.beginPath();ctx.arc(s.x,s.y,s.r*4.5,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r*.55,0,Math.PI*2);ctx.fillStyle=`rgba(${rgb},${Math.min(glow*1.1,1)})`;ctx.fill();
+      if(s.cross&&s.r>1.3&&glow>.6){const len=s.r*5.5;ctx.save();ctx.strokeStyle=`rgba(${rgb},${glow*.22})`;ctx.lineWidth=.7;ctx.beginPath();ctx.moveTo(s.x-len,s.y);ctx.lineTo(s.x+len,s.y);ctx.stroke();ctx.beginPath();ctx.moveTo(s.x,s.y-len);ctx.lineTo(s.x,s.y+len);ctx.stroke();ctx.restore();}
+    });
+    spawnShoot();
+    if(shootStar){shootStar.x+=shootStar.vx;shootStar.y+=shootStar.vy;shootStar.life-=shootStar.fade;
+      if(shootStar.life>0){const hyp=Math.hypot(shootStar.vx,shootStar.vy),ex=shootStar.x-shootStar.vx*(shootStar.len/hyp),ey=shootStar.y-shootStar.vy*(shootStar.len/hyp);
+        const sg=ctx.createLinearGradient(ex,ey,shootStar.x,shootStar.y);sg.addColorStop(0,'rgba(255,255,255,0)');sg.addColorStop(.7,`rgba(255,238,185,${shootStar.life*.4})`);sg.addColorStop(1,`rgba(255,248,210,${shootStar.life})`);
+        ctx.save();ctx.strokeStyle=sg;ctx.lineWidth=1.5;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(ex,ey);ctx.lineTo(shootStar.x,shootStar.y);ctx.stroke();ctx.restore();}
+      else{shootStar=null;}}
+    requestAnimationFrame(draw);
+  }
+  resize();buildStars();buildDust();draw();
+  window.addEventListener('resize',()=>{resize();buildStars();buildDust();});
+  /* Count-up on scroll into view */
+  const nums=wrap.querySelectorAll('.gsv[data-target]');
+  let counted=false;
+  const io=new IntersectionObserver(entries=>{
+    if(counted||!entries[0].isIntersecting)return;
+    counted=true;
+    nums.forEach(el=>{const target=+el.dataset.target,suffix=el.dataset.suffix||'';let c=0,step=target/60;const t=setInterval(()=>{c=Math.min(c+step,target);el.textContent=Math.round(c)+suffix;if(c>=target)clearInterval(t);},16);});
+  },{threshold:.2});
+  io.observe(wrap);
+})();
+</script>
 
 <section class="hero" id="home">
   <div class="hero-video-wrap">
     <video autoplay muted playsinline loop preload="auto">
-      <source src="royal-cartel1.mp4" type="video/mp4">
+      <source src="Royel-cartel-video.mp4" type="video/mp4">
     </video>
   </div>
   <div class="hero-overlay"></div>
@@ -1279,10 +1382,10 @@ canvas#gc{
     <!-- <p class="hero-subtitle">
       Every second, a legacy. Hand-crafted skeleton movements that reveal the soul of timekeeping — gold, steel, and centuries of mastery.
     </p> -->
-    <div class="hero-btns">
+    <!-- <div class="hero-btns">
       <a href="#collection" class="btn-primary"><span>Explore Collection</span></a>
       <button class="btn-secondary" onclick="openVid()">▶ Watch Film</button>
-    </div>
+    </div> -->
   </div>
   <div class="hero-line"></div>
   <div class="hero-scroll">
@@ -2398,6 +2501,142 @@ PACKAGE INCLUDES
       {k:'Package',        v:'3 Watches + Collector Vault + Delivery Included'}
     ]
 },
+{
+    id:'r9',
+    brand:'CASIRUI',
+    filter:'casirui',
+
+    badge:{text:'Premium', cls:'rare'},
+
+    name:'CASIRUI Silver Skeleton Edition',
+    model:'CASIRUI Automatic Skeleton Series',
+    ref:'CS-005',
+
+    sub:'Silver Skeleton Edition · Fully Automatic',
+
+    price:'PKR 7,499',
+    priceNum:7499,
+
+    photos:[
+      'single-check1.png'
+    ],
+
+    desc:`The CASIRUI Silver Skeleton Edition is a bold fusion of luxury and modern engineering. Featuring a fully automatic movement, artistic open skeleton dial, and a premium stainless steel bracelet, this striking timepiece showcases its intricate mechanics while delivering exceptional everyday style.
+
+PACKAGE INCLUDES
+
+• CASIRUI Automatic Watch
+• Premium Luxury Watch Box
+• Delivery Charges Included`,
+
+    specs:[
+      {k:'Brand',          v:'CASIRUI'},
+      {k:'Model',          v:'Automatic Skeleton Series'},
+      {k:'Movement',       v:'Fully Automatic Movement'},
+      {k:'Case Material',  v:'Premium Stainless Steel (Silver Finish)'},
+      {k:'Dial',           v:'Artistic Skeleton Dial with Black Inner Detailing'},
+      {k:'Bezel',          v:'Distinctive Octagonal Design with Bolt Accents'},
+      {k:'Bracelet',       v:'Integrated Silver Stainless Steel Bracelet'},
+      {k:'Glass',          v:'Scratch-Resistant Mineral Crystal'},
+      {k:'Clasp',          v:'Fold-Over Safety Clasp'},
+      {k:'Water Resist.',  v:'Daily Splash Resistant'},
+      {k:'Style',          v:'Luxury Sport-Chic, Bold Statement Piece'},
+      {k:'Case Size',      v:'Approx. 41mm'},
+      {k:'Weight',         v:'Approx. 150 Grams'},
+      {k:'Package',        v:'Watch + Premium Luxury Watch Box + Delivery Included'}
+    ]
+},
+{
+    id:'r10',
+    brand:'CASIRUI',
+    filter:'casirui',
+
+    badge:{text:'Premium', cls:'rare'},
+
+    name:'CASIRUI Skeleton Masterpiece Edition',
+    model:'CASIRUI Skeleton Masterpiece Edition',
+    ref:'CS-006',
+
+    sub:'Full Skeleton Dial · Fully Automatic',
+
+    price:'PKR 7,499',
+    priceNum:7499,
+
+    photos:[
+      'single-check2.png'
+    ],
+
+    desc:`The CASIRUI Skeleton Masterpiece Edition is crafted for enthusiasts who appreciate the beauty of exposed mechanical engineering. Featuring a full skeleton dial, exhibition case back, and premium stainless steel construction, every movement of the automatic mechanism is visible, creating a bold luxury timepiece with exceptional craftsmanship.
+
+PACKAGE INCLUDES
+
+• CASIRUI Automatic Watch
+• Premium Luxury Watch Box
+• Delivery Charges Included`,
+
+    specs:[
+      {k:'Brand',          v:'CASIRUI'},
+      {k:'Model',          v:'Skeleton Masterpiece Edition'},
+      {k:'Movement',       v:'Fully Automatic Movement'},
+      {k:'Dial',           v:'Full Skeleton Dial (Exposed Mechanical Movement)'},
+      {k:'Case Back',      v:'Exhibition Skeleton Case Back (See-Through Design)'},
+      {k:'Case Material',  v:'High-Quality Stainless Steel with Fluted Bezel'},
+      {k:'Bracelet',       v:'Premium Stainless Steel Bracelet'},
+      {k:'Glass',          v:'Scratch-Resistant Mineral Crystal'},
+      {k:'Clasp',          v:'Fold-Over Safety Clasp'},
+      {k:'Water Resist.',  v:'Daily Splash Resistant'},
+      {k:'Style',          v:'Avant-Garde Luxury & Bold Mechanical Aesthetic'},
+      {k:'Case Size',      v:'Approx. 41mm'},
+      {k:'Weight',         v:'Approx. 150 Grams'},
+      {k:'Package',        v:'Watch + Premium Luxury Watch Box + Delivery Included'}
+    ]
+},
+{
+    id:'r11',
+    brand:'Rolex',
+    filter:'rolex',
+
+    badge:{text:'Sport Luxury', cls:'sig'},
+
+    name:'Rolex Cosmograph Premium Tourbillon Edition',
+    model:'Rolex Cosmograph Daytona Style',
+    ref:'RX-005',
+
+    sub:'Open-Heart Tourbillon Style · Semi-Automatic',
+
+    price:'PKR 4,999',
+    priceNum:4999,
+
+    photos:[
+      'single-check3.png'
+    ],
+
+    desc:`The Rolex Cosmograph Premium Tourbillon Edition blends motorsport heritage with modern mechanical artistry. Featuring a dynamic rotating open-heart dial, tachymeter bezel, and premium black rubber strap, this bold luxury timepiece is designed for those who appreciate performance, precision, and contemporary style.
+
+PACKAGE INCLUDES
+
+• Rolex Cosmograph Watch
+• Premium Luxury Watch Box
+• Delivery Charges Included`,
+
+    specs:[
+      {k:'Brand',          v:'Rolex'},
+      {k:'Model',          v:'Cosmograph Daytona Style'},
+      {k:'Movement',       v:'Semi-Automatic Movement'},
+      {k:'Dial Feature',   v:'Dynamic Rotation Dial (Open-Heart Tourbillon Style)'},
+      {k:'Case Material',  v:'High-Quality Stainless Steel with Polished Finish'},
+      {k:'Bezel',          v:'Tachymeter Scale Bezel'},
+      {k:'Strap',          v:'Premium Black Rubber Strap'},
+      {k:'Dial Color',     v:'Black Dial with Gold Sub-Dial Accents'},
+      {k:'Glass',          v:'Scratch-Resistant Mineral Crystal'},
+      {k:'Clasp',          v:'Deployment Buckle Clasp'},
+      {k:'Water Resist.',  v:'Daily Splash Resistant'},
+      {k:'Style',          v:'Sport-Luxury & High-End Executive Wear'},
+      {k:'Case Size',      v:'Approx. 40–42mm'},
+      {k:'Weight',         v:'Approx. 140–160 Grams'},
+      {k:'Package',        v:'Watch + Premium Luxury Watch Box + Delivery Included'}
+    ]
+},
 ];
 
 /* ══ RENDER ══ */
@@ -2543,7 +2782,7 @@ function openWatchModal(id) {
 
   // Actions
   document.getElementById('wmActions').innerHTML = `
-    <button class="wm-btn-cart" onclick="addToCart('${w.name.replace(/'/g,"\\'")}','${w.sub.replace(/'/g,"\\'")}','${w.price}',${w.priceNum},'${w.photos[0]}')">
+    <button class="wm-btn-cart" onclick="addToCart(activeWatch.name, activeWatch.sub, activeWatch.price, activeWatch.priceNum, activeWatch.photos[galIdx])">
       &#x2756; &nbsp; Add to Selection
     </button>
     <a href="https://wa.me/923030555566?text=Hello%20Royale%20Cartel%2C%20I%20am%20interested%20in%20the%20${encodeURIComponent(w.name)}%20(${encodeURIComponent(w.ref)})" target="_blank" rel="noopener" class="wm-btn-wa" title="Enquire on WhatsApp">
@@ -2820,7 +3059,7 @@ Built to withstand everyday splashes and active lifestyles.</p>
     <div class="tc" data-anim>
       <div class="tstars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
       <p class="tq">"Gifted the Lion's Crown to my son on his wedding day. The engraving, the weight, the movement — absolute perfection."</p>
-      <div class="tdiv"></div><div class="tname">Mr. James Harrington</div><div class="trole">Senior Partner, Harrington & Co. · London</div>
+      <div class="tdiv"></div><div class="tname">Mr. Imran Khan</div><div class="trole">Senior Partner, Harrington & Co. · Pakistan</div>
     </div>
   </div>
 </section>
