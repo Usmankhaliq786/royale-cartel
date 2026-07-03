@@ -21,10 +21,11 @@
   --ease:cubic-bezier(.76,0,.24,1);
   --ease2:cubic-bezier(.22,1,.36,1);
   --nh:72px;
-  /* FONTS */
   --f-head:'Playfair Display',Georgia,serif;
   --f-body:'Inter',system-ui,sans-serif;
   --f-label:'Montserrat',system-ui,sans-serif;
+  --glass:rgba(255,255,255,.03);
+  --glass-border:rgba(201,148,58,.15);
 }
 html{scroll-behavior:smooth;font-size:16px}
 body{font-family:var(--f-body);font-weight:300;background:var(--bk);color:var(--wh2);overflow-x:hidden;cursor:none}
@@ -50,100 +51,63 @@ body.hvr #cur2{width:48px;height:48px;border-color:var(--gold2)}
 ───────────────────────────────────── */
 #intro{position:fixed;inset:0;z-index:5000;background:#000;overflow:hidden;transition:opacity 1.2s var(--ease),transform 1.4s var(--ease)}
 #intro.out{opacity:0;pointer-events:none;transform:scale(1.03)}
-/* ── LOGO SPLASH (intro only) ── */
-#lsplash{
-  position:absolute;inset:0;z-index:3;background:#000;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:18px;cursor:pointer;
-}
-#lsplash img{
-  width:clamp(100px,18vw,160px);
-  filter:drop-shadow(0 0 30px rgba(201,148,58,.8));
-  opacity:0;
-  animation:splashImg 1s var(--ease2) .2s forwards, glowPulse 2.5s ease-in-out .5s infinite;
-}
-.ls-name{
-  font-family:var(--f-label);font-size:clamp(16px,3vw,30px);font-weight:700;
-  letter-spacing:clamp(5px,2vw,14px);text-transform:uppercase;color:var(--gold2);
-  opacity:0;animation:fadeUp .8s var(--ease2) .5s forwards;
-}
-.ls-sub{
-  font-family:var(--f-body);font-size:clamp(11px,1.4vw,14px);font-weight:300;
-  letter-spacing:clamp(2px,1vw,5px);color:rgba(201,148,58,.6);
-  opacity:0;animation:fadeUp .8s var(--ease2) .8s forwards;
-}
-.ls-line{
-  height:1px;width:0;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);
-  animation:lineExp .9s var(--ease2) .6s forwards;
-}
-/* Corner decorations */
 .corners .c{position:absolute;width:clamp(16px,2.8vw,28px);height:clamp(16px,2.8vw,28px)}
 .c.tl{top:clamp(12px,2vw,20px);left:clamp(12px,2vw,20px);border-top:2px solid rgba(201,148,58,.65);border-left:2px solid rgba(201,148,58,.65)}
 .c.tr{top:clamp(12px,2vw,20px);right:clamp(12px,2vw,20px);border-top:2px solid rgba(201,148,58,.65);border-right:2px solid rgba(201,148,58,.65)}
 .c.bl{bottom:clamp(12px,2vw,20px);left:clamp(12px,2vw,20px);border-bottom:2px solid rgba(201,148,58,.65);border-left:2px solid rgba(201,148,58,.65)}
 .c.br{bottom:clamp(12px,2vw,20px);right:clamp(12px,2vw,20px);border-bottom:2px solid rgba(201,148,58,.65);border-right:2px solid rgba(201,148,58,.65)}
-/* tiny tap-to-skip hint */
-.ls-skip-hint{
-  position:absolute;bottom:20px;
-  font-family:var(--f-label);font-size:10px;font-weight:400;letter-spacing:3px;
-  text-transform:uppercase;color:rgba(255,255,255,.3);
-  opacity:0;animation:fadeIn .5s 1.5s forwards;
-}
-@keyframes splashImg{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.ls-skip-hint{position:absolute;bottom:20px;font-family:var(--f-label);font-size:10px;font-weight:400;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);opacity:0;animation:fadeIn .5s 1.5s forwards}
 @keyframes fadeIn{to{opacity:1}}
-@keyframes lineExp{to{width:clamp(60px,11vw,120px)}}
 @keyframes glowPulse{0%,100%{filter:drop-shadow(0 0 16px rgba(201,148,58,.5))}50%{filter:drop-shadow(0 0 48px rgba(201,148,58,1)) drop-shadow(0 0 80px rgba(232,192,96,.4))}}
 
-/* ─────────────────────────────────────
-   SITE
-───────────────────────────────────── */
+/* SITE */
 #site{opacity:0;transition:opacity 1.1s var(--ease2)}
 #site.on{opacity:1}
 
 /* ─────────────────────────────────────
-   NAV
+   NAV — Enhanced
 ───────────────────────────────────── */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:500;
   height:var(--nh);padding:0 clamp(16px,4vw,56px);
   display:flex;align-items:center;justify-content:space-between;gap:12px;
-  transition:height .4s,background .5s,border-color .5s;
+  transition:height .4s,background .5s,border-color .5s,backdrop-filter .5s;
   border-bottom:1px solid transparent;
 }
-nav.sc{height:60px;background:rgba(5,5,5,.95);backdrop-filter:blur(20px);border-color:rgba(201,148,58,.12)}
+nav.sc{
+  height:60px;
+  background:rgba(5,5,5,.92);
+  backdrop-filter:blur(28px) saturate(1.4);
+  -webkit-backdrop-filter:blur(28px) saturate(1.4);
+  border-color:rgba(201,148,58,.14);
+  box-shadow:0 4px 40px rgba(0,0,0,.6);
+}
 .nlogo{display:flex;align-items:center;gap:10px;flex-shrink:0}
-.nlogo img{height:clamp(60px,4vw,44px);filter:drop-shadow(0 0 8px rgba(201,148,58,.4));transition:filter .3s}
+.nlogo img{height:clamp(40px,4vw,44px);filter:drop-shadow(0 0 8px rgba(201,148,58,.4));transition:filter .3s}
 .nlogo:hover img{filter:drop-shadow(0 0 20px rgba(201,148,58,.9))}
 .nlt .n1{font-family:var(--f-label);font-size:clamp(10px,1.3vw,13px);font-weight:700;letter-spacing:clamp(2px,.8vw,4px);color:var(--wh);text-transform:uppercase}
 .nlt .n2{font-family:var(--f-body);font-size:clamp(9px,.9vw,11px);font-weight:300;letter-spacing:2px;color:var(--gold);margin-top:1px}
-/* Nav links */
 .nlinks{display:flex;gap:clamp(16px,2.5vw,36px);list-style:none}
 .nlinks a{font-family:var(--f-label);font-size:clamp(10px,1vw,12px);font-weight:500;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.6);position:relative;transition:color .3s;padding-bottom:4px}
 .nlinks a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--gold);transition:width .4s var(--ease)}
 .nlinks a:hover{color:var(--gold2)}
 .nlinks a:hover::after{width:100%}
-/* Nav socials */
 .nsoc{display:flex;gap:6px}
 .nsoc a{width:30px;height:30px;border-radius:50%;border:1px solid rgba(201,148,58,.22);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.5);transition:all .3s;flex-shrink:0}
 .nsoc a svg{width:12px;height:12px;fill:currentColor}
 .nsoc a:hover{border-color:var(--gold);color:var(--gold)}
 .nsoc a.ig:hover{background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);border-color:transparent;color:#fff}
 .nsoc a.fb:hover{background:#1877F2;border-color:transparent;color:#fff}
-/* Cart */
 .ncart{width:38px;height:38px;border-radius:50%;border:1px solid rgba(201,148,58,.3);background:transparent;display:flex;align-items:center;justify-content:center;color:var(--gold);position:relative;transition:all .3s;flex-shrink:0}
 .ncart svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.5}
 .ncart:hover{background:rgba(201,148,58,.12);border-color:var(--gold)}
-.cbadge{position:absolute;top:-5px;right:-5px;width:18px;height:18px;background:linear-gradient(135deg,var(--gold4),var(--gold));border-radius:50%;font-family:var(--f-label);font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;color:var(--bk);opacity:0;transition:opacity .3s}
-.cbadge.show{opacity:1}
-/* Reserve button */
+.cbadge{position:absolute;top:-5px;right:-5px;width:18px;height:18px;background:linear-gradient(135deg,var(--gold4),var(--gold));border-radius:50%;font-family:var(--f-label);font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;color:var(--bk);opacity:0;transition:opacity .3s,transform .3s;transform:scale(0)}
+.cbadge.show{opacity:1;transform:scale(1)}
 .ncta{font-family:var(--f-label);font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;border:1px solid var(--gold4);padding:10px 22px;color:var(--gold);position:relative;overflow:hidden;transition:color .4s;flex-shrink:0;background:rgba(201,148,58,.04)}
 .ncta::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--gold4),var(--gold),var(--gold2));transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease)}
 .ncta:hover{color:var(--bk)}
 .ncta:hover::before{transform:scaleX(1)}
 .ncta span{position:relative;z-index:1}
-/* Hamburger */
 .ham{display:none;flex-direction:column;gap:5px;background:transparent;border:none;padding:6px}
 .ham span{display:block;width:22px;height:1.5px;background:var(--gold);transition:transform .4s var(--ease),opacity .3s}
 .ham.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
@@ -152,16 +116,13 @@ nav.sc{height:60px;background:rgba(5,5,5,.95);backdrop-filter:blur(20px);border-
 @media(max-width:900px){
   .nlinks,.ncta,.nsoc{display:none}
   .ham{display:flex}
-  /* Mobile: cart-left | logo-center | hamburger-right */
   nav{display:grid;grid-template-columns:auto 1fr auto;align-items:center;padding:0 clamp(14px,4vw,24px)}
   .ncart{order:0;grid-column:1}
   .nlogo{order:1;grid-column:2;justify-self:center}
   .ham{order:2;grid-column:3;justify-self:end}
-  /* Hide text next to logo on mobile, show only image */
   .nlt{display:none}
 }
-/* Mobile drawer */
-.mdr{position:fixed;top:50px;right:-100%;width:min(290px,80vw);height:100vh;background:rgba(5,5,5,.98);backdrop-filter:blur(20px);border-left:1px solid rgba(201,148,58,.15);z-index:499;padding:calc(var(--nh)+24px) 28px 40px;display:flex;flex-direction:column;transition:right .45s var(--ease)}
+.mdr{position:fixed;top:0;right:-100%;width:min(300px,82vw);height:100vh;background:rgba(5,5,5,.98);backdrop-filter:blur(28px);border-left:1px solid rgba(201,148,58,.15);z-index:499;padding:calc(var(--nh)+32px) 28px 40px;display:flex;flex-direction:column;transition:right .45s var(--ease);box-shadow:-20px 0 60px rgba(0,0,0,.8)}
 .mdr.open{right:0}
 .mdr a{font-family:var(--f-label);font-size:13px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.55);padding:16px 0;border-bottom:1px solid rgba(201,148,58,.07);transition:color .3s;display:block}
 .mdr a:hover{color:var(--gold2)}
@@ -175,110 +136,37 @@ nav.sc{height:60px;background:rgba(5,5,5,.95);backdrop-filter:blur(20px);border-
 .mdr-soc a.wa:hover{background:linear-gradient(135deg,#25D366,#128C7E);border-color:transparent;color:#fff}
 .mov{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:498;display:none}
 .mov.open{display:block}
+
 /* ─────────────────────────────────────
-   HERO — FULLSCREEN VIDEO
+   HERO
 ───────────────────────────────────── */
-.hero{
-  position:relative;height:100vh;min-height:600px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  overflow:hidden;z-index:1;
-}
-/* The video background */
+.hero{position:relative;height:100vh;min-height:600px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;z-index:1}
 .hero-video-wrap{position:absolute;inset:0;z-index:0}
 .hero-video-wrap video{width:100%;height:100%;object-fit:cover;display:block}
-/* Dark overlay so text is readable */
-.hero-overlay{
-  position:absolute;inset:0;z-index:1;
-  background:linear-gradient(
-    to bottom,
-    rgba(0,0,0,.55) 0%,
-    rgba(0,0,0,.35) 40%,
-    rgba(0,0,0,.45) 70%,
-    rgba(0,0,0,.75) 100%
-  );
-}
-/* Gold scan line */
+.hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,rgba(0,0,0,.55) 0%,rgba(0,0,0,.35) 40%,rgba(0,0,0,.45) 70%,rgba(0,0,0,.75) 100%)}
 .hero-scan{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden}
 .hero-scan::after{content:'';position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,148,58,.2),transparent);animation:scanLine 5s ease-in-out infinite;top:-1px}
-/* Hero content */
-.hero-content{
-  position:relative;z-index:3;text-align:center;
-  padding:var(--nh) clamp(20px,5vw,60px) 0;
-  max-width:900px;
-  opacity:0;animation:heroIn 1.2s var(--ease2) .3s forwards;
-}
-.hero-badge{
-  display:inline-flex;align-items:center;gap:12px;
-  background:rgba(201,148,58,.12);border:1px solid rgba(201,148,58,.3);
-  padding:8px 20px;margin-bottom:28px;
-  font-family:var(--f-label);font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--gold2);
-}
-.hero-badge::before,.hero-badge::after{content:'✦';font-size:8px}
-.hero-title{
-  font-family:var(--f-head);font-size:clamp(36px,7vw,96px);font-weight:700;
-  line-height:1.05;color:var(--wh);
-  margin-bottom:20px;
-  text-shadow:0 2px 30px rgba(0,0,0,.8);
-}
-.hero-title .gold-text{color:var(--gold2);font-style:italic}
-.hero-subtitle{
-  font-family:var(--f-body);font-size:clamp(14px,1.8vw,20px);font-weight:300;
-  color:rgba(255,255,255,.8);letter-spacing:1px;line-height:1.6;
-  margin-bottom:40px;max-width:600px;margin-left:auto;margin-right:auto;
-  text-shadow:0 1px 12px rgba(0,0,0,.8);
-}
-.hero-btns{display:flex;gap:16px;align-items:center;justify-content:center;flex-wrap:wrap}
-/* Gold bottom line */
-.hero-line{
-  position:absolute;bottom:0;left:0;right:0;height:2px;z-index:3;
-  background:linear-gradient(90deg,transparent,rgba(201,148,58,.5) 30%,rgba(232,192,96,.9) 50%,rgba(201,148,58,.5) 70%,transparent);
-  box-shadow:0 0 30px rgba(201,148,58,.3);
-}
-/* Scroll indicator */
-.hero-scroll{
-  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
-  z-index:3;display:flex;flex-direction:column;align-items:center;gap:8px;
-  opacity:0;animation:fadeIn .8s 1.5s forwards;
-}
+.hero-content{position:relative;z-index:3;text-align:center;padding:var(--nh) clamp(20px,5vw,60px) 0;max-width:900px;opacity:0;animation:heroIn 1.2s var(--ease2) .3s forwards}
+.hero-line{position:absolute;bottom:0;left:0;right:0;height:2px;z-index:3;background:linear-gradient(90deg,transparent,rgba(201,148,58,.5) 30%,rgba(232,192,96,.9) 50%,rgba(201,148,58,.5) 70%,transparent);box-shadow:0 0 30px rgba(201,148,58,.3)}
+.hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeIn .8s 1.5s forwards}
 .hero-scroll span{font-family:var(--f-label);font-size:10px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.5)}
 .scroll-bar{width:1px;height:36px;background:rgba(201,148,58,.2);position:relative;overflow:hidden}
 .scroll-bar::after{content:'';position:absolute;top:-100%;left:0;width:100%;height:100%;background:linear-gradient(to bottom,transparent,var(--gold));animation:scrollDrop 2s ease-in-out infinite 1.5s}
 
 /* ─────────────────────────────────────
-   BUTTONS (shared)
+   BUTTONS
 ───────────────────────────────────── */
-.btn-primary{
-  font-family:var(--f-label);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
-  padding:clamp(13px,1.8vw,16px) clamp(24px,3.5vw,44px);
-  background:linear-gradient(135deg,var(--gold4),var(--gold),var(--gold2));
-  color:var(--bk);border:none;position:relative;overflow:hidden;
-  transition:transform .3s var(--ease),box-shadow .3s;
-  box-shadow:0 6px 28px rgba(201,148,58,.3);display:inline-block;
-}
+.btn-primary{font-family:var(--f-label);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:clamp(13px,1.8vw,16px) clamp(24px,3.5vw,44px);background:linear-gradient(135deg,var(--gold4),var(--gold),var(--gold2));color:var(--bk);border:none;position:relative;overflow:hidden;transition:transform .3s var(--ease),box-shadow .3s;box-shadow:0 6px 28px rgba(201,148,58,.3);display:inline-block}
 .btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--gold2),var(--gold3),var(--gold5));opacity:0;transition:opacity .4s}
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(201,148,58,.5)}
 .btn-primary:hover::before{opacity:1}
 .btn-primary span{position:relative;z-index:1}
-.btn-secondary{
-  font-family:var(--f-label);font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
-  padding:clamp(12px,1.8vw,15px) clamp(20px,3vw,36px);
-  border:1.5px solid rgba(255,255,255,.4);color:rgba(255,255,255,.9);
-  background:rgba(255,255,255,.06);transition:all .35s;display:inline-block;
-}
+.btn-secondary{font-family:var(--f-label);font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:clamp(12px,1.8vw,15px) clamp(20px,3vw,36px);border:1.5px solid rgba(255,255,255,.4);color:rgba(255,255,255,.9);background:rgba(255,255,255,.06);transition:all .35s;display:inline-block}
 .btn-secondary:hover{border-color:var(--gold2);background:rgba(201,148,58,.1);color:var(--gold2)}
-.btn-outline{
-  font-family:var(--f-label);font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
-  padding:10px 22px;border:1.5px solid rgba(201,148,58,.45);color:var(--gold);
-  background:transparent;transition:all .35s;display:inline-flex;align-items:center;gap:7px;
-}
+.btn-outline{font-family:var(--f-label);font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:10px 22px;border:1.5px solid rgba(201,148,58,.45);color:var(--gold);background:transparent;transition:all .35s;display:inline-flex;align-items:center;gap:7px}
 .btn-outline svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.5}
 .btn-outline:hover{background:var(--gold);color:var(--bk);border-color:var(--gold)}
-/* Add to cart */
-.btn-cart{
-  font-family:var(--f-label);font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
-  padding:11px 20px;border:1.5px solid rgba(201,148,58,.4);color:var(--gold);
-  background:transparent;transition:all .35s;display:inline-flex;align-items:center;gap:7px;width:100%;justify-content:center;
-}
+.btn-cart{font-family:var(--f-label);font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:11px 20px;border:1.5px solid rgba(201,148,58,.4);color:var(--gold);background:transparent;transition:all .35s;display:inline-flex;align-items:center;gap:7px;width:100%;justify-content:center}
 .btn-cart svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.5}
 .btn-cart:hover{background:var(--gold);color:var(--bk);border-color:var(--gold)}
 
@@ -307,54 +195,69 @@ nav.sc{height:60px;background:rgba(5,5,5,.95);backdrop-filter:blur(20px);border-
 /* ─────────────────────────────────────
    SECTION SHARED
 ───────────────────────────────────── */
-.section-label{
-  font-family:var(--f-label);font-size:11px;font-weight:600;letter-spacing:5px;
-  text-transform:uppercase;color:var(--gold);margin-bottom:12px;
-  display:flex;align-items:center;gap:14px;
-}
+.section-label{font-family:var(--f-label);font-size:11px;font-weight:600;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:14px}
 .section-label::before,.section-label::after{content:'';height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
 .section-label.center{justify-content:center}
 .section-label.center::before,.section-label.center::after{flex:0 0 clamp(20px,4vw,40px)}
 .section-label.left::before{display:none}
 .section-label.left::after{flex:0 0 36px}
-.section-h2{
-  font-family:var(--f-head);font-size:clamp(28px,4.5vw,56px);font-weight:700;
-  color:var(--wh);line-height:1.15;margin-bottom:14px;
-}
+.section-h2{font-family:var(--f-head);font-size:clamp(28px,4.5vw,56px);font-weight:700;color:var(--wh);line-height:1.15;margin-bottom:14px}
 .section-h2 em{font-style:italic;color:var(--gold2)}
 .section-sub{font-family:var(--f-body);font-size:clamp(14px,1.5vw,17px);font-weight:300;color:var(--gr);line-height:1.7}
-/* Section header block */
 .sec-hd{opacity:0;transform:translateY(20px);transition:all .8s var(--ease2)}
 .sec-hd.vis{opacity:1;transform:translateY(0)}
 
 /* ─────────────────────────────────────
-   STATS
+   GALAXY STATS
 ───────────────────────────────────── */
-.stats{position:relative;z-index:2;display:grid;grid-template-columns:repeat(4,1fr);background:var(--bk2)}
-.sb{padding:clamp(36px,5vw,64px) clamp(16px,2.5vw,36px);border-right:1px solid rgba(201,148,58,.08);text-align:center;opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease2),transform .7s var(--ease2);position:relative}
-.sb:last-child{border-right:none}
-.sb.vis{opacity:1;transform:translateY(0)}
-.sb:nth-child(2).vis{transition-delay:.1s}.sb:nth-child(3).vis{transition-delay:.2s}.sb:nth-child(4).vis{transition-delay:.3s}
-.sb::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);transition:width .7s var(--ease)}
-.sb:hover::after{width:100%}
-.sv{font-family:var(--f-head);font-size:clamp(32px,4vw,58px);font-weight:700;font-style:italic;color:var(--gold);line-height:1;margin-bottom:8px;display:block}
-.sl{font-family:var(--f-label);font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--wh3)}
-.sd{font-family:var(--f-body);font-size:clamp(11px,1.2vw,13px);color:var(--gr);margin-top:8px;line-height:1.7}
+.gstats-wrap{position:relative;overflow:hidden;background:#000;width:100%}
+#gsc{position:absolute;inset:0;width:100%;height:100%;display:block}
+.gstats-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.18) 0%,rgba(0,0,0,.04) 40%,rgba(0,0,0,.04) 60%,rgba(0,0,0,.22) 100%);pointer-events:none}
+.gstats-grid{position:relative;z-index:2;display:grid;grid-template-columns:repeat(4,1fr);width:100%}
+.gsb{padding:clamp(32px,5vw,60px) clamp(14px,2vw,32px);text-align:center;border-right:1px solid rgba(201,148,58,.18);position:relative;transition:background .4s}
+.gsb:last-child{border-right:none}
+.gsb::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:linear-gradient(90deg,transparent,#C9943A,transparent);transition:width .7s cubic-bezier(.76,0,.24,1)}
+.gsb:hover::after{width:100%}
+.gsb:hover{background:rgba(201,148,58,.05)}
+.gstats-line{position:relative;z-index:2;height:1px;background:linear-gradient(90deg,transparent,rgba(201,148,58,.35) 20%,rgba(232,192,96,.7) 50%,rgba(201,148,58,.35) 80%,transparent);box-shadow:0 0 14px rgba(201,148,58,.15)}
+.gsv{font-family:var(--f-head);font-size:clamp(30px,4vw,54px);font-weight:700;font-style:italic;color:#E8C060;line-height:1;margin-bottom:7px;display:block;text-shadow:0 0 30px rgba(201,148,58,.4)}
+.gsl{font-family:var(--f-label);font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--wh3);margin-bottom:8px;display:block}
+.gsd{font-family:var(--f-body);font-size:clamp(10px,1.1vw,12px);font-weight:300;line-height:1.75;color:rgba(154,146,137,.85)}
 @media(max-width:700px){
-  .stats{grid-template-columns:repeat(2,1fr)}
-  .sb:nth-child(2){border-right:none}
-  .sb:nth-child(3),.sb:nth-child(4){border-top:1px solid rgba(201,148,58,.08)}
-  .sb:nth-child(odd){border-right:1px solid rgba(201,148,58,.08)}
+  .gstats-grid{grid-template-columns:repeat(2,1fr)}
+  .gsb:nth-child(2){border-right:none}
+  .gsb:nth-child(3),.gsb:nth-child(4){border-top:1px solid rgba(201,148,58,.15)}
+  .gsb:nth-child(odd){border-right:1px solid rgba(201,148,58,.18)}
 }
 
 /* ─────────────────────────────────────
-   COLLECTION — 3 PANEL
+   GALAXY HERO
+───────────────────────────────────── */
+.galaxy-hero{position:relative;width:100%;height:100vh;min-height:560px;max-height:700px;overflow:hidden;background:#000;display:flex;align-items:center;justify-content:center}
+canvas#gc{position:absolute;inset:0;width:100%;height:100%;display:block}
+.gh-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.25) 0%,rgba(0,0,0,.05) 35%,rgba(0,0,0,.1) 65%,rgba(0,0,0,.65) 100%);z-index:1;pointer-events:none}
+.gh-content{position:relative;z-index:2;text-align:center;padding:0 clamp(20px,5vw,60px);max-width:860px;width:100%}
+.gh-title{font-family:var(--f-head);font-weight:700;font-size:clamp(32px,6.5vw,80px);line-height:1.08;color:#fff;margin-bottom:18px;text-shadow:0 2px 40px rgba(0,0,0,.9);letter-spacing:-0.5px}
+.gh-title em{font-style:italic;color:var(--gold2)}
+.gh-line-bottom{position:absolute;bottom:0;left:0;right:0;height:2px;z-index:3;background:linear-gradient(90deg,transparent 0%,rgba(201,148,58,.4) 25%,rgba(232,192,96,.85) 50%,rgba(201,148,58,.4) 75%,transparent 100%)}
+.gh-scroll{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:.7}
+.gh-scroll span{font-family:var(--f-label);font-size:9px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.gh-scroll-bar{width:1px;height:32px;background:rgba(201,148,58,.25);position:relative;overflow:hidden}
+.gh-scroll-bar::after{content:'';position:absolute;top:-100%;left:0;width:100%;height:100%;background:linear-gradient(to bottom,transparent,var(--gold));animation:sdrop 2s ease-in-out infinite}
+.gh-stats{position:absolute;bottom:70px;left:50%;transform:translateX(-50%);z-index:3;display:flex;gap:clamp(24px,5vw,60px);align-items:center}
+.gh-stat{text-align:center}
+.gh-stat-val{font-family:var(--f-head);font-size:clamp(20px,3vw,30px);font-weight:700;font-style:italic;color:var(--gold);display:block;line-height:1;margin-bottom:4px}
+.gh-stat-lbl{font-family:var(--f-label);font-size:clamp(7px,1vw,9px);font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.45)}
+.gh-stat-div{width:1px;height:36px;background:rgba(201,148,58,.2)}
+
+/* ─────────────────────────────────────
+   COLLECTION
 ───────────────────────────────────── */
 .cols{position:relative;z-index:2;padding:clamp(60px,8vw,120px) clamp(16px,4.5vw,60px);background:var(--bk3)}
 .col-hd{text-align:center;margin-bottom:clamp(48px,6vw,80px)}
 .col-grid{display:grid;grid-template-columns:1fr 1.6fr 1fr;gap:clamp(14px,2vw,24px);align-items:center}
-/* Side dial card */
-.dial-card{background:var(--bk2);border:1px solid rgba(201,148,58,.14);padding:clamp(16px,2.5vw,28px);position:relative;opacity:0;transform:translateX(-24px);transition:opacity .8s var(--ease2),transform .8s var(--ease2)}
+.dial-card{background:var(--bk2);border:1px solid rgba(201,148,58,.14);padding:clamp(16px,2.5vw,28px);position:relative;opacity:0;transform:translateX(-24px);transition:opacity .8s var(--ease2),transform .8s var(--ease2),border-color .3s,box-shadow .3s}
+.dial-card:hover{border-color:rgba(201,148,58,.35);box-shadow:0 10px 40px rgba(0,0,0,.5)}
 .dial-card.right{transform:translateX(24px)}
 .dial-card.vis{opacity:1;transform:translateX(0)}
 .dial-card::before{content:'';position:absolute;top:-1px;left:-1px;width:14px;height:14px;border-top:2px solid var(--gold);border-left:2px solid var(--gold)}
@@ -366,7 +269,6 @@ nav.sc{height:60px;background:rgba(5,5,5,.95);backdrop-filter:blur(20px);border-
 .dial-name{font-family:var(--f-label);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);text-align:center;margin-bottom:4px}
 .dial-sub{font-family:var(--f-body);font-size:13px;font-weight:300;color:var(--gr);text-align:center;font-style:italic}
 .dial-price{font-family:var(--f-head);font-size:20px;font-weight:700;font-style:italic;color:var(--gold);text-align:center;margin:10px 0 14px}
-/* Center hero watch */
 .center-card{display:flex;flex-direction:column;align-items:center;gap:clamp(16px,2.5vw,28px);opacity:0;transform:translateY(24px);transition:opacity .9s var(--ease2) .1s,transform .9s var(--ease2) .1s}
 .center-card.vis{opacity:1;transform:translateY(0)}
 .center-img-wrap{position:relative;width:100%;display:flex;align-items:center;justify-content:center;padding:20px}
@@ -386,37 +288,22 @@ nav.sc{height:60px;background:rgba(5,5,5,.95);backdrop-filter:blur(20px);border-
 @media(max-width:680px){.col-grid{grid-template-columns:1fr}.dial-card,.dial-card.right{transform:translateX(0)!important}}
 
 /* ─────────────────────────────────────
-   HORIZONTAL SCROLL WATCHES
-───────────────────────────────────── */
-.ws{position:relative;z-index:2;padding:clamp(60px,8vw,120px) 0 clamp(60px,8vw,120px) clamp(16px,4.5vw,60px);background:var(--bk4)}
-.ws-hd{padding-right:clamp(16px,4.5vw,60px);margin-bottom:clamp(36px,5vw,60px)}
-.wscr{display:flex;gap:3px;overflow-x:auto;scrollbar-width:none;cursor:grab;padding-right:clamp(16px,4.5vw,60px)}
-.wscr::-webkit-scrollbar{display:none}
-.wscr:active{cursor:grabbing}
-.wc{flex:0 0 clamp(230px,27vw,330px);height:clamp(360px,48vw,500px);position:relative;overflow:hidden;opacity:0;transform:translateY(20px);transition:flex .7s var(--ease),opacity .7s var(--ease2),transform .7s var(--ease2)}
-.wc.vis{opacity:1;transform:translateY(0)}
-.wc:nth-child(2).vis{transition-delay:.1s}.wc:nth-child(3).vis{transition-delay:.2s}.wc:nth-child(4).vis{transition-delay:.3s}
-.wc:hover{flex:0 0 clamp(320px,37vw,460px)}
-.wc img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease),filter .5s;filter:grayscale(10%) brightness(.85)}
-.wc:hover img{transform:scale(1.06);filter:grayscale(0%) brightness(1)}
-.wov{position:absolute;inset:0;background:linear-gradient(180deg,transparent 20%,rgba(0,0,0,.55) 55%,rgba(0,0,0,.97) 100%)}
-.wnum{font-family:var(--f-head);font-size:clamp(52px,7vw,80px);font-weight:700;font-style:italic;color:rgba(201,148,58,.07);line-height:1;position:absolute;top:12px;right:14px;transition:color .4s}
-.wc:hover .wnum{color:rgba(201,148,58,.18)}
-.wbody{position:absolute;bottom:0;left:0;right:0;padding:clamp(18px,2.5vw,28px)}
-.wref{font-family:var(--f-label);font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
-.wname{font-family:var(--f-head);font-size:clamp(18px,2.5vw,26px);font-weight:700;font-style:italic;color:var(--wh);line-height:1.2;margin-bottom:4px}
-.wsubr{font-family:var(--f-body);font-size:12px;font-weight:300;color:var(--gr);margin-bottom:12px;font-style:italic}
-.wbot{display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(201,148,58,.12);padding-top:12px;gap:10px;flex-wrap:wrap}
-.wpri{font-family:var(--f-head);font-size:clamp(16px,2vw,20px);font-weight:700;font-style:italic;color:var(--gold)}
-
-/* ─────────────────────────────────────
    STORY / CRAFT
 ───────────────────────────────────── */
 .story{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;min-height:clamp(500px,80vh,860px)}
 .simg{position:relative;overflow:hidden;min-height:320px}
-.simg img{width:100%;height:100%;object-fit:cover;filter:grayscale(8%) brightness(.75);transform:scale(1.06)}
-.simgov{position:absolute;inset:0;background:linear-gradient(90deg,transparent 45%,var(--bk3) 100%)}
-.simg::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);animation:scanLine 4s ease-in-out infinite;opacity:.4}
+.simg-slides{position:absolute;inset:0;display:flex;transition:transform .9s cubic-bezier(.76,0,.24,1)}
+.simg-slide{flex:0 0 100%;position:relative;overflow:hidden}
+.simg-slide img{width:100%;height:100%;object-fit:cover;filter:grayscale(8%) brightness(.75);display:block;transform:scale(1.08);transition:transform 6s linear}
+.simg-slide.active img{transform:scale(1.0)}
+.simgov{position:absolute;inset:0;background:linear-gradient(90deg,transparent 45%,var(--bk3) 100%);z-index:1}
+.simg::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;z-index:2;background:linear-gradient(90deg,transparent,var(--gold),transparent);animation:scanLine 4s ease-in-out infinite;opacity:.4}
+.simg-dots{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:7px;z-index:3}
+.simg-dot{width:22px;height:2px;background:rgba(201,148,58,.25);border:none;padding:0;cursor:pointer;transition:background .4s,width .4s}
+.simg-dot.on{background:var(--gold);width:36px}
+.simg-prev,.simg-next{position:absolute;top:50%;transform:translateY(-50%);z-index:3;background:rgba(0,0,0,.45);border:1px solid rgba(201,148,58,.3);color:var(--gold);width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:background .3s,border-color .3s}
+.simg-prev{left:14px}.simg-next{right:14px}
+.simg-prev:hover,.simg-next:hover{background:rgba(201,148,58,.18);border-color:var(--gold)}
 .scnt{padding:clamp(48px,6vw,96px) clamp(24px,5vw,76px);background:var(--bk3);display:flex;flex-direction:column;justify-content:center;opacity:0;transform:translateX(24px);transition:opacity .9s var(--ease2),transform .9s var(--ease2)}
 .scnt.vis{opacity:1;transform:translateX(0)}
 .silist{display:flex;flex-direction:column;gap:clamp(24px,3vw,40px);margin-top:clamp(32px,4vw,48px)}
@@ -436,7 +323,8 @@ nav.sc{height:60px;background:rgba(5,5,5,.95);backdrop-filter:blur(20px);border-
 .tst{position:relative;z-index:2;padding:clamp(60px,8vw,120px) clamp(16px,4.5vw,60px);background:var(--bk2)}
 .tst::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 60% at 50% 50%,rgba(201,148,58,.04) 0%,transparent 60%)}
 .tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2.5vw,28px);margin-top:clamp(40px,5vw,60px)}
-.tc{border:1px solid rgba(201,148,58,.1);padding:clamp(24px,3vw,40px);background:var(--bk3);position:relative;opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease2),transform .7s var(--ease2)}
+.tc{border:1px solid rgba(201,148,58,.1);padding:clamp(24px,3vw,40px);background:var(--bk3);position:relative;opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease2),transform .7s var(--ease2),border-color .3s}
+.tc:hover{border-color:rgba(201,148,58,.3)}
 .tc.vis{opacity:1;transform:translateY(0)}.tc:nth-child(2).vis{transition-delay:.1s}.tc:nth-child(3).vis{transition-delay:.2s}
 .tc::before{content:'';position:absolute;top:-1px;left:-1px;width:16px;height:16px;border-top:2px solid var(--gold);border-left:2px solid var(--gold)}
 .tc::after{content:'';position:absolute;bottom:-1px;right:-1px;width:16px;height:16px;border-bottom:2px solid var(--gold);border-right:2px solid var(--gold)}
@@ -453,7 +341,7 @@ nav.sc{height:60px;background:rgba(5,5,5,.95);backdrop-filter:blur(20px);border-
 ───────────────────────────────────── */
 .qts{position:relative;z-index:2;padding:clamp(80px,10vw,160px) clamp(16px,4.5vw,60px);text-align:center;background:var(--bk3);overflow:hidden}
 .qts::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 70% at 50% 50%,rgba(201,148,58,.05) 0%,transparent 60%)}
-.q-icon{font-family:var(--f-head);font-size:clamp(60px,10vw,120px);font-weight:700;font-style:italic;color:rgba(201,148,58,.12);line-height:1;margin-bottom:0px}
+.q-icon{font-family:var(--f-head);font-size:clamp(60px,10vw,120px);font-weight:700;font-style:italic;color:rgba(201,148,58,.12);line-height:1}
 .q-text{font-family:var(--f-head);font-size:clamp(20px,3vw,40px);font-weight:400;font-style:italic;line-height:1.65;color:var(--wh2);max-width:860px;margin:0 auto 32px;opacity:0;transform:translateY(20px);transition:opacity 1.1s var(--ease2),transform 1.1s var(--ease2)}
 .q-text.vis{opacity:1;transform:translateY(0)}
 .q-attr{font-family:var(--f-label);font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--gold);opacity:0;transition:opacity .9s var(--ease2) .3s}
@@ -496,7 +384,6 @@ nav.sc{height:60px;background:rgba(5,5,5,.95);backdrop-filter:blur(20px);border-
 .csocico.ig:hover{background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);border-color:transparent;color:#fff}
 .csocico.fb:hover{background:#1877F2;border-color:transparent;color:#fff}
 .csocico.wa:hover{background:linear-gradient(135deg,#25D366,#128C7E);border-color:transparent;color:#fff}
-/* Form */
 .ctcform{display:flex;flex-direction:column;gap:14px;opacity:0;transform:translateX(22px);transition:opacity .9s var(--ease2),transform .9s var(--ease2)}
 .ctcform.vis{opacity:1;transform:translateX(0)}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -529,7 +416,7 @@ nav.sc{height:60px;background:rgba(5,5,5,.95);backdrop-filter:blur(20px);border-
 ───────────────────────────────────── */
 footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,80px) clamp(16px,4.5vw,60px) clamp(24px,3vw,40px);border-top:1px solid rgba(201,148,58,.1)}
 .ftop{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:clamp(24px,4vw,60px);padding-bottom:clamp(40px,5vw,56px);border-bottom:1px solid rgba(201,148,58,.07);margin-bottom:clamp(20px,3vw,32px)}
-.fbrand img{height:clamp(65px,5.5vw,56px);filter:drop-shadow(0 0 10px rgba(201,148,58,.3));margin-bottom:14px}
+.fbrand img{height:clamp(48px,5.5vw,56px);filter:drop-shadow(0 0 10px rgba(201,148,58,.3));margin-bottom:14px}
 .fbrand p{font-family:var(--f-body);font-size:13px;font-weight:300;line-height:1.9;color:var(--gr);max-width:240px}
 .fct{font-family:var(--f-label);font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
 .ful{list-style:none;display:flex;flex-direction:column;gap:10px}
@@ -548,38 +435,53 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
 @media(max-width:460px){.ftop{grid-template-columns:1fr}}
 
 /* ─────────────────────────────────────
-   CART SIDEBAR
+   CART SIDEBAR — Enhanced
 ───────────────────────────────────── */
-.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:800;display:none;backdrop-filter:blur(6px)}
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:800;display:none;backdrop-filter:blur(8px)}
 .cart-overlay.open{display:block}
-.cart-sidebar{position:fixed;top:0;right:-100%;width:min(420px,96vw);height:100vh;background:var(--bk2);border-left:1px solid rgba(201,148,58,.2);z-index:801;display:flex;flex-direction:column;transition:right .5s var(--ease);box-shadow:-20px 0 60px rgba(0,0,0,.7)}
+.cart-sidebar{position:fixed;top:0;right:-100%;width:min(440px,96vw);height:100vh;background:var(--bk2);border-left:1px solid rgba(201,148,58,.2);z-index:801;display:flex;flex-direction:column;transition:right .5s var(--ease);box-shadow:-20px 0 60px rgba(0,0,0,.8)}
 .cart-sidebar.open{right:0}
 .cart-hdr{padding:22px 24px;border-bottom:1px solid rgba(201,148,58,.12);display:flex;align-items:center;justify-content:space-between;background:var(--bk3);flex-shrink:0}
-.cart-title{font-family:var(--f-label);font-size:14px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}
+.cart-title{font-family:var(--f-label);font-size:14px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px}
+.cart-title-count{width:22px;height:22px;background:linear-gradient(135deg,var(--gold4),var(--gold));border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;color:var(--bk)}
 .cart-close{width:32px;height:32px;border-radius:50%;border:1px solid rgba(201,148,58,.3);background:transparent;color:var(--gold);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .3s}
 .cart-close:hover{background:var(--gold);color:var(--bk)}
-.cart-items{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:12px}
+.cart-items{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
 .cart-items::-webkit-scrollbar{width:2px}
 .cart-items::-webkit-scrollbar-thumb{background:var(--gold4)}
-.cart-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:14px;color:var(--gr);text-align:center}
-.cart-empty svg{width:44px;height:44px;opacity:.3;stroke:var(--g)}
+.cart-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:14px;color:var(--gr);text-align:center;padding:40px 20px}
+.cart-empty svg{width:44px;height:44px;opacity:.25;stroke:var(--gr)}
 .cart-empty p{font-family:var(--f-body);font-size:15px;font-weight:300;line-height:1.7;font-style:italic}
-.cart-item{display:grid;grid-template-columns:72px 1fr auto;gap:12px;align-items:start;padding:14px;background:var(--bk3);border:1px solid rgba(201,148,58,.1);position:relative}
+.cart-empty-hint{font-family:var(--f-label);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,148,58,.4);margin-top:4px}
+/* ── FIX: Cart item — improved layout ── */
+.cart-item{
+  display:grid;grid-template-columns:72px 1fr auto;
+  gap:12px;align-items:start;
+  padding:14px;
+  background:var(--bk3);
+  border:1px solid rgba(201,148,58,.1);
+  position:relative;
+  transition:border-color .3s;
+  animation:cartSlideIn .35s var(--ease2);
+}
+@keyframes cartSlideIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+.cart-item:hover{border-color:rgba(201,148,58,.25)}
 .cart-item::before{content:'';position:absolute;top:-1px;left:-1px;width:10px;height:10px;border-top:1px solid var(--gold);border-left:1px solid var(--gold)}
-.cart-item-img{width:72px;height:72px;object-fit:cover;border:1px solid rgba(201,148,58,.15)}
-.cart-item-name{font-family:var(--f-label);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--wh);margin-bottom:3px}
-.cart-item-ref{font-family:var(--f-body);font-size:12px;font-weight:300;color:var(--gr);margin-bottom:6px;font-style:italic}
+.cart-item-img{width:72px;height:72px;object-fit:cover;border:1px solid rgba(201,148,58,.15);display:block}
+.cart-item-name{font-family:var(--f-label);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--wh);margin-bottom:2px;line-height:1.3}
+.cart-item-ref{font-family:var(--f-body);font-size:11px;font-weight:300;color:var(--gr);margin-bottom:6px;font-style:italic}
 .cart-item-price{font-family:var(--f-head);font-size:15px;font-weight:700;font-style:italic;color:var(--gold)}
 .cart-item-qty{display:flex;align-items:center;gap:8px;margin-top:8px}
-.qty-btn{width:24px;height:24px;border-radius:50%;border:1px solid rgba(201,148,58,.3);background:transparent;color:var(--gold);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;line-height:1;transition:background .3s}
+.qty-btn{width:24px;height:24px;border-radius:50%;border:1px solid rgba(201,148,58,.3);background:transparent;color:var(--gold);cursor:pointer;font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center;transition:background .3s}
 .qty-btn:hover{background:var(--gold);color:var(--bk)}
 .qty-num{font-family:var(--f-label);font-size:12px;font-weight:600;color:var(--wh);min-width:20px;text-align:center}
-.cart-item-remove{background:transparent;border:none;color:var(--gr2);cursor:pointer;font-size:16px;transition:color .3s;padding:2px}
-.cart-item-remove:hover{color:var(--gold)}
-.cart-ftr{padding:18px 24px;border-top:1px solid rgba(201,148,58,.12);background:var(--bk3);flex-shrink:0}
-.cart-total-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
-.cart-total-lbl{font-family:var(--f-label);font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gr)}
-.cart-total-val{font-family:var(--f-head);font-size:22px;font-weight:700;font-style:italic;color:var(--gold)}
+.cart-item-remove{background:transparent;border:none;color:var(--gr2);cursor:pointer;font-size:16px;transition:color .3s;padding:2px;line-height:1;align-self:start}
+.cart-item-remove:hover{color:#e05555}
+.cart-ftr{padding:16px 20px;border-top:1px solid rgba(201,148,58,.12);background:var(--bk3);flex-shrink:0}
+.cart-subtotal{font-family:var(--f-label);font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gr);margin-bottom:6px}
+.cart-total-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-top:8px;border-top:1px solid rgba(201,148,58,.1)}
+.cart-total-lbl{font-family:var(--f-label);font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gr)}
+.cart-total-val{font-family:var(--f-head);font-size:24px;font-weight:700;font-style:italic;color:var(--gold)}
 .btn-checkout{width:100%;padding:16px;background:linear-gradient(135deg,var(--gold4),var(--gold),var(--gold2));color:var(--bk);font-family:var(--f-label);font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:none;cursor:pointer;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;box-shadow:0 6px 24px rgba(201,148,58,.3)}
 .btn-checkout:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(201,148,58,.5)}
 
@@ -621,7 +523,6 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
 .om-ta{resize:vertical;min-height:85px}
 .om-note{font-family:var(--f-body);font-size:12px;font-weight:300;color:var(--gr2);font-style:italic;letter-spacing:.3px;line-height:1.8;margin-top:4px}
 @media(max-width:500px){.om-row{grid-template-columns:1fr}}
-/* Success */
 .om-success{display:none;padding:40px 26px;text-align:center;flex-direction:column;align-items:center;gap:14px}
 .om-success.show{display:flex}
 .om-success-icon{width:64px;height:64px;border-radius:50%;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--gold);animation:glowPulse 2s ease-in-out infinite}
@@ -630,9 +531,158 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
 .om-success-ref{font-family:var(--f-label);font-size:10px;font-weight:500;letter-spacing:3px;color:var(--gr2)}
 
 /* ─────────────────────────────────────
-   FLOATING ELEMENTS
+   WATCH CATALOGUE — Enhanced
 ───────────────────────────────────── */
-/* WhatsApp */
+.wmod-ov{position:fixed;inset:0;z-index:3500;background:rgba(0,0,0,.94);display:none;align-items:center;justify-content:center;padding:clamp(10px,2vw,20px);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.wmod-ov.open{display:flex}
+.wmod{width:min(1000px,96vw);max-height:94vh;overflow:hidden;background:var(--bk2);border:1px solid rgba(201,148,58,.25);position:relative;display:flex;flex-direction:column;animation:wmodIn .45s cubic-bezier(.22,1,.36,1);box-shadow:0 30px 80px rgba(0,0,0,.8),0 0 0 1px rgba(201,148,58,.08)}
+@keyframes wmodIn{from{opacity:0;transform:translateY(28px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.wm-c{position:absolute;width:18px;height:18px;z-index:2;pointer-events:none}
+.wm-c.tl{top:-1px;left:-1px;border-top:2px solid var(--gold);border-left:2px solid var(--gold)}
+.wm-c.tr{top:-1px;right:-1px;border-top:2px solid var(--gold);border-right:2px solid var(--gold)}
+.wm-c.bl{bottom:-1px;left:-1px;border-bottom:2px solid var(--gold);border-left:2px solid var(--gold)}
+.wm-c.br{bottom:-1px;right:-1px;border-bottom:2px solid var(--gold);border-right:2px solid var(--gold)}
+.wm-hdr{padding:16px 22px;border-bottom:1px solid rgba(201,148,58,.14);background:var(--bk3);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:12px}
+.wm-hdr-left{display:flex;align-items:center;gap:14px}
+.wm-brand-badge{font-family:var(--f-label);font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--bk);background:linear-gradient(135deg,var(--gold4),var(--gold),var(--gold2));padding:5px 12px}
+.wm-hdr-title{font-family:var(--f-label);font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.6)}
+.wm-close{width:34px;height:34px;border-radius:50%;border:1px solid rgba(201,148,58,.3);background:transparent;color:var(--gold);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .3s,color .3s;flex-shrink:0}
+.wm-close:hover{background:var(--gold);color:var(--bk)}
+.wm-body{display:grid;grid-template-columns:1fr 1fr;flex:1;overflow:hidden}
+.wm-gallery{position:relative;overflow:hidden;background:var(--bk4);min-height:clamp(280px,40vh,520px)}
+.wm-slides{display:flex;height:100%;transition:transform .55s cubic-bezier(.76,0,.24,1)}
+.wm-slide{flex:0 0 100%;position:relative;overflow:hidden}
+.wm-slide img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 6s linear;filter:brightness(.82)}
+.wm-slide.active img{transform:scale(1.06)}
+.wm-slide-ov{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.1) 0%,transparent 35%,transparent 60%,rgba(0,0,0,.7) 100%)}
+.wm-zoom{position:absolute;top:12px;right:12px;z-index:3;background:rgba(0,0,0,.6);border:1px solid rgba(201,148,58,.3);color:rgba(255,255,255,.6);font-family:var(--f-label);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:5px 10px;pointer-events:none}
+.wm-arr{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:36px;height:36px;background:rgba(0,0,0,.65);border:1px solid rgba(201,148,58,.35);color:var(--gold);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:background .3s,border-color .3s}
+.wm-arr:hover{background:rgba(201,148,58,.25);border-color:var(--gold)}
+.wm-prev{left:10px}.wm-next{right:10px}
+.wm-thumbs{position:absolute;bottom:0;left:0;right:0;z-index:3;display:flex;gap:4px;padding:10px 12px;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,transparent 100%);overflow-x:auto;scrollbar-width:none}
+.wm-thumbs::-webkit-scrollbar{display:none}
+.wm-thumb{flex:0 0 52px;height:40px;overflow:hidden;cursor:pointer;border:2px solid rgba(201,148,58,.2);opacity:.55;transition:opacity .3s,border-color .3s}
+.wm-thumb.on{opacity:1;border-color:var(--gold)}
+.wm-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.wm-info{padding:clamp(18px,2.5vw,28px);overflow-y:auto;display:flex;flex-direction:column;gap:0;scrollbar-width:thin;scrollbar-color:var(--gold4) transparent}
+.wm-info::-webkit-scrollbar{width:2px}
+.wm-info::-webkit-scrollbar-thumb{background:var(--gold4)}
+.wm-tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--f-label);font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.wm-tag::after{content:'';flex:0 0 28px;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+.wm-name{font-family:var(--f-head);font-size:clamp(20px,2.6vw,28px);font-weight:700;font-style:italic;color:var(--wh);line-height:1.15;margin-bottom:6px}
+.wm-model{font-family:var(--f-label);font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--gr);margin-bottom:14px}
+.wm-price-row{display:flex;align-items:baseline;gap:12px;padding:12px 0;border-top:1px solid rgba(201,148,58,.1);border-bottom:1px solid rgba(201,148,58,.1);margin-bottom:16px}
+.wm-price{font-family:var(--f-head);font-size:clamp(22px,3vw,30px);font-weight:700;font-style:italic;color:var(--gold2)}
+.wm-avail{font-family:var(--f-label);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#4ade80;display:flex;align-items:center;gap:5px}
+.wm-avail::before{content:'';width:6px;height:6px;border-radius:50%;background:#4ade80;animation:avpulse 2s infinite}
+@keyframes avpulse{0%,100%{opacity:1}50%{opacity:.4}}
+.wm-desc{font-family:var(--f-body);font-size:clamp(12px,1.3vw,13px);font-weight:300;color:var(--gr);line-height:1.85;margin-bottom:18px;white-space:pre-line}
+.wm-specs-title{font-family:var(--f-label);font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.wm-specs-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(201,148,58,.3),transparent)}
+.wm-specs{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-bottom:20px;border:1px solid rgba(201,148,58,.1)}
+.wm-spec{padding:8px 12px;border-bottom:1px solid rgba(201,148,58,.07);border-right:1px solid rgba(201,148,58,.07)}
+.wm-spec:nth-child(even){border-right:none}
+.wm-spec:nth-last-child(1),.wm-spec:nth-last-child(2){border-bottom:none}
+.wm-spec-k{font-family:var(--f-label);font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+.wm-spec-v{font-family:var(--f-body);font-size:11px;font-weight:300;color:var(--wh2);line-height:1.4}
+.wm-actions{display:flex;gap:8px;margin-top:auto;padding-top:16px;flex-wrap:wrap}
+.wm-btn-cart{flex:1;min-width:120px;font-family:var(--f-label);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:13px 16px;background:linear-gradient(135deg,var(--gold4),var(--gold),var(--gold2));color:var(--bk);border:none;cursor:pointer;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;box-shadow:0 4px 20px rgba(201,148,58,.3)}
+.wm-btn-cart:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(201,148,58,.5)}
+.wm-btn-wa{flex:0 0 48px;height:48px;background:linear-gradient(135deg,#25D366,#128C7E);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:opacity .3s}
+.wm-btn-wa:hover{opacity:.85}
+.wm-btn-wa svg{width:22px;height:22px;fill:#fff}
+.wm-btn-wish{flex:0 0 48px;height:48px;background:transparent;border:1px solid rgba(201,148,58,.3);color:var(--gold);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all .3s}
+.wm-btn-wish:hover{background:rgba(201,148,58,.12);border-color:var(--gold)}
+@media(max-width:700px){
+  .wm-body{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .wm-gallery{min-height:200px;height:52vw}
+  .wm-info{max-height:52vh}
+  .wm-specs{grid-template-columns:1fr}
+  .wm-spec{border-right:none!important}
+  .wm-spec:nth-last-child(1){border-bottom:none}
+  .wm-spec:nth-last-child(2){border-bottom:1px solid rgba(201,148,58,.07)}
+}
+
+/* ─────────────────────────────────────
+   CATALOGUE — Enhanced filters & cards
+───────────────────────────────────── */
+.wcat{position:relative;z-index:2;padding:clamp(60px,8vw,120px) clamp(16px,4.5vw,60px);background:var(--bk4)}
+.wcat-hd{margin-bottom:clamp(32px,4vw,52px)}
+/* ── FIXED: Filter strip ── */
+.wcat-filters{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
+.wcat-f{
+  font-family:var(--f-label);font-size:10px;font-weight:600;letter-spacing:2px;
+  text-transform:uppercase;padding:9px 20px;
+  border:1px solid rgba(201,148,58,.2);
+  background:rgba(255,255,255,.02);color:rgba(255,255,255,.45);
+  cursor:pointer;transition:all .3s;
+  position:relative;overflow:hidden;
+}
+.wcat-f::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--gold4),var(--gold),var(--gold2));transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease);z-index:0}
+.wcat-f span{position:relative;z-index:1}
+.wcat-f:hover{border-color:rgba(201,148,58,.5);color:rgba(255,255,255,.8)}
+.wcat-f.on{border-color:transparent;color:var(--bk)}
+.wcat-f.on::before{transform:scaleX(1)}
+.wcat-count{font-family:var(--f-body);font-size:12px;font-weight:300;color:var(--gr);margin-top:16px;letter-spacing:.5px}
+.wcat-count span{color:var(--gold);font-weight:500}
+.wcat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(220px,24vw,280px),1fr));gap:clamp(10px,1.5vw,16px);margin-top:clamp(28px,4vw,44px)}
+
+/* ── ENHANCED: Watch card ── */
+.wcard{
+  background:var(--bk2);
+  border:1px solid rgba(201,148,58,.1);
+  position:relative;overflow:hidden;cursor:pointer;
+  opacity:0;transform:translateY(20px);
+  transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1),border-color .3s,box-shadow .3s;
+}
+.wcard.vis{opacity:1;transform:translateY(0)}
+.wcard:hover{border-color:rgba(201,148,58,.38);box-shadow:0 16px 48px rgba(0,0,0,.6),0 0 0 1px rgba(201,148,58,.08)}
+.wcard::before{content:'';position:absolute;top:0;left:0;width:0;height:2px;background:linear-gradient(90deg,var(--gold4),var(--gold2));transition:width .4s var(--ease);z-index:2}
+.wcard:hover::before{width:100%}
+.wcard-img{height:clamp(190px,22vw,260px);overflow:hidden;position:relative;background:var(--bk3)}
+.wcard-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s cubic-bezier(.76,0,.24,1),filter .4s;filter:brightness(.82) saturate(.9)}
+.wcard:hover .wcard-img img{transform:scale(1.08);filter:brightness(.95) saturate(1)}
+.wcard-img-ov{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,rgba(0,0,0,.7) 100%);transition:opacity .3s}
+.wcard-pics{position:absolute;bottom:10px;right:10px;z-index:2;font-family:var(--f-label);font-size:8px;font-weight:600;letter-spacing:1px;color:rgba(255,255,255,.7);background:rgba(0,0,0,.6);border:1px solid rgba(201,148,58,.25);padding:3px 8px;display:flex;align-items:center;gap:5px}
+.wcard-pics svg{width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:1.5}
+.wcard-badge{position:absolute;top:10px;left:10px;z-index:2;font-family:var(--f-label);font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:4px 10px}
+.wcard-badge.new{background:linear-gradient(135deg,#1a6b3a,#25D366);color:#fff}
+.wcard-badge.sig{background:linear-gradient(135deg,var(--gold4),var(--gold2));color:var(--bk)}
+.wcard-badge.rare{background:linear-gradient(135deg,#6b1a1a,#c0392b);color:#fff}
+.wcard-badge.excl{background:rgba(0,0,0,.7);border:1px solid rgba(201,148,58,.4);color:var(--gold)}
+.wcard-hover{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:rgba(0,0,0,.5);opacity:0;transition:opacity .35s;pointer-events:none}
+.wcard:hover .wcard-hover{opacity:1;pointer-events:auto}
+.wcard-hover-btn{font-family:var(--f-label);font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold2);border:1px solid rgba(201,148,58,.6);padding:10px 24px;background:rgba(0,0,0,.5);pointer-events:none}
+.wcard-hover-sub{font-family:var(--f-body);font-size:10px;color:rgba(255,255,255,.55);letter-spacing:1px;pointer-events:none}
+.wcard-body{padding:clamp(12px,1.5vw,18px)}
+.wcard-brand{font-family:var(--f-label);font-size:8px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.wcard-name{font-family:var(--f-head);font-size:clamp(15px,1.8vw,19px);font-weight:700;font-style:italic;color:var(--wh);line-height:1.2;margin-bottom:3px}
+.wcard-sub{font-family:var(--f-body);font-size:11px;font-weight:300;color:var(--gr);margin-bottom:12px;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wcard-foot{display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid rgba(201,148,58,.1);gap:8px}
+.wcard-price{font-family:var(--f-head);font-size:clamp(14px,1.7vw,17px);font-weight:700;font-style:italic;color:var(--gold)}
+.wcard-actions{display:flex;gap:5px}
+.wcard-a-detail{font-family:var(--f-label);font-size:8px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:6px 12px;border:1px solid rgba(201,148,58,.3);color:var(--gold);background:transparent;cursor:pointer;transition:all .3s;white-space:nowrap}
+.wcard-a-detail:hover{background:rgba(201,148,58,.1);border-color:var(--gold)}
+.wcard-a-cart{width:30px;height:30px;border:1px solid rgba(201,148,58,.3);background:transparent;color:var(--gold);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;flex-shrink:0}
+.wcard-a-cart svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.5}
+.wcard-a-cart:hover{background:var(--gold);color:var(--bk);border-color:var(--gold)}
+.wcat-empty{grid-column:1/-1;text-align:center;padding:60px 20px;font-family:var(--f-body);font-size:15px;font-weight:300;color:var(--gr);font-style:italic}
+
+/* Stagger */
+.wcat-grid .wcard:nth-child(1){transition-delay:0s}
+.wcat-grid .wcard:nth-child(2){transition-delay:.06s}
+.wcat-grid .wcard:nth-child(3){transition-delay:.12s}
+.wcat-grid .wcard:nth-child(4){transition-delay:.18s}
+.wcat-grid .wcard:nth-child(5){transition-delay:.24s}
+.wcat-grid .wcard:nth-child(6){transition-delay:.30s}
+.wcat-grid .wcard:nth-child(7){transition-delay:.36s}
+.wcat-grid .wcard:nth-child(8){transition-delay:.42s}
+.wcat-grid .wcard:nth-child(9){transition-delay:.48s}
+.wcat-grid .wcard:nth-child(10){transition-delay:.54s}
+
+/* ─────────────────────────────────────
+   FLOATING
+───────────────────────────────────── */
 .wafloat{position:fixed;bottom:clamp(76px,9vw,96px);right:clamp(14px,2.5vw,26px);z-index:450}
 .wabtn{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#25D366,#128C7E);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(37,211,102,.4);animation:waPulse 2.5s ease-in-out infinite;transition:transform .3s,box-shadow .3s;position:relative}
 .wabtn:hover{transform:scale(1.1);box-shadow:0 8px 28px rgba(37,211,102,.6)}
@@ -640,7 +690,6 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
 .watip{position:absolute;right:62px;top:50%;transform:translateY(-50%) translateX(6px);background:rgba(5,5,5,.95);border:1px solid rgba(37,211,102,.3);color:#fff;font-family:var(--f-label);font-size:10px;font-weight:500;letter-spacing:2px;padding:8px 14px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s}
 .watip::after{content:'';position:absolute;right:-5px;top:50%;transform:translateY(-50%);border:5px solid transparent;border-left-color:rgba(5,5,5,.95);border-right:none}
 .wabtn:hover .watip{opacity:1;transform:translateY(-50%) translateX(0)}
-/* Social sidebar */
 .socsb{position:fixed;left:clamp(10px,1.8vw,22px);top:50%;transform:translateY(-50%);z-index:400;display:flex;flex-direction:column;align-items:center;gap:12px;opacity:0;transition:opacity .5s;pointer-events:none}
 .socsb.show{opacity:1;pointer-events:auto}
 .socsb::before,.socsb::after{content:'';display:block;width:1px;height:44px;background:linear-gradient(to bottom,transparent,rgba(201,148,58,.3))}
@@ -651,14 +700,11 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
 .sblink.fb:hover{background:#1877F2;border-color:transparent;color:#fff}
 .sblink svg{width:13px;height:13px;fill:currentColor}
 @media(max-width:860px){.socsb{display:none}}
-/* Back to top */
 .btt{position:fixed;bottom:clamp(14px,2.5vw,26px);right:clamp(14px,2.5vw,26px);width:42px;height:42px;border:1px solid rgba(201,148,58,.3);background:rgba(5,5,5,.8);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:16px;z-index:400;opacity:0;transform:translateY(10px);transition:opacity .4s,transform .4s,background .3s}
 .btt.show{opacity:1;transform:translateY(0)}
 .btt:hover{background:var(--gold);color:var(--bk)}
 
-/* ─────────────────────────────────────
-   TOAST
-───────────────────────────────────── */
+/* TOAST */
 .toast{position:fixed;bottom:clamp(90px,12vw,120px);left:50%;transform:translateX(-50%) translateY(16px);background:var(--bk3);border:1px solid rgba(201,148,58,.35);padding:13px 24px;z-index:900;font-family:var(--f-label);font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);white-space:nowrap;opacity:0;transition:opacity .4s,transform .4s;box-shadow:0 8px 32px rgba(0,0,0,.6)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
@@ -668,11 +714,11 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
 @keyframes heroIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes scanLine{0%{top:-1px;opacity:.7}100%{top:100%;opacity:.1}}
 @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-@keyframes cpGl{0%,100%{opacity:.65;transform:scale(1)}50%{opacity:1;transform:scale(1.14)}}
 @keyframes mqRun{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @keyframes scrollDrop{0%{top:-100%}50%,100%{top:100%}}
 @keyframes popIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
 @keyframes waPulse{0%{box-shadow:0 4px 18px rgba(37,211,102,.38),0 0 0 0 rgba(37,211,102,.38)}50%{box-shadow:0 4px 18px rgba(37,211,102,.38),0 0 0 12px rgba(37,211,102,0)}100%{box-shadow:0 4px 18px rgba(37,211,102,.38),0 0 0 0 rgba(37,211,102,0)}}
+@keyframes sdrop{0%{top:-100%}60%,100%{top:100%}}
 </style>
 </head>
 <body>
@@ -686,43 +732,29 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
 <div id="cur"></div><div id="cur2"></div>
 <div class="toast" id="toast"></div>
 
-
-<!-- ═══════════ INTRO — VIDEO ONLY (no logo) ═══════════ -->
+<!-- ═══════════ INTRO ═══════════ -->
 <div id="intro">
-
-  <!-- Full-screen background video -->
   <div id="vphase">
-    <video id="ivid" autoplay muted playsinline preload="auto" loop>
+    <video id="ivid" autoplay muted playsinline preload="auto" loop style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
       <source src="Royel-cartel-video.mp4" type="video/mp4">
     </video>
-
-    <!-- Dark overlay so text is readable over video -->
     <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.35) 0%,rgba(0,0,0,.15) 45%,rgba(0,0,0,.55) 100%);z-index:1;pointer-events:none"></div>
-
-    <!-- Brand text over video (no logo image) -->
-    <div class="vbrand" style="position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;pointer-events:none">
+    <div style="position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;pointer-events:none">
       <div style="height:1px;width:clamp(50px,8vw,90px);background:linear-gradient(90deg,transparent,rgba(201,148,58,.7),transparent);margin-bottom:4px"></div>
-      <div class="vbrand-name" style="font-family:'Montserrat',system-ui,sans-serif;font-size:clamp(18px,4vw,38px);font-weight:700;letter-spacing:clamp(6px,2vw,16px);text-transform:uppercase;color:#fff;text-shadow:0 2px 20px rgba(0,0,0,.8)">ROYALE CARTEL</div>
-      <div class="vbrand-sub" style="font-family:'Inter',system-ui,sans-serif;font-size:clamp(10px,1.5vw,14px);font-weight:300;letter-spacing:clamp(3px,1.2vw,7px);color:rgba(201,148,58,.85);text-shadow:0 1px 10px rgba(0,0,0,.8)">Haute Horlogerie &nbsp;·&nbsp; Geneva</div>
+      <div style="font-family:'Montserrat',system-ui,sans-serif;font-size:clamp(18px,4vw,38px);font-weight:700;letter-spacing:clamp(6px,2vw,16px);text-transform:uppercase;color:#fff;text-shadow:0 2px 20px rgba(0,0,0,.8)">ROYALE CARTEL</div>
+      <div style="font-family:'Inter',system-ui,sans-serif;font-size:clamp(10px,1.5vw,14px);font-weight:300;letter-spacing:clamp(3px,1.2vw,7px);color:rgba(201,148,58,.85);text-shadow:0 1px 10px rgba(0,0,0,.8)">Haute Horlogerie &nbsp;·&nbsp; Geneva</div>
       <div style="height:1px;width:clamp(50px,8vw,90px);background:linear-gradient(90deg,transparent,rgba(201,148,58,.7),transparent);margin-top:4px"></div>
     </div>
-
-    <!-- Progress bar -->
-    <div class="iprog" style="position:absolute;bottom:0;left:0;right:0;height:2px;background:rgba(255,255,255,.08);z-index:3">
-      <div class="iprogfill" id="ipf" style="height:100%;width:0;background:linear-gradient(90deg,rgba(201,148,58,.5),rgba(232,192,96,.9),rgba(201,148,58,.5));transition:width .1s linear"></div>
+    <div style="position:absolute;bottom:0;left:0;right:0;height:2px;background:rgba(255,255,255,.08);z-index:3">
+      <div id="ipf" style="height:100%;width:0;background:linear-gradient(90deg,rgba(201,148,58,.5),rgba(232,192,96,.9),rgba(201,148,58,.5));transition:width .1s linear"></div>
     </div>
   </div>
-
-  <!-- Corner decorations -->
   <div class="corners" style="position:absolute;inset:0;z-index:4;pointer-events:none">
-    <div class="c tl"></div><div class="c tr"></div>
-    <div class="c bl"></div><div class="c br"></div>
+    <div class="c tl"></div><div class="c tr"></div><div class="c bl"></div><div class="c br"></div>
   </div>
-
-  <!-- Skip hint -->
-  <div class="ls-skip-hint" style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);z-index:5;font-family:'Montserrat',system-ui,sans-serif;font-size:10px;font-weight:400;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);opacity:0;animation:fadeIn .5s 1.5s forwards">Tap anywhere to skip</div>
-
+  <div class="ls-skip-hint" style="left:50%;transform:translateX(-50%);z-index:5">Tap anywhere to skip</div>
 </div>
+
 <!-- ═══════════ VIDEO POPUP ═══════════ -->
 <div class="vpop" id="vpop">
   <div class="vpin">
@@ -735,19 +767,24 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
 <div class="cart-overlay" id="cartOverlay"></div>
 <div class="cart-sidebar" id="cartSidebar">
   <div class="cart-hdr">
-    <div class="cart-title">My Selection</div>
+    <div class="cart-title">
+      My Selection
+      <span class="cart-title-count" id="cartTitleCount">0</span>
+    </div>
     <button class="cart-close" id="cartClose">✕</button>
   </div>
   <div class="cart-items" id="cartItems">
     <div class="cart-empty" id="cartEmpty">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
       <p>Your cart is empty.<br>Explore our collection.</p>
+      <span class="cart-empty-hint">✦ Browse timepieces below ✦</span>
     </div>
   </div>
   <div class="cart-ftr" id="cartFtr" style="display:none">
+    <div class="cart-subtotal" id="cartItemCount">0 items selected</div>
     <div class="cart-total-row">
       <span class="cart-total-lbl">Total</span>
-      <span class="cart-total-val" id="cartTotal">Price 4699</span>
+      <span class="cart-total-val" id="cartTotal">PKR 0</span>
     </div>
     <button class="btn-checkout" onclick="openOrder()">✦ &nbsp; Proceed to Order &nbsp; ✦</button>
   </div>
@@ -830,251 +867,35 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
 </nav>
 
 <div class="mov" id="mov"></div>
- <div class="mdr" id="mdr">
-
+<div class="mdr" id="mdr">
   <a href="#collection" class="mlink">Collections</a>
   <a href="#watches" class="mlink">Timepieces</a>
   <a href="#craft" class="mlink">Craftsmanship</a>
   <a href="#atelier" class="mlink">Our Story</a>
   <a href="#contact" class="mlink">Contact Us</a>
-
-  <a href="#contact" class="mcta mlink">
-    Book Private Viewing
-  </a>
-
+  <a href="#contact" class="mcta mlink">Book Private Viewing</a>
   <div class="mdr-soc">
-
-    <a href="https://www.instagram.com/royale_cartel1?utm_source=qr&igsh=NDRxbzBseTBkazJz"
-       target="_blank"
-       rel="noopener"
-       aria-label="Instagram"
-       class="ig">
-      <svg><use href="#ico-ig"/></svg>
-    </a>
-
-    <a href="https://www.facebook.com/share/18osoDXftA/"
-       target="_blank"
-       rel="noopener"
-       aria-label="Facebook"
-       class="fb">
-      <svg><use href="#ico-fb"/></svg>
-    </a>
-
-    <a href="https://wa.me/923030555566"
-       target="_blank"
-       rel="noopener"
-       aria-label="WhatsApp"
-       class="wa">
-      <svg><use href="#ico-wa"/></svg>
-    </a>
-
+    <a href="https://www.instagram.com/royale_cartel1?utm_source=qr&igsh=NDRxbzBseTBkazJz" target="_blank" rel="noopener" aria-label="Instagram" class="ig"><svg><use href="#ico-ig"/></svg></a>
+    <a href="https://www.facebook.com/share/18osoDXftA/" target="_blank" rel="noopener" aria-label="Facebook" class="fb"><svg><use href="#ico-fb"/></svg></a>
+    <a href="https://wa.me/923030555566" target="_blank" rel="noopener" aria-label="WhatsApp" class="wa"><svg><use href="#ico-wa"/></svg></a>
   </div>
-
 </div>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --gold:#C9943A;--gold2:#E8C060;--gold3:#F5D78A;
-  --bk:#050505;
-  --f-head:'Playfair Display',Georgia,serif;
-  --f-body:'Inter',system-ui,sans-serif;
-  --f-label:'Montserrat',system-ui,sans-serif;
-}
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400&family=Montserrat:wght@400;500;600;700&display=swap');
 
-.galaxy-hero{
-  position:relative;
-  width:100%;
-  height:100vh;
-  min-height:560px;
-  max-height:700px;
-  overflow:hidden;
-  background:#000;
-  display:flex;align-items:center;justify-content:center;
-}
-canvas#gc{
-  position:absolute;inset:0;width:100%;height:100%;display:block;
-}
-.gh-overlay{
-  position:absolute;inset:0;
-  background:linear-gradient(to bottom,
-    rgba(0,0,0,.25) 0%,
-    rgba(0,0,0,.05) 35%,
-    rgba(0,0,0,.1) 65%,
-    rgba(0,0,0,.65) 100%
-  );
-  z-index:1;pointer-events:none;
-}
-.gh-content{
-  position:relative;z-index:2;
-  text-align:center;
-  padding:0 clamp(20px,5vw,60px);
-  max-width:860px;
-  width:100%;
-}
-.gh-badge{
-  display:inline-flex;align-items:center;gap:10px;
-  border:1px solid rgba(201,148,58,.4);
-  background:rgba(201,148,58,.08);
-  padding:7px 18px;margin-bottom:24px;
-  font-family:var(--f-label);font-size:10px;font-weight:600;
-  letter-spacing:4px;text-transform:uppercase;
-  color:var(--gold2);
-}
-.gh-badge::before,.gh-badge::after{content:'✦';font-size:7px;color:var(--gold)}
-.gh-title{
-  font-family:var(--f-head);font-weight:700;
-  font-size:clamp(32px,6.5vw,80px);
-  line-height:1.08;color:#fff;
-  margin-bottom:18px;
-  text-shadow:0 2px 40px rgba(0,0,0,.9);
-  letter-spacing:-0.5px;
-}
-.gh-title em{
-  font-style:italic;
-  color:var(--gold2);
-}
-.gh-sub{
-  font-family:var(--f-body);
-  font-size:clamp(13px,1.6vw,18px);
-  font-weight:300;
-  color:rgba(255,255,255,.75);
-  line-height:1.7;
-  max-width:560px;margin:0 auto 36px;
-  text-shadow:0 1px 16px rgba(0,0,0,.9);
-  letter-spacing:.3px;
-}
-.gh-btns{
-  display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;
-}
-.gh-btn-primary{
-  font-family:var(--f-label);font-size:11px;font-weight:700;
-  letter-spacing:2px;text-transform:uppercase;
-  padding:14px 36px;
-  background:linear-gradient(135deg,#8B6014,#C9943A,#E8C060);
-  color:#000;border:none;cursor:pointer;
-  position:relative;overflow:hidden;
-  transition:transform .3s,box-shadow .3s;
-}
-.gh-btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(201,148,58,.45)}
-.gh-btn-secondary{
-  font-family:var(--f-label);font-size:11px;font-weight:600;
-  letter-spacing:2px;text-transform:uppercase;
-  padding:13px 28px;
-  border:1.5px solid rgba(255,255,255,.35);
-  color:rgba(255,255,255,.9);
-  background:rgba(255,255,255,.06);
-  cursor:pointer;
-  transition:all .3s;
-}
-.gh-btn-secondary:hover{border-color:var(--gold2);color:var(--gold2);background:rgba(201,148,58,.08)}
-.gh-line-bottom{
-  position:absolute;bottom:0;left:0;right:0;height:2px;z-index:3;
-  background:linear-gradient(90deg,transparent 0%,rgba(201,148,58,.4) 25%,rgba(232,192,96,.85) 50%,rgba(201,148,58,.4) 75%,transparent 100%);
-}
-.gh-scroll{
-  position:absolute;bottom:28px;left:50%;transform:translateX(-50%);
-  z-index:3;display:flex;flex-direction:column;align-items:center;gap:6px;
-  opacity:.7;
-}
-.gh-scroll span{
-  font-family:var(--f-label);font-size:9px;font-weight:600;
-  letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.5);
-}
-.gh-scroll-bar{
-  width:1px;height:32px;background:rgba(201,148,58,.25);
-  position:relative;overflow:hidden;
-}
-.gh-scroll-bar::after{
-  content:'';position:absolute;top:-100%;left:0;
-  width:100%;height:100%;
-  background:linear-gradient(to bottom,transparent,var(--gold));
-  animation:sdrop 2s ease-in-out infinite;
-}
-
-/* Corner accents */
-.gh-corner{position:absolute;width:clamp(16px,2.5vw,26px);height:clamp(16px,2.5vw,26px);z-index:3}
-.gh-corner.tl{top:16px;left:16px;border-top:2px solid rgba(201,148,58,.55);border-left:2px solid rgba(201,148,58,.55)}
-.gh-corner.tr{top:16px;right:16px;border-top:2px solid rgba(201,148,58,.55);border-right:2px solid rgba(201,148,58,.55)}
-.gh-corner.bl{bottom:16px;left:16px;border-bottom:2px solid rgba(201,148,58,.55);border-left:2px solid rgba(201,148,58,.55)}
-.gh-corner.br{bottom:16px;right:16px;border-bottom:2px solid rgba(201,148,58,.55);border-right:2px solid rgba(201,148,58,.55)}
-
-/* Stats strip */
-.gh-stats{
-  position:absolute;bottom:70px;left:50%;transform:translateX(-50%);
-  z-index:3;display:flex;gap:clamp(24px,5vw,60px);
-  align-items:center;
-}
-.gh-stat{text-align:center}
-.gh-stat-val{
-  font-family:var(--f-head);font-size:clamp(20px,3vw,30px);
-  font-weight:700;font-style:italic;color:var(--gold);
-  display:block;line-height:1;margin-bottom:4px;
-}
-.gh-stat-lbl{
-  font-family:var(--f-label);font-size:clamp(7px,1vw,9px);
-  font-weight:600;letter-spacing:3px;text-transform:uppercase;
-  color:rgba(255,255,255,.45);
-}
-.gh-stat-div{width:1px;height:36px;background:rgba(201,148,58,.2)}
-
-@keyframes sdrop{0%{top:-100%}60%,100%{top:100%}}
-</style>
-</head>
-<body style="margin:0;background:#000">
-
+<!-- ═══════════ GALAXY HERO ═══════════ -->
 <div class="galaxy-hero" id="gh">
-
   <canvas id="gc"></canvas>
   <div class="gh-overlay"></div>
-
-  <!-- <div class="gh-corner tl"></div>
-  <div class="gh-corner tr"></div>
-  <div class="gh-corner bl"></div>
-  <div class="gh-corner br"></div> -->
-
   <div class="gh-content">
-    <!-- <div class="gh-badge">Established · Geneva · MMXXIV</div> -->
-    <h1 class="gh-title">
-      Royal E Cartel<br>
-      <em>Luxury Timepieces</em>
-    </h1>
-    <!-- <p class="gh-sub">
-      Every second, a dynasty. Hand-crafted skeleton movements that reveal the soul of timekeeping — gold, steel, and centuries of uncompromising mastery.
-    </p> -->
-    <!-- <div class="gh-btns">
-      <button class="gh-btn-primary">Explore Collection</button>
-      <button class="gh-btn-secondary">▶ &nbsp;Watch Film</button>
-    </div> -->
+    <h1 class="gh-title">Royal E Cartel<br><em>Luxury Timepieces</em></h1>
   </div>
-
   <div class="gh-stats">
-    <!-- <div class="gh-stat">
-      <span class="gh-stat-val">184+</span>
-      <span class="gh-stat-lbl">Years Heritage</span>
-    </div> -->
     <div class="gh-stat-div"></div>
-    <div class="gh-stat">
-      <span class="gh-stat-val">324</span>
-      <span class="gh-stat-lbl">Components</span>
-    </div>
+    <div class="gh-stat"><span class="gh-stat-val">324</span><span class="gh-stat-lbl">Components</span></div>
     <div class="gh-stat-div"></div>
-    <div class="gh-stat">
-      <span class="gh-stat-val">800h</span>
-      <span class="gh-stat-lbl">Per Piece</span>
-    </div>
+    <div class="gh-stat"><span class="gh-stat-val">800h</span><span class="gh-stat-lbl">Per Piece</span></div>
     <div class="gh-stat-div"></div>
-    <!-- <div class="gh-stat">
-      <span class="gh-stat-val">12</span>
-      <span class="gh-stat-lbl">Pieces / Year</span>
-    </div> -->
   </div>
-
-  <div class="gh-scroll">
-    <span>Scroll</span>
-    <div class="gh-scroll-bar"></div>
-  </div>
-
+  <div class="gh-scroll"><span>Scroll</span><div class="gh-scroll-bar"></div></div>
   <div class="gh-line-bottom"></div>
 </div>
 
@@ -1084,169 +905,35 @@ canvas#gc{
   const ctx=cv.getContext('2d');
   const hero=document.getElementById('gh');
   let W,H,stars=[],nebulas=[],shootStar=null,dust=[];
-
-  function resize(){
-    W=cv.width=hero.offsetWidth||window.innerWidth;
-    H=cv.height=hero.offsetHeight||600;
-    buildNebulas();
-  }
-
-  function buildStars(){
-    stars=[];
-    const n=Math.floor(W*H/2800);
-    for(let i=0;i<n;i++){
-      const d=Math.random();
-      stars.push({
-        x:Math.random()*W, y:Math.random()*H,
-        r:d*2.8+.12,
-        speed:d*.28+.025,
-        b:Math.random()*.75+.25,
-        tw:Math.random()*Math.PI*2,
-        ts:Math.random()*.022+.006,
-        gold:Math.random()>.8,
-        cross:Math.random()>.88
-      });
-    }
-  }
-
-  function buildNebulas(){
-    nebulas=[
-      {x:W*.12, y:H*.22, r:W*.35, c:'rgba(80,0,160,'},
-      {x:W*.82, y:H*.6,  r:W*.3,  c:'rgba(0,30,150,'},
-      {x:W*.5,  y:H*.9,  r:W*.25, c:'rgba(140,50,0,'},
-      {x:W*.9,  y:H*.1,  r:W*.2,  c:'rgba(40,0,110,'},
-      {x:W*.05, y:H*.65, r:W*.22, c:'rgba(0,60,140,'},
-      {x:W*.6,  y:H*.3,  r:W*.18, c:'rgba(100,0,70,'},
-    ];
-  }
-
-  function buildDust(){
-    dust=[];
-    for(let i=0;i<60;i++){
-      dust.push({
-        x:Math.random()*W,y:Math.random()*H,
-        r:Math.random()*1.2+.3,
-        a:Math.random()*.07+.01,
-        speed:Math.random()*.08+.01,
-        gold:Math.random()>.7
-      });
-    }
-  }
-
-  function spawnShoot(){
-    if(!shootStar&&Math.random()>.993){
-      const a=(Math.random()*30+12)*Math.PI/180;
-      const spd=Math.random()*7+5;
-      shootStar={
-        x:Math.random()*W*.75, y:Math.random()*H*.35,
-        vx:spd*Math.cos(a), vy:spd*Math.sin(a),
-        len:Math.random()*130+55,
-        life:1, fade:.017
-      };
-    }
-  }
-
+  function resize(){W=cv.width=hero.offsetWidth||window.innerWidth;H=cv.height=hero.offsetHeight||600;buildNebulas();}
+  function buildStars(){stars=[];const n=Math.floor(W*H/2800);for(let i=0;i<n;i++){const d=Math.random();stars.push({x:Math.random()*W,y:Math.random()*H,r:d*2.8+.12,speed:d*.28+.025,b:Math.random()*.75+.25,tw:Math.random()*Math.PI*2,ts:Math.random()*.022+.006,gold:Math.random()>.8,cross:Math.random()>.88});}}
+  function buildNebulas(){nebulas=[{x:W*.12,y:H*.22,r:W*.35,c:'rgba(80,0,160,'},{x:W*.82,y:H*.6,r:W*.3,c:'rgba(0,30,150,'},{x:W*.5,y:H*.9,r:W*.25,c:'rgba(140,50,0,'},{x:W*.9,y:H*.1,r:W*.2,c:'rgba(40,0,110,'},{x:W*.05,y:H*.65,r:W*.22,c:'rgba(0,60,140,'},{x:W*.6,y:H*.3,r:W*.18,c:'rgba(100,0,70,'}];}
+  function buildDust(){dust=[];for(let i=0;i<60;i++){dust.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+.3,a:Math.random()*.07+.01,speed:Math.random()*.08+.01,gold:Math.random()>.7});}}
+  function spawnShoot(){if(!shootStar&&Math.random()>.993){const a=(Math.random()*30+12)*Math.PI/180,spd=Math.random()*7+5;shootStar={x:Math.random()*W*.75,y:Math.random()*H*.35,vx:spd*Math.cos(a),vy:spd*Math.sin(a),len:Math.random()*130+55,life:1,fade:.017};}}
   function draw(){
     ctx.clearRect(0,0,W,H);
-
-    // Deep space BG
-    const bg=ctx.createRadialGradient(W*.5,H*.5,0,W*.5,H*.5,Math.max(W,H)*.8);
-    bg.addColorStop(0,'#07001a');
-    bg.addColorStop(.35,'#04000d');
-    bg.addColorStop(.7,'#02000a');
-    bg.addColorStop(1,'#000205');
-    ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
-
-    // Nebulas
-    nebulas.forEach(n=>{
-      const g=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r);
-      g.addColorStop(0,n.c+'0.13)');
-      g.addColorStop(.5,n.c+'0.04)');
-      g.addColorStop(1,n.c+'0)');
-      ctx.fillStyle=g;
-      ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fill();
+    const bg=ctx.createRadialGradient(W*.5,H*.5,0,W*.5,H*.5,Math.max(W,H)*.8);bg.addColorStop(0,'#07001a');bg.addColorStop(.35,'#04000d');bg.addColorStop(.7,'#02000a');bg.addColorStop(1,'#000205');ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+    nebulas.forEach(n=>{const g=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r);g.addColorStop(0,n.c+'0.13)');g.addColorStop(.5,n.c+'0.04)');g.addColorStop(1,n.c+'0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fill();});
+    const mw=ctx.createLinearGradient(0,H*.2,W,H*.8);mw.addColorStop(0,'rgba(50,20,90,0)');mw.addColorStop(.25,'rgba(70,40,130,.06)');mw.addColorStop(.5,'rgba(90,55,160,.095)');mw.addColorStop(.75,'rgba(70,40,130,.06)');mw.addColorStop(1,'rgba(50,20,90,0)');ctx.fillStyle=mw;ctx.fillRect(0,0,W,H);
+    dust.forEach(d=>{d.y-=d.speed;if(d.y<-2){d.y=H+2;d.x=Math.random()*W}const rgb=d.gold?'201,148,58':'180,180,220';ctx.beginPath();ctx.arc(d.x,d.y,d.r,0,Math.PI*2);ctx.fillStyle=`rgba(${rgb},${d.a})`;ctx.fill();});
+    stars.forEach(s=>{s.tw+=s.ts;s.y-=s.speed;if(s.y<-4){s.y=H+4;s.x=Math.random()*W}
+      const glow=s.b*(0.6+0.4*Math.sin(s.tw)),rgb=s.gold?'201,148,58':'215,220,255';
+      const g=ctx.createRadialGradient(s.x,s.y,0,s.x,s.y,s.r*5);g.addColorStop(0,`rgba(${rgb},${glow*.7})`);g.addColorStop(.3,`rgba(${rgb},${glow*.15})`);g.addColorStop(1,`rgba(${rgb},0)`);ctx.beginPath();ctx.arc(s.x,s.y,s.r*5,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r*.6,0,Math.PI*2);ctx.fillStyle=`rgba(${rgb},${Math.min(glow*1.1,1)})`;ctx.fill();
+      if(s.cross&&s.r>1.4&&glow>.6){const len=s.r*6;ctx.save();ctx.strokeStyle=`rgba(${rgb},${glow*.25})`;ctx.lineWidth=.8;ctx.beginPath();ctx.moveTo(s.x-len,s.y);ctx.lineTo(s.x+len,s.y);ctx.stroke();ctx.beginPath();ctx.moveTo(s.x,s.y-len);ctx.lineTo(s.x,s.y+len);ctx.stroke();ctx.restore();}
     });
-
-    // Milky Way ribbon
-    const mw=ctx.createLinearGradient(0,H*.2,W,H*.8);
-    mw.addColorStop(0,'rgba(50,20,90,0)');
-    mw.addColorStop(.25,'rgba(70,40,130,.06)');
-    mw.addColorStop(.5,'rgba(90,55,160,.095)');
-    mw.addColorStop(.75,'rgba(70,40,130,.06)');
-    mw.addColorStop(1,'rgba(50,20,90,0)');
-    ctx.fillStyle=mw;ctx.fillRect(0,0,W,H);
-
-    // Dust particles
-    dust.forEach(d=>{
-      d.y-=d.speed;
-      if(d.y<-2){d.y=H+2;d.x=Math.random()*W}
-      const rgb=d.gold?'201,148,58':'180,180,220';
-      ctx.beginPath();ctx.arc(d.x,d.y,d.r,0,Math.PI*2);
-      ctx.fillStyle=`rgba(${rgb},${d.a})`;ctx.fill();
-    });
-
-    // Stars
-    stars.forEach(s=>{
-      s.tw+=s.ts;
-      s.y-=s.speed;
-      if(s.y<-4){s.y=H+4;s.x=Math.random()*W}
-      const glow=s.b*(0.6+0.4*Math.sin(s.tw));
-      const rgb=s.gold?'201,148,58':'215,220,255';
-
-      // Outer glow
-      const g=ctx.createRadialGradient(s.x,s.y,0,s.x,s.y,s.r*5);
-      g.addColorStop(0,`rgba(${rgb},${glow*.7})`);
-      g.addColorStop(.3,`rgba(${rgb},${glow*.15})`);
-      g.addColorStop(1,`rgba(${rgb},0)`);
-      ctx.beginPath();ctx.arc(s.x,s.y,s.r*5,0,Math.PI*2);
-      ctx.fillStyle=g;ctx.fill();
-
-      // Core
-      ctx.beginPath();ctx.arc(s.x,s.y,s.r*.6,0,Math.PI*2);
-      ctx.fillStyle=`rgba(${rgb},${Math.min(glow*1.1,1)})`;ctx.fill();
-
-      // Cross sparkle
-      if(s.cross&&s.r>1.4&&glow>.6){
-        const len=s.r*6;
-        ctx.save();
-        ctx.strokeStyle=`rgba(${rgb},${glow*.25})`;
-        ctx.lineWidth=.8;
-        ctx.beginPath();ctx.moveTo(s.x-len,s.y);ctx.lineTo(s.x+len,s.y);ctx.stroke();
-        ctx.beginPath();ctx.moveTo(s.x,s.y-len);ctx.lineTo(s.x,s.y+len);ctx.stroke();
-        ctx.restore();
-      }
-    });
-
-    // Shooting star
     spawnShoot();
-    if(shootStar){
-      shootStar.x+=shootStar.vx;
-      shootStar.y+=shootStar.vy;
-      shootStar.life-=shootStar.fade;
-      if(shootStar.life>0){
-        const hyp=Math.hypot(shootStar.vx,shootStar.vy);
-        const ex=shootStar.x-shootStar.vx*(shootStar.len/hyp);
-        const ey=shootStar.y-shootStar.vy*(shootStar.len/hyp);
-        const sg=ctx.createLinearGradient(ex,ey,shootStar.x,shootStar.y);
-        sg.addColorStop(0,'rgba(255,255,255,0)');
-        sg.addColorStop(.65,`rgba(255,240,190,${shootStar.life*.45})`);
-        sg.addColorStop(1,`rgba(255,250,220,${shootStar.life})`);
-        ctx.save();
-        ctx.strokeStyle=sg;ctx.lineWidth=1.6;ctx.lineCap='round';
-        ctx.beginPath();ctx.moveTo(ex,ey);ctx.lineTo(shootStar.x,shootStar.y);ctx.stroke();
-        ctx.restore();
-      }else{shootStar=null}
-    }
-
+    if(shootStar){shootStar.x+=shootStar.vx;shootStar.y+=shootStar.vy;shootStar.life-=shootStar.fade;
+      if(shootStar.life>0){const hyp=Math.hypot(shootStar.vx,shootStar.vy),ex=shootStar.x-shootStar.vx*(shootStar.len/hyp),ey=shootStar.y-shootStar.vy*(shootStar.len/hyp);
+        const sg=ctx.createLinearGradient(ex,ey,shootStar.x,shootStar.y);sg.addColorStop(0,'rgba(255,255,255,0)');sg.addColorStop(.65,`rgba(255,240,190,${shootStar.life*.45})`);sg.addColorStop(1,`rgba(255,250,220,${shootStar.life})`);
+        ctx.save();ctx.strokeStyle=sg;ctx.lineWidth=1.6;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(ex,ey);ctx.lineTo(shootStar.x,shootStar.y);ctx.stroke();ctx.restore();}
+      else{shootStar=null;}}
     requestAnimationFrame(draw);
   }
-
   resize();buildStars();buildDust();draw();
   window.addEventListener('resize',()=>{resize();buildStars();buildDust()});
 })();
 </script>
-
-
 
 <!-- MARQUEE -->
 <div class="mq"><div class="mqt">
@@ -1266,57 +953,16 @@ canvas#gc{
   <span class="mqi">Bespoke Engraving<span class="mqgem">✦</span></span>
 </div></div>
 
-<!-- STATS -->
-<!-- ═══ GALAXY STATS SECTION — replace your existing .stats div ═══ -->
-<style>
-.gstats-wrap{position:relative;overflow:hidden;background:#000;width:100%}
-#gsc{position:absolute;inset:0;width:100%;height:100%;display:block}
-.gstats-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.18) 0%,rgba(0,0,0,.04) 40%,rgba(0,0,0,.04) 60%,rgba(0,0,0,.22) 100%);pointer-events:none}
-.gstats-grid{position:relative;z-index:2;display:grid;grid-template-columns:repeat(4,1fr);width:100%}
-.gsb{padding:clamp(32px,5vw,60px) clamp(14px,2vw,32px);text-align:center;border-right:1px solid rgba(201,148,58,.18);position:relative;transition:background .4s}
-.gsb:last-child{border-right:none}
-.gsb::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:linear-gradient(90deg,transparent,#C9943A,transparent);transition:width .7s cubic-bezier(.76,0,.24,1)}
-.gsb:hover::after{width:100%}
-.gsb:hover{background:rgba(201,148,58,.05)}
-.gsb::before{content:'';position:absolute;top:-1px;left:-1px;width:12px;height:12px;border-top:1px solid rgba(201,148,58,.4);border-left:1px solid rgba(201,148,58,.4);opacity:0;transition:opacity .4s}
-.gsb:hover::before{opacity:1}
-.gstats-line{position:relative;z-index:2;height:1px;background:linear-gradient(90deg,transparent,rgba(201,148,58,.35) 20%,rgba(232,192,96,.7) 50%,rgba(201,148,58,.35) 80%,transparent);box-shadow:0 0 14px rgba(201,148,58,.15)}
-.gsv{font-family:var(--f-head);font-size:clamp(30px,4vw,54px);font-weight:700;font-style:italic;color:#E8C060;line-height:1;margin-bottom:7px;display:block;text-shadow:0 0 30px rgba(201,148,58,.4)}
-.gsl{font-family:var(--f-label);font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--wh3);margin-bottom:8px;display:block}
-.gsd{font-family:var(--f-body);font-size:clamp(10px,1.1vw,12px);font-weight:300;line-height:1.75;color:rgba(154,146,137,.85)}
-@media(max-width:700px){
-  .gstats-grid{grid-template-columns:repeat(2,1fr)}
-  .gsb:nth-child(2){border-right:none}
-  .gsb:nth-child(3),.gsb:nth-child(4){border-top:1px solid rgba(201,148,58,.15)}
-  .gsb:nth-child(odd){border-right:1px solid rgba(201,148,58,.18)}
-}
-</style>
-
+<!-- GALAXY STATS -->
 <div class="gstats-wrap" id="gstatsWrap">
   <canvas id="gsc"></canvas>
   <div class="gstats-overlay"></div>
   <div class="gstats-line"></div>
   <div class="gstats-grid">
-    <div class="gsb">
-      <span class="gsv" data-target="50" data-suffix="+">0</span>
-      <span class="gsl">Years of Heritage</span>
-      <p class="gsd">Six generations of master watchmakers building upon each other.</p>
-    </div>
-    <div class="gsb">
-      <span class="gsv" data-target="324" data-suffix="">0</span>
-      <span class="gsl">Components Per Piece</span>
-      <p class="gsd">Every part individually hand-finished to mirror perfection.</p>
-    </div>
-    <div class="gsb">
-      <span class="gsv" data-target="800" data-suffix="h">0</span>
-      <span class="gsl">Hours of Craft</span>
-      <p class="gsd">Each skeleton movement demands 800 hours of artisan work.</p>
-    </div>
-    <div class="gsb">
-      <span class="gsv" data-target="12" data-suffix="">0</span>
-      <span class="gsl">Pieces Per Year</span>
-      <p class="gsd">True rarity — the natural result of uncompromising standards.</p>
-    </div>
+    <div class="gsb"><span class="gsv" data-target="50" data-suffix="+">0</span><span class="gsl">Years of Heritage</span><p class="gsd">Six generations of master watchmakers building upon each other.</p></div>
+    <div class="gsb"><span class="gsv" data-target="324" data-suffix="">0</span><span class="gsl">Components Per Piece</span><p class="gsd">Every part individually hand-finished to mirror perfection.</p></div>
+    <div class="gsb"><span class="gsv" data-target="800" data-suffix="h">0</span><span class="gsl">Hours of Craft</span><p class="gsd">Each skeleton movement demands 800 hours of artisan work.</p></div>
+    <div class="gsb"><span class="gsv" data-target="12" data-suffix="">0</span><span class="gsl">Pieces Per Year</span><p class="gsd">True rarity — the natural result of uncompromising standards.</p></div>
   </div>
   <div class="gstats-line"></div>
 </div>
@@ -1354,7 +1000,6 @@ canvas#gc{
   }
   resize();buildStars();buildDust();draw();
   window.addEventListener('resize',()=>{resize();buildStars();buildDust();});
-  /* Count-up on scroll into view */
   const nums=wrap.querySelectorAll('.gsv[data-target]');
   let counted=false;
   const io=new IntersectionObserver(entries=>{
@@ -1366,6 +1011,7 @@ canvas#gc{
 })();
 </script>
 
+<!-- HERO VIDEO -->
 <section class="hero" id="home">
   <div class="hero-video-wrap">
     <video autoplay muted playsinline loop preload="auto">
@@ -1374,25 +1020,9 @@ canvas#gc{
   </div>
   <div class="hero-overlay"></div>
   <div class="hero-scan"></div>
-  <div class="hero-content">
-    <!-- <div class="hero-badge">Established Geneva MMXXIV</div> -->
-    <!-- <h1 class="hero-title">
-      Royal E Cartel<br>
-      <span class="gold-text">Luxury Timepieces</span>
-    </h1> -->
-    <!-- <p class="hero-subtitle">
-      Every second, a legacy. Hand-crafted skeleton movements that reveal the soul of timekeeping — gold, steel, and centuries of mastery.
-    </p> -->
-    <!-- <div class="hero-btns">
-      <a href="#collection" class="btn-primary"><span>Explore Collection</span></a>
-      <button class="btn-secondary" onclick="openVid()">▶ Watch Film</button>
-    </div> -->
-  </div>
+  <div class="hero-content"></div>
   <div class="hero-line"></div>
-  <div class="hero-scroll">
-    <span>Scroll</span>
-    <div class="scroll-bar"></div>
-  </div>
+  <div class="hero-scroll"><span>Scroll</span><div class="scroll-bar"></div></div>
 </section>
 
 <!-- COLLECTION -->
@@ -1408,7 +1038,7 @@ canvas#gc{
       <div class="dial-name">Patek</div>
       <div class="dial-sub">Patek Philippe Nautilus</div>
       <div class="dial-price">Price: 7499</div>
-      <button class="btn-cart" onclick="addToCart('Patek ','Patek Philippe Nautilus','Price: 7499',7499,'Masterpcs-1.png')">
+      <button class="btn-cart" onclick="addToCart('Patek Philippe Nautilus','Patek Philippe Nautilus','PKR 7,499',7499,'Masterpcs-1.png')">
         <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
         Add to Cart
       </button>
@@ -1423,467 +1053,33 @@ canvas#gc{
         <div class="center-name">Patek Philippe</div>
         <div class="center-sub">Patek Philippe Nautilus</div>
         <div class="center-price">RS 7499</div>
-        <button class="btn-cart" onclick="addToCart('Patek Philippe','Patek Philippe Nautilus','Price 7499',7499,'Masterpcs-2.png')">
+        <button class="btn-cart" onclick="addToCart('Patek Philippe Signature','Patek Philippe Nautilus','PKR 7,499',7499,'Masterpcs-2.png')">
           <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
           Add to Cart
         </button>
       </div>
     </div>
     <div class="dial-card right" data-anim>
-  <div class="dial-circle">
-    <img src="CASIRUI-single.jpeg" alt="CASIRUI Square">
-  </div>
-
-  <div class="dial-name">CASIRUI – Square</div>
-  <div class="dial-sub">Skeleton Edition</div>
-  <div class="dial-price">Price 7499</div>
-
-  <button class="btn-cart" onclick="addToCart('CASIRUI – Square','Skeleton Edition','Price 7499',7499,'CASIRUI-single.jpeg')">
-    <svg viewBox="0 0 24 24">
-      <circle cx="9" cy="21" r="1"/>
-      <circle cx="20" cy="21" r="1"/>
-      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-    </svg>
-    Add to Cart
-  </button>
-</div>
+      <div class="dial-circle"><img src="CASIRUI-single.jpeg" alt="CASIRUI Square"></div>
+      <div class="dial-name">CASIRUI – Square</div>
+      <div class="dial-sub">Skeleton Edition</div>
+      <div class="dial-price">Price 7499</div>
+      <button class="btn-cart" onclick="addToCart('CASIRUI Square Skeleton','Skeleton Edition','PKR 7,499',7499,'CASIRUI-single.jpeg')">
+        <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        Add to Cart
+      </button>
+    </div>
   </div>
   <div class="cta-row" data-anim>
     <a href="#contact" class="btn-primary"><span>✦ &nbsp; Reserve a Private Viewing &nbsp; ✦</span></a>
   </div>
 </section>
 
-<!-- WATCHES HORIZONTAL SCROLL -->
-<style>
-/* ── MODAL OVERLAY ── */
-.wmod-ov{
-  position:fixed;inset:0;z-index:3500;
-  background:rgba(0,0,0,.94);
-  display:none;align-items:center;justify-content:center;
-  padding:clamp(10px,2vw,20px);
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
-}
-.wmod-ov.open{display:flex}
-
-.wmod{
-  width:min(1000px,96vw);
-  max-height:94vh;
-  overflow:hidden;
-  background:var(--bk2);
-  border:1px solid rgba(201,148,58,.25);
-  position:relative;
-  display:flex;
-  flex-direction:column;
-  animation:wmodIn .45s cubic-bezier(.22,1,.36,1);
-  box-shadow:0 30px 80px rgba(0,0,0,.8),0 0 0 1px rgba(201,148,58,.08);
-}
-@keyframes wmodIn{from{opacity:0;transform:translateY(28px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
-
-/* Corner accents */
-.wm-c{position:absolute;width:18px;height:18px;z-index:2;pointer-events:none}
-.wm-c.tl{top:-1px;left:-1px;border-top:2px solid var(--gold);border-left:2px solid var(--gold)}
-.wm-c.tr{top:-1px;right:-1px;border-top:2px solid var(--gold);border-right:2px solid var(--gold)}
-.wm-c.bl{bottom:-1px;left:-1px;border-bottom:2px solid var(--gold);border-left:2px solid var(--gold)}
-.wm-c.br{bottom:-1px;right:-1px;border-bottom:2px solid var(--gold);border-right:2px solid var(--gold)}
-
-/* Modal header */
-.wm-hdr{
-  padding:16px 22px;
-  border-bottom:1px solid rgba(201,148,58,.14);
-  background:var(--bk3);
-  display:flex;align-items:center;justify-content:space-between;
-  flex-shrink:0;gap:12px;
-}
-.wm-hdr-left{display:flex;align-items:center;gap:14px}
-.wm-brand-badge{
-  font-family:var(--f-label);font-size:9px;font-weight:700;letter-spacing:3px;
-  text-transform:uppercase;color:var(--bk);
-  background:linear-gradient(135deg,var(--gold4),var(--gold),var(--gold2));
-  padding:5px 12px;
-}
-.wm-hdr-title{
-  font-family:var(--f-label);font-size:11px;font-weight:600;letter-spacing:3px;
-  text-transform:uppercase;color:rgba(255,255,255,.6);
-}
-.wm-close{
-  width:34px;height:34px;border-radius:50%;
-  border:1px solid rgba(201,148,58,.3);background:transparent;
-  color:var(--gold);cursor:pointer;font-size:15px;
-  display:flex;align-items:center;justify-content:center;
-  transition:background .3s,color .3s;flex-shrink:0;
-}
-.wm-close:hover{background:var(--gold);color:var(--bk)}
-
-/* Modal body: 2 columns */
-.wm-body{
-  display:grid;grid-template-columns:1fr 1fr;
-  flex:1;overflow:hidden;
-}
-
-/* ── GALLERY SIDE ── */
-.wm-gallery{
-  position:relative;overflow:hidden;
-  background:var(--bk4);
-  min-height:clamp(280px,40vh,520px);
-}
-.wm-slides{display:flex;height:100%;transition:transform .55s cubic-bezier(.76,0,.24,1)}
-.wm-slide{flex:0 0 100%;position:relative;overflow:hidden}
-.wm-slide img{
-  width:100%;height:100%;object-fit:cover;display:block;
-  transition:transform 6s linear;
-  filter:brightness(.82);
-}
-.wm-slide.active img{transform:scale(1.06)}
-.wm-slide-ov{
-  position:absolute;inset:0;
-  background:linear-gradient(to bottom,rgba(0,0,0,.1) 0%,transparent 35%,transparent 60%,rgba(0,0,0,.7) 100%);
-}
-/* Gallery zoom badge */
-.wm-zoom{
-  position:absolute;top:12px;right:12px;z-index:3;
-  background:rgba(0,0,0,.6);border:1px solid rgba(201,148,58,.3);
-  color:rgba(255,255,255,.6);font-family:var(--f-label);font-size:9px;
-  font-weight:600;letter-spacing:2px;text-transform:uppercase;
-  padding:5px 10px;pointer-events:none;
-}
-/* Arrow buttons */
-.wm-arr{
-  position:absolute;top:50%;transform:translateY(-50%);z-index:3;
-  width:36px;height:36px;
-  background:rgba(0,0,0,.65);border:1px solid rgba(201,148,58,.35);
-  color:var(--gold);cursor:pointer;font-size:16px;
-  display:flex;align-items:center;justify-content:center;
-  transition:background .3s,border-color .3s;
-}
-.wm-arr:hover{background:rgba(201,148,58,.25);border-color:var(--gold)}
-.wm-prev{left:10px}.wm-next{right:10px}
-
-/* Thumbnail strip */
-.wm-thumbs{
-  position:absolute;bottom:0;left:0;right:0;z-index:3;
-  display:flex;gap:4px;padding:10px 12px;
-  background:linear-gradient(to top,rgba(0,0,0,.85) 0%,transparent 100%);
-  overflow-x:auto;scrollbar-width:none;
-}
-.wm-thumbs::-webkit-scrollbar{display:none}
-.wm-thumb{
-  flex:0 0 52px;height:40px;overflow:hidden;cursor:pointer;
-  border:2px solid rgba(201,148,58,.2);opacity:.55;
-  transition:opacity .3s,border-color .3s;
-}
-.wm-thumb.on{opacity:1;border-color:var(--gold)}
-.wm-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-
-/* ── DETAILS SIDE ── */
-.wm-info{
-  padding:clamp(18px,2.5vw,28px);
-  overflow-y:auto;
-  display:flex;flex-direction:column;
-  gap:0;
-  scrollbar-width:thin;
-  scrollbar-color:var(--gold4) transparent;
-}
-.wm-info::-webkit-scrollbar{width:2px}
-.wm-info::-webkit-scrollbar-thumb{background:var(--gold4)}
-
-.wm-tag{
-  display:inline-flex;align-items:center;gap:8px;
-  font-family:var(--f-label);font-size:9px;font-weight:700;letter-spacing:3px;
-  text-transform:uppercase;color:var(--gold);
-  margin-bottom:10px;
-}
-.wm-tag::after{content:'';flex:0 0 28px;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
-.wm-name{
-  font-family:var(--f-head);font-size:clamp(20px,2.6vw,28px);
-  font-weight:700;font-style:italic;color:var(--wh);
-  line-height:1.15;margin-bottom:6px;
-}
-.wm-model{
-  font-family:var(--f-label);font-size:10px;font-weight:500;letter-spacing:2px;
-  text-transform:uppercase;color:var(--gr);margin-bottom:14px;
-}
-.wm-price-row{
-  display:flex;align-items:baseline;gap:12px;
-  padding:12px 0;border-top:1px solid rgba(201,148,58,.1);
-  border-bottom:1px solid rgba(201,148,58,.1);
-  margin-bottom:16px;
-}
-.wm-price{
-  font-family:var(--f-head);font-size:clamp(22px,3vw,30px);
-  font-weight:700;font-style:italic;color:var(--gold2);
-}
-.wm-avail{
-  font-family:var(--f-label);font-size:9px;font-weight:600;letter-spacing:2px;
-  text-transform:uppercase;
-  color:#4ade80;display:flex;align-items:center;gap:5px;
-}
-.wm-avail::before{content:'';width:6px;height:6px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.wm-desc{
-  font-family:var(--f-body);font-size:clamp(12px,1.3vw,13px);font-weight:300;
-  color:var(--gr);line-height:1.85;margin-bottom:18px;
-}
-/* Specs table */
-.wm-specs-title{
-  font-family:var(--f-label);font-size:9px;font-weight:700;letter-spacing:4px;
-  text-transform:uppercase;color:var(--gold);margin-bottom:8px;
-  display:flex;align-items:center;gap:10px;
-}
-.wm-specs-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(201,148,58,.3),transparent)}
-.wm-specs{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:0;margin-bottom:20px;
-  border:1px solid rgba(201,148,58,.1);
-}
-.wm-spec{
-  padding:8px 12px;
-  border-bottom:1px solid rgba(201,148,58,.07);
-  border-right:1px solid rgba(201,148,58,.07);
-}
-.wm-spec:nth-child(even){border-right:none}
-.wm-spec:nth-last-child(1),.wm-spec:nth-last-child(2){border-bottom:none}
-.wm-spec-k{
-  font-family:var(--f-label);font-size:8px;font-weight:700;letter-spacing:2px;
-  text-transform:uppercase;color:var(--gold);margin-bottom:3px;
-}
-.wm-spec-v{
-  font-family:var(--f-body);font-size:11px;font-weight:300;
-  color:var(--wh2);line-height:1.4;
-}
-/* Action buttons */
-.wm-actions{display:flex;gap:8px;margin-top:auto;padding-top:16px;flex-wrap:wrap}
-.wm-btn-cart{
-  flex:1;min-width:120px;
-  font-family:var(--f-label);font-size:10px;font-weight:700;letter-spacing:2px;
-  text-transform:uppercase;padding:13px 16px;
-  background:linear-gradient(135deg,var(--gold4),var(--gold),var(--gold2));
-  color:var(--bk);border:none;cursor:pointer;
-  position:relative;overflow:hidden;
-  transition:transform .3s,box-shadow .3s;
-  box-shadow:0 4px 20px rgba(201,148,58,.3);
-}
-.wm-btn-cart:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(201,148,58,.5)}
-.wm-btn-wa{
-  flex:0 0 48px;height:48px;
-  background:linear-gradient(135deg,#25D366,#128C7E);
-  border:none;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  transition:opacity .3s;
-}
-.wm-btn-wa:hover{opacity:.85}
-.wm-btn-wa svg{width:22px;height:22px;fill:#fff}
-.wm-btn-wish{
-  flex:0 0 48px;height:48px;
-  background:transparent;border:1px solid rgba(201,148,58,.3);
-  color:var(--gold);cursor:pointer;font-size:18px;
-  display:flex;align-items:center;justify-content:center;
-  transition:all .3s;
-}
-.wm-btn-wish:hover{background:rgba(201,148,58,.12);border-color:var(--gold)}
-
-/* Mobile modal layout */
-@media(max-width:700px){
-  .wm-body{grid-template-columns:1fr;grid-template-rows:auto 1fr}
-  .wm-gallery{min-height:200px;height:52vw}
-  .wm-info{max-height:52vh}
-  .wm-specs{grid-template-columns:1fr}
-  .wm-spec{border-right:none!important}
-  .wm-spec:nth-last-child(1){border-bottom:none}
-  .wm-spec:nth-last-child(2){border-bottom:1px solid rgba(201,148,58,.07)}
-}
-
-/* ══════════════════════════════════
-   CATALOGUE SECTION
-══════════════════════════════════ */
-.wcat{
-  position:relative;z-index:2;
-  padding:clamp(60px,8vw,120px) clamp(16px,4.5vw,60px);
-  background:var(--bk4);
-}
-/* Section header */
-.wcat-hd{margin-bottom:clamp(32px,4vw,52px)}
-/* Brand filter strip */
-.wcat-filters{
-  display:flex;gap:6px;flex-wrap:wrap;
-  margin-top:22px;
-}
-.wcat-f{
-  font-family:var(--f-label);font-size:10px;font-weight:600;letter-spacing:2px;
-  text-transform:uppercase;padding:8px 20px;
-  border:1px solid rgba(201,148,58,.2);
-  background:transparent;color:rgba(255,255,255,.45);
-  cursor:pointer;transition:all .3s;
-}
-.wcat-f:hover{border-color:rgba(201,148,58,.5);color:rgba(255,255,255,.75)}
-.wcat-f.on{
-  background:linear-gradient(135deg,var(--gold4),var(--gold),var(--gold2));
-  border-color:transparent;color:var(--bk);
-}
-/* Results count */
-.wcat-count{
-  font-family:var(--f-body);font-size:12px;font-weight:300;
-  color:var(--gr);margin-top:14px;letter-spacing:.5px;
-}
-.wcat-count span{color:var(--gold);font-weight:500}
-
-/* Cards grid */
-.wcat-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(clamp(220px,24vw,280px),1fr));
-  gap:clamp(10px,1.5vw,16px);
-  margin-top:clamp(28px,4vw,44px);
-}
-
-/* Watch card */
-.wcard{
-  background:var(--bk2);
-  border:1px solid rgba(201,148,58,.1);
-  position:relative;overflow:hidden;cursor:pointer;
-  opacity:0;transform:translateY(20px);
-  transition:opacity .6s cubic-bezier(.22,1,.36,1),
-              transform .6s cubic-bezier(.22,1,.36,1),
-              border-color .3s,box-shadow .3s;
-}
-.wcard.vis{opacity:1;transform:translateY(0)}
-.wcard:hover{
-  border-color:rgba(201,148,58,.38);
-  box-shadow:0 12px 40px rgba(0,0,0,.5),0 0 0 1px rgba(201,148,58,.08);
-}
-/* Card top corner accent */
-.wcard::before{
-  content:'';position:absolute;top:0;left:0;
-  width:0;height:2px;
-  background:linear-gradient(90deg,var(--gold4),var(--gold2));
-  transition:width .4s var(--ease);z-index:2;
-}
-.wcard:hover::before{width:100%}
-
-/* Card image */
-.wcard-img{
-  height:clamp(190px,22vw,260px);
-  overflow:hidden;position:relative;
-  background:var(--bk3);
-}
-.wcard-img img{
-  width:100%;height:100%;object-fit:cover;display:block;
-  transition:transform .7s cubic-bezier(.76,0,.24,1),filter .4s;
-  filter:brightness(.82) saturate(.9);
-}
-.wcard:hover .wcard-img img{transform:scale(1.08);filter:brightness(.95) saturate(1)}
-.wcard-img-ov{
-  position:absolute;inset:0;
-  background:linear-gradient(to bottom,transparent 30%,rgba(0,0,0,.7) 100%);
-  transition:opacity .3s;
-}
-/* Photo count indicator */
-.wcard-pics{
-  position:absolute;bottom:10px;right:10px;z-index:2;
-  font-family:var(--f-label);font-size:8px;font-weight:600;letter-spacing:1px;
-  color:rgba(255,255,255,.7);background:rgba(0,0,0,.6);
-  border:1px solid rgba(201,148,58,.25);padding:3px 8px;
-  display:flex;align-items:center;gap:5px;
-}
-.wcard-pics svg{width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:1.5}
-/* Badges */
-.wcard-badge{
-  position:absolute;top:10px;left:10px;z-index:2;
-  font-family:var(--f-label);font-size:8px;font-weight:700;letter-spacing:2px;
-  text-transform:uppercase;padding:4px 10px;
-}
-.wcard-badge.new{background:linear-gradient(135deg,#1a6b3a,#25D366);color:#fff}
-.wcard-badge.sig{background:linear-gradient(135deg,var(--gold4),var(--gold2));color:var(--bk)}
-.wcard-badge.rare{background:linear-gradient(135deg,#6b1a1a,#c0392b);color:#fff}
-.wcard-badge.excl{background:rgba(0,0,0,.7);border:1px solid rgba(201,148,58,.4);color:var(--gold)}
-/* Hover view overlay */
-.wcard-hover{
-  position:absolute;inset:0;z-index:3;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
-  background:rgba(0,0,0,.55);
-  opacity:0;transition:opacity .35s;pointer-events:none;
-}
-.wcard:hover .wcard-hover{opacity:1;pointer-events:auto}
-.wcard-hover-btn{
-  font-family:var(--f-label);font-size:10px;font-weight:700;letter-spacing:3px;
-  text-transform:uppercase;color:var(--gold2);
-  border:1px solid rgba(201,148,58,.6);padding:10px 24px;
-  background:rgba(0,0,0,.5);
-  transition:background .3s,border-color .3s;
-  pointer-events:none;
-}
-.wcard-hover-sub{
-  font-family:var(--f-body);font-size:10px;color:rgba(255,255,255,.55);
-  letter-spacing:1px;pointer-events:none;
-}
-
-/* Card body */
-.wcard-body{padding:clamp(12px,1.5vw,18px)}
-.wcard-brand{
-  font-family:var(--f-label);font-size:8px;font-weight:700;letter-spacing:3px;
-  text-transform:uppercase;color:var(--gold);margin-bottom:5px;
-}
-.wcard-name{
-  font-family:var(--f-head);font-size:clamp(15px,1.8vw,19px);font-weight:700;
-  font-style:italic;color:var(--wh);line-height:1.2;margin-bottom:3px;
-}
-.wcard-sub{
-  font-family:var(--f-body);font-size:11px;font-weight:300;
-  color:var(--gr);margin-bottom:12px;font-style:italic;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
-.wcard-foot{
-  display:flex;align-items:center;justify-content:space-between;
-  padding-top:10px;border-top:1px solid rgba(201,148,58,.1);gap:8px;
-}
-.wcard-price{
-  font-family:var(--f-head);font-size:clamp(14px,1.7vw,17px);
-  font-weight:700;font-style:italic;color:var(--gold);
-}
-.wcard-actions{display:flex;gap:5px}
-.wcard-a-detail{
-  font-family:var(--f-label);font-size:8px;font-weight:600;
-  letter-spacing:1.5px;text-transform:uppercase;
-  padding:6px 12px;border:1px solid rgba(201,148,58,.3);
-  color:var(--gold);background:transparent;cursor:pointer;
-  transition:all .3s;white-space:nowrap;
-}
-.wcard-a-detail:hover{background:rgba(201,148,58,.1);border-color:var(--gold)}
-.wcard-a-cart{
-  width:30px;height:30px;
-  border:1px solid rgba(201,148,58,.3);background:transparent;
-  color:var(--gold);cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  transition:all .3s;flex-shrink:0;
-}
-.wcard-a-cart svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.5}
-.wcard-a-cart:hover{background:var(--gold);color:var(--bk);border-color:var(--gold)}
-
-/* Stagger animation delays */
-.wcat-grid .wcard:nth-child(1){transition-delay:0s}
-.wcat-grid .wcard:nth-child(2){transition-delay:.06s}
-.wcat-grid .wcard:nth-child(3){transition-delay:.12s}
-.wcat-grid .wcard:nth-child(4){transition-delay:.18s}
-.wcat-grid .wcard:nth-child(5){transition-delay:.24s}
-.wcat-grid .wcard:nth-child(6){transition-delay:.30s}
-.wcat-grid .wcard:nth-child(7){transition-delay:.36s}
-.wcat-grid .wcard:nth-child(8){transition-delay:.42s}
-.wcat-grid .wcard:nth-child(9){transition-delay:.48s}
-.wcat-grid .wcard:nth-child(10){transition-delay:.54s}
-
-/* No results */
-.wcat-empty{
-  grid-column:1/-1;text-align:center;padding:60px 20px;
-  font-family:var(--f-body);font-size:15px;font-weight:300;
-  color:var(--gr);font-style:italic;
-}
-</style>
-
-<!-- MODAL HTML -->
+<!-- WATCH MODAL -->
 <div class="wmod-ov" id="wmodOv" role="dialog" aria-modal="true" aria-label="Watch Details">
   <div class="wmod" id="wmod">
     <div class="wm-c tl"></div><div class="wm-c tr"></div>
     <div class="wm-c bl"></div><div class="wm-c br"></div>
-    <!-- Header -->
     <div class="wm-hdr">
       <div class="wm-hdr-left">
         <div class="wm-brand-badge" id="wmBadge">Brand</div>
@@ -1891,9 +1087,7 @@ canvas#gc{
       </div>
       <button class="wm-close" id="wmClose" aria-label="Close">&#x2715;</button>
     </div>
-    <!-- Body -->
     <div class="wm-body">
-      <!-- Gallery -->
       <div class="wm-gallery">
         <div class="wm-slides" id="wmSlides"></div>
         <button class="wm-arr wm-prev" id="wmPrev" aria-label="Previous photo">&#8592;</button>
@@ -1901,7 +1095,6 @@ canvas#gc{
         <div class="wm-zoom" id="wmZoom">1 / 1</div>
         <div class="wm-thumbs" id="wmThumbs"></div>
       </div>
-      <!-- Info -->
       <div class="wm-info">
         <div class="wm-tag" id="wmTag">Collection</div>
         <div class="wm-name" id="wmName">Watch Name</div>
@@ -1919,7 +1112,10 @@ canvas#gc{
   </div>
 </div>
 
-<!-- CATALOGUE SECTION -->
+<!-- ═══════════════════════════════════
+     CATALOGUE SECTION
+     ─ FIX: filter data-f values now match watch filter properties
+═══════════════════════════════════ -->
 <section class="wcat" id="watches">
   <div class="wcat-hd">
     <div class="sec-hd" data-anim>
@@ -1927,12 +1123,17 @@ canvas#gc{
       <h2 class="section-h2">Royal <em>Timepieces</em></h2>
       <p class="section-sub">Tap any watch to explore full specifications &amp; gallery</p>
     </div>
+    <!-- FIXED: data-f values match the filter property in WCATALOGUE -->
     <div class="wcat-filters" id="wcatFilters">
-      <button class="wcat-f on" data-f="all">All Brands</button>
-      <button class="wcat-f" data-f="tissot">Tissot</button>
-      <button class="wcat-f" data-f="seiko">Seiko Series</button>
-      <button class="wcat-f" data-f="franck-muller">Franck Muller</button>
-      <button class="wcat-f" data-f="royale">Royale Originals</button>
+      <button class="wcat-f on" data-f="all"><span>All Brands</span></button>
+      <button class="wcat-f" data-f="rolex"><span>Rolex</span></button>
+      <button class="wcat-f" data-f="tissot"><span>Tissot</span></button>
+      <button class="wcat-f" data-f="casirui"><span>CASIRUI</span></button>
+      <button class="wcat-f" data-f="franck-muller"><span>Franck Muller</span></button>
+      <button class="wcat-f" data-f="patekphilippe"><span>Patek Philippe</span></button>
+      <button class="wcat-f" data-f="audemarspiguet"><span>Audemars Piguet</span></button>
+      <button class="wcat-f" data-f="rolexsubmariner"><span>Submariner</span></button>
+      <button class="wcat-f" data-f="hublot"><span>Hublot</span></button>
     </div>
     <div class="wcat-count" id="wcatCount">Showing <span id="wcatNum">0</span> timepieces</div>
   </div>
@@ -1941,759 +1142,352 @@ canvas#gc{
 
 <script>
 /* ══════════════════════════════════
-   WATCH DATA — add more objects here
+   WATCH CATALOGUE DATA
 ══════════════════════════════════ */
 const WCATALOGUE = [
-
-  /* ── CASIRUI ── */
   {
     id:'c1', brand:'CASIRUI', filter:'casirui',
     badge:{text:'New Arrival', cls:'new'},
     name:'Rolex Oyster Perpetual Datejust',
-    model:'Rolex Oyster Perpetual Datejust Series',
+    model:'CASIRUI Automatic Skeleton Series',
     ref:'CS-001',
     sub:'Stainless Steel · Open-Heart Dial',
-    price:'PKR 3999',
+    price:'PKR 3,999',
     priceNum:3999,
-    photos:['Rolex Oyster-1.jpeg','Rolex Oyster-2.jpeg','Rolex Oyster-3.png', 'Rolex Oyster-4.png'],
-    desc: `A striking open-heart skeleton dial showcases the precision automatic mechanical movement in motion. The black and gold skeleton design, paired with a polished stainless steel bracelet, delivers a bold luxury timepiece crafted for those who appreciate modern elegance and timeless engineering.
+    photos:['Rolex Oyster-1.jpeg','Rolex Oyster-2.jpeg','Rolex Oyster-3.png','Rolex Oyster-4.png'],
+    desc:`A striking open-heart skeleton dial showcases the precision automatic mechanical movement in motion. The black and gold skeleton design, paired with a polished stainless steel bracelet, delivers a bold luxury timepiece crafted for those who appreciate modern elegance and timeless engineering.
 
-MOVEMENT
-Automatic Mechanical
+MOVEMENT: Automatic Mechanical
+DIAL TYPE: Skeleton Open-Heart Dial
+CASE MATERIAL: Premium Stainless Steel Alloy
+STRAP: Stainless Steel Bracelet
+GLASS: Hardlex / Mineral Crystal
+WATER RESIST.: Daily Splash Resistant
 
-DIAL TYPE
-Skeleton Open-Heart Dial
-
-CASE MATERIAL
-Premium Stainless Steel Alloy
-
-STRAP
-Stainless Steel Bracelet
-
-STRAP COLOR
-Silver
-
-DIAL COLOR
-Black & Gold Skeleton Design
-
-GLASS
-Hardlex / Mineral Crystal
-
-CLASP
-Fold-Over Clasp
-
-WATER RESIST.
-Daily Splash Resistant
-
-CASE SIZE
-40–42mm
-
-WEIGHT
-130–150g
-
-MOVEMENT TYPE
-Self-Winding Automatic
-
-COMPONENTS
-Precision Mechanical Movement
-
-FINISH
-Brushed & Polished Stainless Steel Finish
-
-FEATURES
-Open-Heart Skeleton Display • Automatic Self-Winding • Luxury Mechanical Design • Fold-Over Safety Clasp
-
-PACKAGE INCLUDES
-CASIRUI Automatic Skeleton Watch + Premium Gift Box + Delivery Charges Included`,
+PACKAGE INCLUDES: CASIRUI Automatic Skeleton Watch + Premium Gift Box + Delivery Charges Included`,
     specs:[
-      {k:'Movement',      v:'Automatic Mechanical'},
-      {k:'Dial Type',     v:'Skeleton Open-Heart'},
-      {k:'Case Material', v:'Stainless Steel Alloy'},
-      {k:'Strap',         v:'Stainless Steel Bracelet'},
-      {k:'Strap Color',   v:'Silver'},
-      {k:'Dial Color',    v:'Black & Gold Skeleton'},
-      {k:'Glass',         v:'Hardlex / Mineral Crystal'},
-      {k:'Clasp',         v:'Fold-Over Clasp'},
-      {k:'Water Resist.', v:'Daily Splash Resistant'},
-      {k:'Case Size',     v:'Approx. 40–42mm'},
-      {k:'Weight',        v:'Approx. 130–150g'},
-      {k:'Caseback',      v:'Solid Stainless Steel'},
+      {k:'Movement',v:'Automatic Mechanical'},{k:'Dial Type',v:'Skeleton Open-Heart'},
+      {k:'Case Material',v:'Stainless Steel Alloy'},{k:'Strap',v:'Stainless Steel Bracelet'},
+      {k:'Strap Color',v:'Silver'},{k:'Dial Color',v:'Black & Gold Skeleton'},
+      {k:'Glass',v:'Hardlex / Mineral Crystal'},{k:'Clasp',v:'Fold-Over Clasp'},
+      {k:'Water Resist.',v:'Daily Splash Resistant'},{k:'Case Size',v:'Approx. 40–42mm'},
+      {k:'Weight',v:'Approx. 130–150g'},{k:'Caseback',v:'Solid Stainless Steel'},
     ]
   },
   {
-    id:'c2',
-    brand:'Rolex',
-    filter:'rolex',
-
+    id:'c2', brand:'Rolex', filter:'rolex',
     badge:{text:'Premium', cls:'sig'},
-
     name:'Rolex Oyster Perpetual Datejust',
-    model:'Rolex Oyster Perpetual Datejust Charcoal Diamond Dial',
+    model:'Charcoal Diamond Dial Edition',
     ref:'RX-002',
-
     sub:'Two-Tone Stainless Steel · Diamond Dial',
-
     price:'PKR 3,999',
     priceNum:3999,
-
-    photos:[
-      'second-slot1.png',
-      'second-slot2.png',
-      'second-slot3.png'
-    ],
-
+    photos:['second-slot1.png','second-slot2.png','second-slot3.png'],
     desc:`A refined Rolex Oyster Perpetual Datejust featuring an elegant charcoal diamond dial with sparkling diamond hour markers. The gold-tone diamond-set bezel, two-tone stainless steel bracelet, and luxurious finish make it a perfect choice for both formal occasions and everyday sophistication.
 
-PACKAGE INCLUDES
-
-• Rolex Watch
-• Royale Cartel Box
-• Delivery Charges Included`,
-
+PACKAGE INCLUDES: Rolex Watch + Royale Cartel Box + Delivery Charges Included`,
     specs:[
-      {k:'Brand',          v:'Rolex'},
-      {k:'Movement',       v:'Quartz Movement'},
-      {k:'Case Material',  v:'Stainless Steel'},
-      {k:'Bracelet',       v:'Two-Tone Stainless Steel Bracelet'},
-      {k:'Dial Color',     v:'Charcoal Diamond Dial'},
-      {k:'Bezel',          v:'Gold-Tone Diamond-Set Bezel'},
-      {k:'Markers',        v:'Diamond Hour Markers'},
-      {k:'Display',        v:'Date Display Window'},
-      {k:'Glass',          v:'Scratch-Resistant Crystal Glass'},
-      {k:'Water Resist.',  v:'3 ATM Water Resistant'},
-      {k:'Weight',         v:'Approx. 160–180 Grams'},
-      {k:'Lock',           v:'Butterfly Clasp Lock'},
-      {k:'Style',          v:'Luxury Formal & Casual Wear'},
-      {k:'Package',        v:'Watch + Royale Cartel Box + Delivery Included'}
+      {k:'Brand',v:'Rolex'},{k:'Movement',v:'Quartz Movement'},
+      {k:'Case Material',v:'Stainless Steel'},{k:'Bracelet',v:'Two-Tone Stainless Steel'},
+      {k:'Dial Color',v:'Charcoal Diamond Dial'},{k:'Bezel',v:'Gold-Tone Diamond-Set'},
+      {k:'Markers',v:'Diamond Hour Markers'},{k:'Display',v:'Date Display Window'},
+      {k:'Glass',v:'Scratch-Resistant Crystal'},{k:'Water Resist.',v:'3 ATM'},
+      {k:'Weight',v:'Approx. 160–180g'},{k:'Lock',v:'Butterfly Clasp'},
     ]
-},
+  },
   {
-    id:'c3',
-    brand:'Rolex',
-    filter:'rolex',
-
+    id:'c3', brand:'Rolex', filter:'rolex',
     badge:{text:'Sport', cls:'excl'},
-
     name:'Rolex Oyster Perpetual',
-    model:'Rolex Oyster Perpetual Datejust Silver Diamond Dial',
+    model:'Silver Diamond Dial Edition',
     ref:'RX-003',
-
     sub:'Silver Diamond Dial · Stainless Steel Bracelet',
-
     price:'PKR 3,999',
     priceNum:3999,
-
-    photos:[
-      'Next-1.png',
-      'Next-2.png',
-      'Next-3.png',
-      'Next-4.png',
-      'Next-5.png'
-    ],
-
+    photos:['Next-1.png','Next-2.png','Next-3.png','Next-4.png','Next-5.png'],
     desc:`A sophisticated Rolex Oyster Perpetual Datejust featuring a luxurious silver diamond dial accented with brilliant diamond hour markers. The elegant silver fluted bezel and premium stainless steel bracelet create a timeless design suitable for both formal occasions and everyday wear.
 
-PACKAGE INCLUDES
-
-• Rolex Watch
-• Royale Cartel Box
-• Delivery Charges Included`,
-
+PACKAGE INCLUDES: Rolex Watch + Royale Cartel Box + Delivery Charges Included`,
     specs:[
-      {k:'Brand',          v:'Rolex'},
-      {k:'Movement',       v:'Quartz Movement'},
-      {k:'Case Material',  v:'Stainless Steel'},
-      {k:'Bracelet',       v:'Stainless Steel Bracelet'},
-      {k:'Dial Color',     v:'Silver Diamond Dial'},
-      {k:'Bezel',          v:'Silver Fluted Bezel'},
-      {k:'Markers',        v:'Diamond Hour Markers'},
-      {k:'Display',        v:'Date Display Window'},
-      {k:'Glass',          v:'Scratch-Resistant Crystal Glass'},
-      {k:'Water Resist.',  v:'3 ATM Water Resistant'},
-      {k:'Weight',         v:'Approx. 160–180 Grams'},
-      {k:'Lock',           v:'Butterfly Clasp Lock'},
-      {k:'Style',          v:'Luxury Formal & Casual Wear'},
-      {k:'Package',        v:'Watch + Royale Cartel Box + Delivery Included'}
+      {k:'Brand',v:'Rolex'},{k:'Movement',v:'Quartz Movement'},
+      {k:'Bracelet',v:'Stainless Steel Bracelet'},{k:'Dial Color',v:'Silver Diamond Dial'},
+      {k:'Bezel',v:'Silver Fluted Bezel'},{k:'Markers',v:'Diamond Hour Markers'},
+      {k:'Display',v:'Date Display Window'},{k:'Glass',v:'Scratch-Resistant Crystal'},
+      {k:'Water Resist.',v:'3 ATM'},{k:'Weight',v:'Approx. 160–180g'},
+      {k:'Lock',v:'Butterfly Clasp'},{k:'Style',v:'Luxury Formal & Casual'},
     ]
-},
+  },
   {
-    id:'c4',
-    brand:'Rolex',
-    filter:'rolex',
-
+    id:'c4', brand:'Rolex', filter:'rolex',
     badge:{text:'Classic', cls:'excl'},
-
     name:'Rolex Oyster Perpetual',
-    model:'Rolex Oyster Perpetual Datejust Green Diamond Dial',
+    model:'Emerald Green Diamond Dial',
     ref:'RX-004',
-
     sub:'Emerald Green Diamond Dial · Jubilee Bracelet',
-
     price:'PKR 3,999',
     priceNum:3999,
+    photos:['Next-6.png','Next-7.png','Next-8.png','Next-9.png','Next-10.png'],
+    desc:`Experience timeless luxury with the Rolex Oyster Perpetual Datejust featuring a stunning emerald green diamond dial. Crafted with a stainless steel case, elegant Jubilee bracelet, and signature silver fluted bezel.
 
-    photos:[
-      'Next-6.png',
-      'Next-7.png',
-      'Next-8.png',
-      'Next-9.png',
-      'Next-10.png'
-    ],
-
-    desc:`Experience timeless luxury with the Rolex Oyster Perpetual Datejust featuring a stunning emerald green diamond dial. Crafted with a stainless steel case, elegant Jubilee bracelet, and signature silver fluted bezel, this premium timepiece combines sophistication with everyday versatility.
-
-PACKAGE INCLUDES
-
-• Rolex Watch
-• Premium Luxury Green Box
-• Delivery Charges Included`,
-
+PACKAGE INCLUDES: Rolex Watch + Premium Luxury Green Box + Delivery Charges Included`,
     specs:[
-      {k:'Brand',          v:'Rolex'},
-      {k:'Model',          v:'Oyster Perpetual Datejust'},
-      {k:'Movement',       v:'Quartz Movement'},
-      {k:'Case Material',  v:'Stainless Steel'},
-      {k:'Bracelet',       v:'Stainless Steel Jubilee Bracelet'},
-      {k:'Dial Color',     v:'Emerald Green Diamond Dial'},
-      {k:'Bezel',          v:'Silver Fluted Bezel'},
-      {k:'Markers',        v:'Diamond Hour Markers'},
-      {k:'Display',        v:'Date Display Window with Magnified Lens'},
-      {k:'Glass',          v:'Scratch-Resistant Crystal Glass'},
-      {k:'Water Resist.',  v:'3 ATM Water Resistant'},
-      {k:'Lock Type',      v:'Fold-Over Clasp Lock'},
-      {k:'Style',          v:'Luxury Formal & Casual Wear'},
-      {k:'Weight',         v:'Approx. 160–180 Grams'},
-      {k:'Package',        v:'Watch + Premium Luxury Green Box + Delivery Included'}
+      {k:'Brand',v:'Rolex'},{k:'Model',v:'Oyster Perpetual Datejust'},
+      {k:'Movement',v:'Quartz Movement'},{k:'Bracelet',v:'Jubilee Bracelet'},
+      {k:'Dial Color',v:'Emerald Green Diamond Dial'},{k:'Bezel',v:'Silver Fluted Bezel'},
+      {k:'Markers',v:'Diamond Hour Markers'},{k:'Display',v:'Date Display Window'},
+      {k:'Glass',v:'Scratch-Resistant Crystal'},{k:'Water Resist.',v:'3 ATM'},
+      {k:'Lock Type',v:'Fold-Over Clasp'},{k:'Weight',v:'Approx. 160–180g'},
     ]
-},
-
-  /* ── SEIKO SERIES ── */
+  },
   {
-    id:'s1',
-    brand:'Tissot',
-    filter:'tissot',
-
+    id:'s1', brand:'Tissot', filter:'tissot',
     badge:{text:'Exclusive', cls:'sig'},
-
     name:'Tissot PRX Green Sunburst Dial',
     model:'Tissot PRX Quartz',
     ref:'TS-001',
-
     sub:'Green Sunburst Dial · Swiss Quartz',
-
     price:'PKR 3,999',
     priceNum:3999,
+    photos:['Tissot-1.png','Tissot-2.png','Tissot-3.png','Tissot-4.png','Tissot-5.png'],
+    desc:`The Tissot PRX Quartz blends iconic Swiss craftsmanship with contemporary styling. Featuring a stunning green sunburst dial, integrated stainless steel bracelet, and scratch-resistant sapphire crystal.
 
-    photos:[
-      'Tissot-1.png',
-      'Tissot-2.png',
-      'Tissot-3.png',
-      'Tissot-4.png',
-      'Tissot-5.png'
-    ],
-
-    desc:`The Tissot PRX Quartz blends iconic Swiss craftsmanship with contemporary styling. Featuring a stunning green sunburst dial, integrated stainless steel bracelet, and scratch-resistant sapphire crystal, this luxury timepiece is designed for both everyday elegance and formal sophistication.
-
-PACKAGE INCLUDES
-
-• Tissot PRX Watch
-• Premium Luxury Watch Box
-• Delivery Charges Included`,
-
+PACKAGE INCLUDES: Tissot PRX Watch + Premium Luxury Watch Box + Delivery Charges Included`,
     specs:[
-      {k:'Brand',          v:'Tissot'},
-      {k:'Model',          v:'PRX Quartz'},
-      {k:'Movement',       v:'Swiss Quartz Movement (Battery Operated)'},
-      {k:'Case Material',  v:'Stainless Steel'},
-      {k:'Bracelet',       v:'Stainless Steel Integrated Bracelet'},
-      {k:'Dial',           v:'Green Sunburst Dial (Smooth Metallic Finish)'},
-      {k:'Bezel',          v:'Silver Stainless Steel Bezel'},
-      {k:'Markers',        v:'Silver Baton Hour Markers'},
-      {k:'Display',        v:'Date Display Window at 3 o\'clock'},
-      {k:'Glass',          v:'Scratch-Resistant Sapphire Crystal Glass'},
-      {k:'Water Resist.',  v:'Water Resistant'},
-      {k:'Style',          v:'Luxury Formal & Casual Wear'},
-      {k:'Weight',         v:'Approx. 140–160 Grams'},
-      {k:'Package',        v:'Watch + Premium Luxury Watch Box + Delivery Included'}
+      {k:'Brand',v:'Tissot'},{k:'Model',v:'PRX Quartz'},
+      {k:'Movement',v:'Swiss Quartz Movement'},{k:'Case Material',v:'Stainless Steel'},
+      {k:'Bracelet',v:'Integrated Stainless Steel'},{k:'Dial',v:'Green Sunburst Dial'},
+      {k:'Bezel',v:'Silver Stainless Steel'},{k:'Display',v:'Date at 3 o\'clock'},
+      {k:'Glass',v:'Sapphire Crystal'},{k:'Water Resist.',v:'Water Resistant'},
+      {k:'Style',v:'Luxury Formal & Casual'},{k:'Weight',v:'Approx. 140–160g'},
     ]
-},
+  },
   {
-    id:'s2',
-    brand:'Franck Muller',
-    filter:'franck-muller',
-
+    id:'s2', brand:'Franck Muller', filter:'franck-muller',
     badge:{text:'Limited', cls:'rare'},
-
     name:'Franck Muller Vanguard',
-    model:'Franck Muller Vanguard Full Diamond Green Edition',
+    model:'Full Diamond Green Edition',
     ref:'FM-001',
-
     sub:'Full Diamond Green Edition · Quartz Movement',
-
     price:'PKR 3,999',
     priceNum:3999,
+    photos:['Franck-Muller1.png','Franck-Muller2.png'],
+    desc:`The Franck Muller Vanguard Full Diamond Green Edition features a fully iced-out diamond dial, signature oversized green Arabic numerals, and a premium green hybrid strap.
 
-    photos:[
-      'Franck-Muller1.png',
-      'Franck-Muller2.png'
-    ],
-
-    desc:`The Franck Muller Vanguard Full Diamond Green Edition is a bold luxury timepiece designed to make a statement. Featuring a fully iced-out diamond dial, signature oversized green Arabic numerals, and a premium green hybrid strap, this watch blends modern elegance with iconic Franck Muller styling.
-
-PACKAGE INCLUDES
-
-• Franck Muller Watch
-• Premium Luxury Watch Box
-• Delivery Charges Included`,
-
+PACKAGE INCLUDES: Franck Muller Watch + Premium Luxury Watch Box + Delivery Charges Included`,
     specs:[
-      {k:'Brand',          v:'Franck Muller'},
-      {k:'Model',          v:'Vanguard (Cintrée Curvex Shape)'},
-      {k:'Movement',       v:'Quartz Movement (Battery Operated)'},
-      {k:'Case Material',  v:'Stainless Steel Case with High-Quality Diamonds/Crystals'},
-      {k:'Strap',          v:'Premium Green Leather / Rubber Hybrid Strap (Crocodile Texture)'},
-      {k:'Dial',           v:'Full Diamond-Paved Iced-Out Dial with Green Arabic Numerals & Compass Motif'},
-      {k:'Bezel',          v:'Full Diamond-Set Stainless Steel Bezel'},
-      {k:'Markers',        v:'Bold Oversized Green Arabic Numerals'},
-      {k:'Display',        v:'Date Display Window at 6 o\'clock'},
-      {k:'Glass',          v:'Scratch-Resistant Curved Mineral/Sapphire Glass'},
-      {k:'Water Resist.',  v:'Water Resistant'},
-      {k:'Style',          v:'High-End Luxury & Statement Fashion Wear'},
-      {k:'Weight',         v:'Approx. 140–160 Grams'},
-      {k:'Package',        v:'Watch + Premium Luxury Watch Box + Delivery Included'}
+      {k:'Brand',v:'Franck Muller'},{k:'Model',v:'Vanguard Cintrée Curvex'},
+      {k:'Movement',v:'Quartz Movement'},{k:'Case',v:'Diamond/Crystal Set Stainless Steel'},
+      {k:'Strap',v:'Green Leather/Rubber Hybrid'},{k:'Dial',v:'Full Diamond Iced-Out Dial'},
+      {k:'Bezel',v:'Full Diamond-Set Bezel'},{k:'Markers',v:'Green Arabic Numerals'},
+      {k:'Display',v:'Date at 6 o\'clock'},{k:'Glass',v:'Curved Sapphire Crystal'},
+      {k:'Water Resist.',v:'Water Resistant'},{k:'Weight',v:'Approx. 140–160g'},
     ]
-},
-
-  /* ── KANSAI EDITION ── */
+  },
   {
-    id:'k1',
-    brand:'Patek Philippe',
-    filter:'patekphilippe',
-
+    id:'k1', brand:'Patek Philippe', filter:'patekphilippe',
     badge:{text:'Flagship', cls:'sig'},
-
     name:'Patek Philippe Nautilus Black Dial',
     model:'Patek Philippe Nautilus',
     ref:'PP-001',
-
     sub:'Black Horizontal Embossed Dial · Quartz Movement',
-
     price:'PKR 3,699',
     priceNum:3699,
+    photos:['Patek-Philippe1.png','Patek-Philippe2.png'],
+    desc:`The Patek Philippe Nautilus Black Dial embodies timeless elegance with its iconic rounded octagonal bezel and sophisticated black textured dial.
 
-    photos:[
-      'Patek-Philippe1.png',
-      'Patek-Philippe2.png'
-    ],
-
-    desc:`The Patek Philippe Nautilus Black Dial embodies timeless elegance with its iconic rounded octagonal bezel and sophisticated black textured dial. Finished with a premium crocodile-texture leather strap and scratch-resistant sapphire crystal, this luxury timepiece is crafted for executives and collectors who appreciate refined Swiss-inspired design.
-
-PACKAGE INCLUDES
-
-• Patek Philippe Watch
-• Premium Luxury Watch Box
-• Delivery Charges Included`,
-
+PACKAGE INCLUDES: Patek Philippe Watch + Premium Luxury Watch Box + Delivery Charges Included`,
     specs:[
-      {k:'Brand',          v:'Patek Philippe'},
-      {k:'Model',          v:'Nautilus'},
-      {k:'Movement',       v:'Quartz Movement (Battery Operated)'},
-      {k:'Case Material',  v:'High-Quality Stainless Steel'},
-      {k:'Strap',          v:'Premium Black Leather Strap (Crocodile Texture)'},
-      {k:'Dial',           v:'Black Horizontal Embossed Dial (Textured Ribbed Pattern)'},
-      {k:'Bezel',          v:'Rounded Octagonal Stainless Steel Bezel (Brushed Finish)'},
-      {k:'Markers',        v:'Luminous Silver Baton Hour Markers'},
-      {k:'Display',        v:'Date Display Window at 3 o\'clock'},
-      {k:'Glass',          v:'Scratch-Resistant Sapphire Crystal Glass'},
-      {k:'Water Resist.',  v:'Water Resistant'},
-      {k:'Style',          v:'High-End Luxury Formal & Executive Wear'},
-      {k:'Weight',         v:'Approx. 140–160 Grams'},
-      {k:'Package',        v:'Watch + Premium Luxury Watch Box + Delivery Included'}
+      {k:'Brand',v:'Patek Philippe'},{k:'Model',v:'Nautilus'},
+      {k:'Movement',v:'Quartz Movement'},{k:'Case',v:'High-Quality Stainless Steel'},
+      {k:'Strap',v:'Black Leather (Crocodile Texture)'},{k:'Dial',v:'Black Embossed Dial'},
+      {k:'Bezel',v:'Octagonal Stainless Steel'},{k:'Markers',v:'Luminous Silver Baton'},
+      {k:'Display',v:'Date at 3 o\'clock'},{k:'Glass',v:'Sapphire Crystal'},
+      {k:'Water Resist.',v:'Water Resistant'},{k:'Weight',v:'Approx. 140–160g'},
     ]
-},
+  },
   {
-    id:'k2',
-    brand:'Audemars Piguet',
-    filter:'audemarspiguet',
-
+    id:'k2', brand:'Audemars Piguet', filter:'audemarspiguet',
     badge:{text:'Ultra Rare', cls:'rare'},
-
     name:'Audemars Piguet Royal Oak',
-    model:'Audemars Piguet Royal Oak Black Dial',
+    model:'Black Grande Tapisserie Dial',
     ref:'AP-001',
-
     sub:'Black Grande Tapisserie Dial · Quartz Movement',
-
     price:'PKR 3,999',
     priceNum:3999,
+    photos:['Patek-Philippe3.png','new-changes.png'],
+    desc:`The Audemars Piguet Royal Oak features the signature Grande Tapisserie textured dial, octagonal bezel with exposed hexagonal screws, and an integrated stainless steel bracelet.
 
-    photos:[
-      'Patek-Philippe3.png',
-      'new-changes.png'
-    ],
-
-    desc:`The Audemars Piguet Royal Oak Black Dial is an icon of luxury sports watch design. Featuring the signature Grande Tapisserie textured dial, octagonal bezel with exposed hexagonal screws, and an integrated stainless steel bracelet, this timepiece delivers timeless elegance with modern performance.
-
-PACKAGE INCLUDES
-
-• Audemars Piguet Watch
-• Premium Luxury Watch Box
-• Delivery Charges Included`,
-
+PACKAGE INCLUDES: Audemars Piguet Watch + Premium Luxury Watch Box + Delivery Charges Included`,
     specs:[
-      {k:'Brand',          v:'Audemars Piguet'},
-      {k:'Model',          v:'Royal Oak'},
-      {k:'Movement',       v:'Quartz Movement (Battery Operated)'},
-      {k:'Case Material',  v:'High-Quality Stainless Steel'},
-      {k:'Bracelet',       v:'Stainless Steel Integrated Bracelet'},
-      {k:'Dial',           v:'Black Grande Tapisserie Dial (Waffle/Chequered Pattern)'},
-      {k:'Bezel',          v:'Iconic Octagonal Stainless Steel Bezel with 8 Hexagonal Screws'},
-      {k:'Markers',        v:'Luminous Silver Baton Hour Markers'},
-      {k:'Display',        v:'Date Display Window at 3 o\'clock'},
-      {k:'Glass',          v:'Scratch-Resistant Sapphire Crystal Glass'},
-      {k:'Water Resist.',  v:'Water Resistant'},
-      {k:'Style',          v:'High-End Luxury Royal & Sports Wear'},
-      {k:'Weight',         v:'Approx. 140–160 Grams'},
-      {k:'Package',        v:'Watch + Premium Luxury Watch Box + Delivery Included'}
+      {k:'Brand',v:'Audemars Piguet'},{k:'Model',v:'Royal Oak'},
+      {k:'Movement',v:'Quartz Movement'},{k:'Case',v:'High-Quality Stainless Steel'},
+      {k:'Bracelet',v:'Integrated Stainless Steel'},{k:'Dial',v:'Black Grande Tapisserie Dial'},
+      {k:'Bezel',v:'Octagonal with 8 Hexagonal Screws'},{k:'Markers',v:'Luminous Silver Baton'},
+      {k:'Display',v:'Date at 3 o\'clock'},{k:'Glass',v:'Sapphire Crystal'},
+      {k:'Water Resist.',v:'Water Resistant'},{k:'Weight',v:'Approx. 140–160g'},
     ]
-},
-
-  /* ── ROYALE ORIGINALS ── */
+  },
   {
-    id:'r1',
-    brand:'Rolex Submariner',
-    filter:'rolexsubmariner',
-
+    id:'r1', brand:'Rolex Submariner', filter:'rolexsubmariner',
     badge:{text:'Signature', cls:'sig'},
-
     name:'Rolex Submariner Date',
-    model:'Rolex Submariner Date Two-Tone Green Edition',
+    model:'Two-Tone Green Edition',
     ref:'RS-001',
-
     sub:'Two-Tone Green Edition · Quartz Movement',
-
     price:'PKR 3,999',
     priceNum:3999,
+    photos:['Rolex-Submariner1.png','Rolex-Submariner2.png','Rolex-Submariner3.png'],
+    desc:`The Rolex Submariner Date Two-Tone Green Edition combines iconic diving heritage with modern luxury. Featuring a striking sunburst green dial and signature green rotatable bezel.
 
-    photos:[
-      'Rolex-Submariner1.png',
-      'Rolex-Submariner2.png',
-      'Rolex-Submariner3.png'
-    ],
-
-    desc:`The Rolex Submariner Date Two-Tone Green Edition combines iconic diving heritage with modern luxury. Featuring a striking sunburst green dial, two-tone Oyster bracelet, and signature green rotatable bezel, this premium timepiece is crafted for those who appreciate timeless style and everyday performance.
-
-PACKAGE INCLUDES
-
-• Rolex Submariner Watch
-• Premium Luxury Watch Box
-• Delivery Charges Included`,
-
+PACKAGE INCLUDES: Rolex Submariner Watch + Premium Luxury Watch Box + Delivery Charges Included`,
     specs:[
-      {k:'Brand',          v:'Rolex'},
-      {k:'Model',          v:'Submariner Date'},
-      {k:'Movement',       v:'Quartz Movement (Battery Operated)'},
-      {k:'Case Material',  v:'High-Quality Stainless Steel & Gold-Plated Details'},
-      {k:'Bracelet',       v:'Two-Tone Stainless Steel & Gold-Plated Oyster Bracelet'},
-      {k:'Dial',           v:'Sunburst Green Dial'},
-      {k:'Bezel',          v:'Green & Gold Unidirectional Rotatable Bezel with 60-Minute Graduations'},
-      {k:'Markers',        v:'Luminous Geometric Hour Markers (Circles, Rectangles & Triangle)'},
-      {k:'Display',        v:'Date Display Window with Cyclops Magnifying Lens at 3 o\'clock'},
-      {k:'Glass',          v:'Scratch-Resistant Sapphire Crystal Glass'},
-      {k:'Water Resist.',  v:'Water Resistant'},
-      {k:'Style',          v:'Iconic Luxury Divers & Premium Casual Wear'},
-      {k:'Weight',         v:'Approx. 140–160 Grams'},
-      {k:'Package',        v:'Watch + Premium Luxury Watch Box + Delivery Included'}
+      {k:'Brand',v:'Rolex'},{k:'Model',v:'Submariner Date'},
+      {k:'Movement',v:'Quartz Movement'},{k:'Case',v:'Stainless Steel & Gold-Plated'},
+      {k:'Bracelet',v:'Two-Tone Oyster Bracelet'},{k:'Dial',v:'Sunburst Green Dial'},
+      {k:'Bezel',v:'Green & Gold Unidirectional'},{k:'Markers',v:'Luminous Geometric'},
+      {k:'Display',v:'Date with Cyclops Lens'},{k:'Glass',v:'Sapphire Crystal'},
+      {k:'Water Resist.',v:'Water Resistant'},{k:'Weight',v:'Approx. 140–160g'},
     ]
-},
+  },
   {
-    id:'r2',
-    brand:'Hublot',
-    filter:'hublot',
-
+    id:'r2', brand:'Hublot', filter:'hublot',
     badge:{text:'Classic', cls:'excl'},
-
     name:'Hublot Classic Fusion Orlinski',
-    model:'Hublot Classic Fusion Orlinski Titanium/Grey Edition',
+    model:'Titanium/Grey Edition',
     ref:'HB-005',
-
     sub:'Geometric Orlinski Design · Quartz Movement',
-
     price:'PKR 3,999',
     priceNum:3999,
+    photos:['Hublot1.png','Hublot2.png','Hublot3.png'],
+    desc:`The Hublot Classic Fusion Orlinski Edition is a bold fusion of modern art and luxury watchmaking with a faceted geometric case design inspired by Richard Orlinski.
 
-    photos:[
-      'Hublot1.png',
-      'Hublot2.png',
-      'Hublot3.png'
-    ],
-
-    desc:`The Hublot Classic Fusion Orlinski Edition is a bold fusion of modern art and luxury watchmaking. Featuring a faceted geometric case design inspired by Richard Orlinski, this timepiece delivers a powerful aesthetic with a dark grey skeleton-style dial and integrated sculpted bracelet.
-
-PACKAGE INCLUDES
-
-• Hublot Watch
-• Premium Luxury Watch Box
-• Delivery Charges Included`,
-
+PACKAGE INCLUDES: Hublot Watch + Premium Luxury Watch Box + Delivery Charges Included`,
     specs:[
-      {k:'Brand',          v:'Hublot'},
-      {k:'Model',          v:'Classic Fusion Orlinski'},
-      {k:'Movement',       v:'Quartz Movement (Battery Operated)'},
-      {k:'Case Material',  v:'Stainless Steel / Titanium-Tone Alloy with Orlinski Faceted Cuts'},
-      {k:'Bracelet',       v:'Integrated Metal Bracelet with 3D Geometric Faceted Links'},
-      {k:'Dial',           v:'Dark Grey/Black Skeleton Chronograph Dial with Sub-Dials'},
-      {k:'Bezel',          v:'Dodecahedral (12-Sided) Bezel with H-Shaped Screws'},
-      {k:'Markers',        v:'Silver Baton Hour Markers'},
-      {k:'Display',        v:'Date Window at 6 o\'clock with Chronograph Sub-Dials'},
-      {k:'Glass',          v:'Scratch-Resistant Sapphire Crystal Glass'},
-      {k:'Water Resist.',  v:'Water Resistant'},
-      {k:'Style',          v:'Bold Avant-Garde Luxury & Modern Artistic Wear'},
-      {k:'Weight',         v:'Approx. 140–160 Grams'},
-      {k:'Package',        v:'Watch + Premium Luxury Watch Box + Delivery Included'}
+      {k:'Brand',v:'Hublot'},{k:'Model',v:'Classic Fusion Orlinski'},
+      {k:'Movement',v:'Quartz Movement'},{k:'Case',v:'Titanium-Tone Alloy'},
+      {k:'Bracelet',v:'3D Geometric Faceted Links'},{k:'Dial',v:'Dark Grey/Black Skeleton'},
+      {k:'Bezel',v:'Dodecahedral with H-Screws'},{k:'Display',v:'Date at 6 o\'clock'},
+      {k:'Glass',v:'Sapphire Crystal'},{k:'Water Resist.',v:'Water Resistant'},
+      {k:'Style',v:'Bold Avant-Garde Luxury'},{k:'Weight',v:'Approx. 140–160g'},
     ]
-},
+  },
   {
-    id:'r3',
-    brand:'Hublot',
-    filter:'hublot',
-
+    id:'r3', brand:'Hublot', filter:'hublot',
     badge:{text:'Ultra Rare', cls:'rare'},
-
     name:'Hublot Classic Fusion Orlinski Skeleton',
-    model:'Hublot Classic Fusion Orlinski Skeleton Brown/White Edition',
+    model:'Brown/White Collector Edition',
     ref:'HB-004',
-
     sub:'Collector Vault Edition · 3-Watch Set',
-
     price:'PKR 3,999',
     priceNum:3999,
+    photos:['Hublot4.png','Hublot5.png','Hublot6.png'],
+    desc:`The Dynasty Collector Set includes three signature Hublot-inspired designs housed in a handcrafted mahogany and gold presentation case.
 
-    photos:[
-      'Hublot4.png',
-      'Hublot5.png',
-      'Hublot6.png'
-    ],
-
-    desc:`The Dynasty Collector Set represents the peak of luxury watch collecting. This exclusive 3-piece vault includes signature Hublot-inspired designs housed in a handcrafted mahogany and gold presentation case. A true symbol of legacy, exclusivity, and royal craftsmanship.
-
-PACKAGE INCLUDES
-
-• 3 Luxury Timepieces
-• Premium Collector Vault
-• Delivery Charges Included`,
-
+PACKAGE INCLUDES: 3 Luxury Timepieces + Premium Collector Vault + Delivery Charges Included`,
     specs:[
-      {k:'Brand',          v:'Hublot'},
-      {k:'Model',          v:'Classic Fusion Orlinski'},
-      {k:'Movement',       v:'Quartz Movement (Battery Operated)'},
-      {k:'Case Material',  v:'Stainless Steel / Silver-Tone Alloy with Orlinski Faceted Cuts'},
-      {k:'Bracelet',       v:'Integrated Metal Bracelet with 3D Geometric Faceted Links'},
-      {k:'Dial',           v:'Maroon-Brown Skeleton Framework with White Textured Background & Sub-Dials'},
-      {k:'Bezel',          v:'Dodecahedral (12-Sided) Bezel with H-Shaped Screws'},
-      {k:'Markers',        v:'Silver Baton Hour Markers'},
-      {k:'Display',        v:'Date Window (4–5 o\'clock) with Chronograph Sub-Dials'},
-      {k:'Glass',          v:'Scratch-Resistant Sapphire Crystal Glass'},
-      {k:'Pieces',         v:'3 Watches (Collector Set)'},
-      {k:'Vault',          v:'Mahogany Wood with Gold Fittings'},
-      {k:'Edition',        v:'Ultra Limited – 3 Sets Worldwide'},
-      {k:'Service',        v:'Lifetime Royal Guarantee'},
-      {k:'Delivery',       v:'White Glove Insured Delivery'},
-      {k:'Package',        v:'3 Watches + Collector Vault + Delivery Included'}
+      {k:'Brand',v:'Hublot'},{k:'Model',v:'Classic Fusion Orlinski'},
+      {k:'Movement',v:'Quartz Movement'},{k:'Case',v:'Silver-Tone Alloy'},
+      {k:'Bracelet',v:'3D Geometric Faceted Links'},{k:'Dial',v:'Maroon-Brown Skeleton Dial'},
+      {k:'Bezel',v:'Dodecahedral with H-Screws'},{k:'Display',v:'Date at 4–5 o\'clock'},
+      {k:'Pieces',v:'3 Watches (Collector Set)'},{k:'Vault',v:'Mahogany with Gold Fittings'},
+      {k:'Edition',v:'Ultra Limited – 3 Sets'},{k:'Service',v:'Lifetime Royal Guarantee'},
     ]
-},
-{
-    id:'r9',
-    brand:'CASIRUI',
-    filter:'casirui',
-
+  },
+  {
+    id:'r9', brand:'CASIRUI', filter:'casirui',
     badge:{text:'Premium', cls:'rare'},
-
     name:'CASIRUI Silver Skeleton Edition',
     model:'CASIRUI Automatic Skeleton Series',
     ref:'CS-005',
-
     sub:'Silver Skeleton Edition · Fully Automatic',
-
     price:'PKR 7,499',
     priceNum:7499,
+    photos:['single-check1.png'],
+    desc:`The CASIRUI Silver Skeleton Edition features a fully automatic movement, artistic open skeleton dial, and a premium stainless steel bracelet.
 
-    photos:[
-      'single-check1.png'
-    ],
-
-    desc:`The CASIRUI Silver Skeleton Edition is a bold fusion of luxury and modern engineering. Featuring a fully automatic movement, artistic open skeleton dial, and a premium stainless steel bracelet, this striking timepiece showcases its intricate mechanics while delivering exceptional everyday style.
-
-PACKAGE INCLUDES
-
-• CASIRUI Automatic Watch
-• Premium Luxury Watch Box
-• Delivery Charges Included`,
-
+PACKAGE INCLUDES: CASIRUI Automatic Watch + Premium Luxury Watch Box + Delivery Charges Included`,
     specs:[
-      {k:'Brand',          v:'CASIRUI'},
-      {k:'Model',          v:'Automatic Skeleton Series'},
-      {k:'Movement',       v:'Fully Automatic Movement'},
-      {k:'Case Material',  v:'Premium Stainless Steel (Silver Finish)'},
-      {k:'Dial',           v:'Artistic Skeleton Dial with Black Inner Detailing'},
-      {k:'Bezel',          v:'Distinctive Octagonal Design with Bolt Accents'},
-      {k:'Bracelet',       v:'Integrated Silver Stainless Steel Bracelet'},
-      {k:'Glass',          v:'Scratch-Resistant Mineral Crystal'},
-      {k:'Clasp',          v:'Fold-Over Safety Clasp'},
-      {k:'Water Resist.',  v:'Daily Splash Resistant'},
-      {k:'Style',          v:'Luxury Sport-Chic, Bold Statement Piece'},
-      {k:'Case Size',      v:'Approx. 41mm'},
-      {k:'Weight',         v:'Approx. 150 Grams'},
-      {k:'Package',        v:'Watch + Premium Luxury Watch Box + Delivery Included'}
+      {k:'Brand',v:'CASIRUI'},{k:'Model',v:'Automatic Skeleton Series'},
+      {k:'Movement',v:'Fully Automatic'},{k:'Case',v:'Premium Stainless Steel Silver'},
+      {k:'Dial',v:'Artistic Skeleton Dial'},{k:'Bezel',v:'Octagonal with Bolt Accents'},
+      {k:'Bracelet',v:'Integrated Silver Stainless Steel'},{k:'Glass',v:'Scratch-Resistant Mineral'},
+      {k:'Clasp',v:'Fold-Over Safety Clasp'},{k:'Water Resist.',v:'Daily Splash Resistant'},
+      {k:'Case Size',v:'Approx. 41mm'},{k:'Weight',v:'Approx. 150g'},
     ]
-},
-{
-    id:'r10',
-    brand:'CASIRUI',
-    filter:'casirui',
-
+  },
+  {
+    id:'r10', brand:'CASIRUI', filter:'casirui',
     badge:{text:'Premium', cls:'rare'},
-
     name:'CASIRUI Skeleton Masterpiece Edition',
-    model:'CASIRUI Skeleton Masterpiece Edition',
+    model:'CASIRUI Skeleton Masterpiece',
     ref:'CS-006',
-
     sub:'Full Skeleton Dial · Fully Automatic',
-
     price:'PKR 7,499',
     priceNum:7499,
+    photos:['single-check2.png'],
+    desc:`The CASIRUI Skeleton Masterpiece Edition features a full skeleton dial, exhibition case back, and premium stainless steel construction.
 
-    photos:[
-      'single-check2.png'
-    ],
-
-    desc:`The CASIRUI Skeleton Masterpiece Edition is crafted for enthusiasts who appreciate the beauty of exposed mechanical engineering. Featuring a full skeleton dial, exhibition case back, and premium stainless steel construction, every movement of the automatic mechanism is visible, creating a bold luxury timepiece with exceptional craftsmanship.
-
-PACKAGE INCLUDES
-
-• CASIRUI Automatic Watch
-• Premium Luxury Watch Box
-• Delivery Charges Included`,
-
+PACKAGE INCLUDES: CASIRUI Automatic Watch + Premium Luxury Watch Box + Delivery Charges Included`,
     specs:[
-      {k:'Brand',          v:'CASIRUI'},
-      {k:'Model',          v:'Skeleton Masterpiece Edition'},
-      {k:'Movement',       v:'Fully Automatic Movement'},
-      {k:'Dial',           v:'Full Skeleton Dial (Exposed Mechanical Movement)'},
-      {k:'Case Back',      v:'Exhibition Skeleton Case Back (See-Through Design)'},
-      {k:'Case Material',  v:'High-Quality Stainless Steel with Fluted Bezel'},
-      {k:'Bracelet',       v:'Premium Stainless Steel Bracelet'},
-      {k:'Glass',          v:'Scratch-Resistant Mineral Crystal'},
-      {k:'Clasp',          v:'Fold-Over Safety Clasp'},
-      {k:'Water Resist.',  v:'Daily Splash Resistant'},
-      {k:'Style',          v:'Avant-Garde Luxury & Bold Mechanical Aesthetic'},
-      {k:'Case Size',      v:'Approx. 41mm'},
-      {k:'Weight',         v:'Approx. 150 Grams'},
-      {k:'Package',        v:'Watch + Premium Luxury Watch Box + Delivery Included'}
+      {k:'Brand',v:'CASIRUI'},{k:'Model',v:'Skeleton Masterpiece'},
+      {k:'Movement',v:'Fully Automatic'},{k:'Dial',v:'Full Skeleton Dial'},
+      {k:'Case Back',v:'Exhibition See-Through Design'},{k:'Case',v:'Stainless Steel Fluted Bezel'},
+      {k:'Bracelet',v:'Premium Stainless Steel'},{k:'Glass',v:'Scratch-Resistant Mineral'},
+      {k:'Clasp',v:'Fold-Over Safety Clasp'},{k:'Water Resist.',v:'Daily Splash Resistant'},
+      {k:'Case Size',v:'Approx. 41mm'},{k:'Weight',v:'Approx. 150g'},
     ]
-},
-{
-    id:'r11',
-    brand:'Rolex',
-    filter:'rolex',
-
+  },
+  {
+    id:'r11', brand:'Rolex', filter:'rolex',
     badge:{text:'Sport Luxury', cls:'sig'},
-
-    name:'Rolex Cosmograph Premium Tourbillon Edition',
+    name:'Rolex Cosmograph Premium Tourbillon',
     model:'Rolex Cosmograph Daytona Style',
     ref:'RX-005',
-
     sub:'Open-Heart Tourbillon Style · Semi-Automatic',
-
     price:'PKR 4,999',
     priceNum:4999,
+    photos:['single-check3.png'],
+    desc:`The Rolex Cosmograph Premium Tourbillon Edition features a dynamic rotating open-heart dial, tachymeter bezel, and premium black rubber strap.
 
-    photos:[
-      'single-check3.png'
-    ],
-
-    desc:`The Rolex Cosmograph Premium Tourbillon Edition blends motorsport heritage with modern mechanical artistry. Featuring a dynamic rotating open-heart dial, tachymeter bezel, and premium black rubber strap, this bold luxury timepiece is designed for those who appreciate performance, precision, and contemporary style.
-
-PACKAGE INCLUDES
-
-• Rolex Cosmograph Watch
-• Premium Luxury Watch Box
-• Delivery Charges Included`,
-
+PACKAGE INCLUDES: Rolex Cosmograph Watch + Premium Luxury Watch Box + Delivery Charges Included`,
     specs:[
-      {k:'Brand',          v:'Rolex'},
-      {k:'Model',          v:'Cosmograph Daytona Style'},
-      {k:'Movement',       v:'Semi-Automatic Movement'},
-      {k:'Dial Feature',   v:'Dynamic Rotation Dial (Open-Heart Tourbillon Style)'},
-      {k:'Case Material',  v:'High-Quality Stainless Steel with Polished Finish'},
-      {k:'Bezel',          v:'Tachymeter Scale Bezel'},
-      {k:'Strap',          v:'Premium Black Rubber Strap'},
-      {k:'Dial Color',     v:'Black Dial with Gold Sub-Dial Accents'},
-      {k:'Glass',          v:'Scratch-Resistant Mineral Crystal'},
-      {k:'Clasp',          v:'Deployment Buckle Clasp'},
-      {k:'Water Resist.',  v:'Daily Splash Resistant'},
-      {k:'Style',          v:'Sport-Luxury & High-End Executive Wear'},
-      {k:'Case Size',      v:'Approx. 40–42mm'},
-      {k:'Weight',         v:'Approx. 140–160 Grams'},
-      {k:'Package',        v:'Watch + Premium Luxury Watch Box + Delivery Included'}
+      {k:'Brand',v:'Rolex'},{k:'Model',v:'Cosmograph Daytona Style'},
+      {k:'Movement',v:'Semi-Automatic'},{k:'Dial Feature',v:'Dynamic Rotation Open-Heart'},
+      {k:'Case',v:'Stainless Steel Polished'},{k:'Bezel',v:'Tachymeter Scale'},
+      {k:'Strap',v:'Premium Black Rubber'},{k:'Dial Color',v:'Black with Gold Sub-Dials'},
+      {k:'Glass',v:'Scratch-Resistant Mineral'},{k:'Clasp',v:'Deployment Buckle'},
+      {k:'Case Size',v:'Approx. 40–42mm'},{k:'Weight',v:'Approx. 140–160g'},
     ]
-},
-{
-    id:'r12',
-    brand:'Hublot',
-    filter:'hublot',
-
+  },
+  {
+    id:'r12', brand:'Hublot', filter:'hublot',
     badge:{text:'Sport Luxury', cls:'sig'},
-
-    name:'Hublot Classic Fusion Orlinski Green Dial Edition',
-    model:'Hublot Classic Fusion Orlinski (Geometric Sculpted Edition)',
+    name:'Hublot Classic Fusion Orlinski Green Dial',
+    model:'Geometric Sculpted Green Edition',
     ref:'HB-011',
-
     sub:'Green Dial Open-Heart Edition · Quartz Movement',
-
     price:'PKR 3,999',
     priceNum:3999,
+    photos:['new-changes1.png','new-changes2.png','new-changes3.png','new-changes4.png','new-changes5.png'],
+    desc:`The Hublot Classic Fusion Orlinski Green Dial Edition features a vibrant sunburst green dial, open-heart skeleton window, and the iconic faceted Orlinski case.
 
-    photos:[
-      'new-changes1.png',
-      'new-changes2.png',
-      'new-changes3.png',
-      'new-changes4.png',
-      'new-changes5.png'
-    ],
-
-    desc:`The Hublot Classic Fusion Orlinski Green Dial Edition combines artistic design with modern luxury. Featuring a vibrant sunburst green dial, open-heart skeleton window, and the iconic faceted Orlinski case, this premium timepiece delivers a bold statement with exceptional craftsmanship and everyday elegance.
-
-PACKAGE INCLUDES
-
-• Hublot Watch
-• Premium Wooden Luxury Box
-• Delivery Charges Included`,
-
+PACKAGE INCLUDES: Hublot Watch + Premium Wooden Luxury Box + Delivery Charges Included`,
     specs:[
-      {k:'Brand',          v:'Hublot'},
-      {k:'Model',          v:'Classic Fusion Orlinski (Geometric Sculpted Edition)'},
-      {k:'Movement',       v:'Quartz Movement (Battery Operated)'},
-      {k:'Case Material',  v:'High-Quality Stainless Steel / Silver-Tone Alloy with Orlinski Faceted Cuts'},
-      {k:'Bracelet',       v:'Integrated Metal Bracelet with 3D Geometric Faceted Links'},
-      {k:'Dial',           v:'Sunburst Green Dial with Upper Skeleton/Open-Heart Window'},
-      {k:'Bezel',          v:'Dodecahedral (12-Sided) Bezel with H-Shaped Screws'},
-      {k:'Markers',        v:'Silver Baton Hour Markers'},
-      {k:'Display',        v:'Date Display Window at 6 o\'clock'},
-      {k:'Glass',          v:'Scratch-Resistant Sapphire Crystal Glass'},
-      {k:'Water Resist.',  v:'Water Resistant'},
-      {k:'Style',          v:'Bold Avant-Garde Luxury & Modern Artistic Wear'},
-      {k:'Weight',         v:'Approx. 140–160 Grams'},
-      {k:'Package',        v:'Watch + Premium Wooden Luxury Box + Delivery Included'}
+      {k:'Brand',v:'Hublot'},{k:'Model',v:'Classic Fusion Orlinski Green'},
+      {k:'Movement',v:'Quartz Movement'},{k:'Case',v:'Silver-Tone Alloy Orlinski Cuts'},
+      {k:'Bracelet',v:'3D Geometric Faceted Links'},{k:'Dial',v:'Sunburst Green with Skeleton Window'},
+      {k:'Bezel',v:'Dodecahedral with H-Screws'},{k:'Display',v:'Date at 6 o\'clock'},
+      {k:'Glass',v:'Sapphire Crystal'},{k:'Water Resist.',v:'Water Resistant'},
+      {k:'Style',v:'Bold Avant-Garde Luxury'},{k:'Weight',v:'Approx. 140–160g'},
     ]
-},
+  },
 ];
 
 /* ══ RENDER ══ */
-const wcatGrid   = document.getElementById('wcatGrid');
-const wcatCount  = document.getElementById('wcatNum');
-const modalOv    = document.getElementById('wmodOv');
-
+const wcatGrid  = document.getElementById('wcatGrid');
+const wcatCount = document.getElementById('wcatNum');
+const modalOv   = document.getElementById('wmodOv');
 let activeWatch = null, galIdx = 0;
 
 function renderWatches(filter) {
@@ -2716,7 +1510,7 @@ function renderWatches(filter) {
         ${w.badge ? `<div class="wcard-badge ${w.badge.cls}">${w.badge.text}</div>` : ''}
         <div class="wcard-pics">
           <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-          ${w.photos.length} photo${w.photos.length > 1 ? 's' : ''}
+          ${w.photos.length} photo${w.photos.length>1?'s':''}
         </div>
         <div class="wcard-hover">
           <div class="wcard-hover-btn">View Details</div>
@@ -2738,31 +1532,19 @@ function renderWatches(filter) {
         </div>
       </div>`;
 
-    // Click card → open modal
     el.addEventListener('click', () => openWatchModal(w.id));
-    // Detail button
-    el.querySelector('.wcard-a-detail').addEventListener('click', e => {
-      e.stopPropagation();
-      openWatchModal(w.id);
-    });
-    // Cart button
+    el.querySelector('.wcard-a-detail').addEventListener('click', e => { e.stopPropagation(); openWatchModal(w.id); });
     el.querySelector('.wcard-a-cart').addEventListener('click', e => {
       e.stopPropagation();
       addToCart(w.name, w.sub, w.price, w.priceNum, w.photos[0]);
     });
 
     wcatGrid.appendChild(el);
-    // Trigger animation after brief delay
-    requestAnimationFrame(() => {
-      setTimeout(() => el.classList.add('vis'), 50 + i * 65);
-    });
+    requestAnimationFrame(() => { setTimeout(() => el.classList.add('vis'), 50 + i * 65); });
   });
-
-  // Re-observe new cards
-  // wcatGrid.querySelectorAll('.wcard').forEach(c => catObs.observe(c));
 }
 
-// Filter tabs
+/* Filter tabs */
 document.getElementById('wcatFilters').querySelectorAll('.wcat-f').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.wcat-f').forEach(b => b.classList.remove('on'));
@@ -2771,66 +1553,45 @@ document.getElementById('wcatFilters').querySelectorAll('.wcat-f').forEach(btn =
   });
 });
 
-// Initial render
 renderWatches('all');
 
-// Intersection Observer for animation on scroll
-const catObs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
-}, { threshold: 0.05 });
-
-/* ══ MODAL ══ */
+/* ══ WATCH MODAL ══ */
 function openWatchModal(id) {
   const w = WCATALOGUE.find(x => x.id === id);
   if (!w) return;
-  activeWatch = w;
-  galIdx = 0;
+  activeWatch = w; galIdx = 0;
 
-  // Header
   document.getElementById('wmBadge').textContent = w.brand;
   document.getElementById('wmHdrTitle').textContent = w.ref + ' · ' + w.model;
-
-  // Info
   document.getElementById('wmTag').textContent = w.brand + ' Collection';
   document.getElementById('wmName').textContent = w.name;
   document.getElementById('wmModel').textContent = w.ref + ' · ' + w.model;
   document.getElementById('wmPrice').textContent = w.price;
   document.getElementById('wmDesc').textContent = w.desc;
 
-  // Slides
   const slidesEl = document.getElementById('wmSlides');
   slidesEl.innerHTML = '';
   w.photos.forEach((p, i) => {
-    slidesEl.innerHTML += `
-      <div class="wm-slide${i === 0 ? ' active' : ''}">
-        <img src="${p}" alt="${w.name} — photo ${i+1}" loading="${i === 0 ? 'eager' : 'lazy'}">
-        <div class="wm-slide-ov"></div>
-      </div>`;
+    slidesEl.innerHTML += `<div class="wm-slide${i===0?' active':''}"><img src="${p}" alt="${w.name} — photo ${i+1}" loading="${i===0?'eager':'lazy'}"><div class="wm-slide-ov"></div></div>`;
   });
   slidesEl.style.transform = 'translateX(0)';
 
-  // Thumbnails
   const thumbsEl = document.getElementById('wmThumbs');
   thumbsEl.innerHTML = '';
   if (w.photos.length > 1) {
     w.photos.forEach((p, i) => {
       const t = document.createElement('div');
-      t.className = `wm-thumb${i === 0 ? ' on' : ''}`;
+      t.className = `wm-thumb${i===0?' on':''}`;
       t.innerHTML = `<img src="${p}" alt="thumb ${i+1}" loading="lazy">`;
       t.addEventListener('click', e => { e.stopPropagation(); galTo(i); });
       thumbsEl.appendChild(t);
     });
   }
-
   updateGalZoom();
 
-  // Specs grid
   const specsEl = document.getElementById('wmSpecs');
-  specsEl.innerHTML = w.specs.map(s =>
-    `<div class="wm-spec"><div class="wm-spec-k">${s.k}</div><div class="wm-spec-v">${s.v}</div></div>`
-  ).join('');
+  specsEl.innerHTML = w.specs.map(s => `<div class="wm-spec"><div class="wm-spec-k">${s.k}</div><div class="wm-spec-v">${s.v}</div></div>`).join('');
 
-  // Actions
   document.getElementById('wmActions').innerHTML = `
     <button class="wm-btn-cart" onclick="addToCart(activeWatch.name, activeWatch.sub, activeWatch.price, activeWatch.priceNum, activeWatch.photos[galIdx])">
       &#x2756; &nbsp; Add to Selection
@@ -2849,18 +1610,14 @@ function galTo(n) {
   const total = activeWatch.photos.length;
   galIdx = ((n % total) + total) % total;
   document.getElementById('wmSlides').style.transform = `translateX(-${galIdx * 100}%)`;
-  document.querySelectorAll('.wm-slide').forEach((s, i) => {
-    s.classList.toggle('active', i === galIdx);
-  });
-  document.querySelectorAll('.wm-thumb').forEach((t, i) => {
-    t.classList.toggle('on', i === galIdx);
-  });
+  document.querySelectorAll('.wm-slide').forEach((s, i) => s.classList.toggle('active', i === galIdx));
+  document.querySelectorAll('.wm-thumb').forEach((t, i) => t.classList.toggle('on', i === galIdx));
   updateGalZoom();
 }
 
 function updateGalZoom() {
   const total = activeWatch ? activeWatch.photos.length : 1;
-  document.getElementById('wmZoom').textContent = `${galIdx + 1} / ${total}`;
+  document.getElementById('wmZoom').textContent = `${galIdx+1} / ${total}`;
 }
 
 function closeWatchModal() {
@@ -2871,131 +1628,31 @@ function closeWatchModal() {
 
 document.getElementById('wmClose').addEventListener('click', closeWatchModal);
 modalOv.addEventListener('click', e => { if (e.target === modalOv) closeWatchModal(); });
-document.getElementById('wmPrev').addEventListener('click', e => { e.stopPropagation(); galTo(galIdx - 1); });
-document.getElementById('wmNext').addEventListener('click', e => { e.stopPropagation(); galTo(galIdx + 1); });
+document.getElementById('wmPrev').addEventListener('click', e => { e.stopPropagation(); galTo(galIdx-1); });
+document.getElementById('wmNext').addEventListener('click', e => { e.stopPropagation(); galTo(galIdx+1); });
 
-// Touch swipe support on gallery
 let _tx = 0;
 const galEl = document.querySelector('.wm-gallery');
 if (galEl) {
   galEl.addEventListener('touchstart', e => { _tx = e.touches[0].clientX; }, {passive:true});
-  galEl.addEventListener('touchend', e => {
-    const dx = _tx - e.changedTouches[0].clientX;
-    if (Math.abs(dx) > 40) galTo(dx > 0 ? galIdx + 1 : galIdx - 1);
-  }, {passive:true});
+  galEl.addEventListener('touchend', e => { const dx = _tx - e.changedTouches[0].clientX; if (Math.abs(dx) > 40) galTo(dx > 0 ? galIdx+1 : galIdx-1); }, {passive:true});
 }
-
-// Keyboard navigation
 document.addEventListener('keydown', e => {
   if (!modalOv.classList.contains('open')) return;
-  if (e.key === 'ArrowLeft')  { e.preventDefault(); galTo(galIdx - 1); }
-  if (e.key === 'ArrowRight') { e.preventDefault(); galTo(galIdx + 1); }
-  if (e.key === 'Escape')     closeWatchModal();
+  if (e.key === 'ArrowLeft') { e.preventDefault(); galTo(galIdx-1); }
+  if (e.key === 'ArrowRight') { e.preventDefault(); galTo(galIdx+1); }
+  if (e.key === 'Escape') closeWatchModal();
 });
 </script>
 
-
-<!-- STORY / CRAFT -->
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --gold:#C9943A;--gold2:#E8C060;
-  --bk3:#101010;--bk2:#0A0A0A;--bk:#050505;
-  --gr:#9A9289;--wh:#FFFFFF;--wh2:#F5F0E8;
-  --f-head:'Playfair Display',Georgia,serif;
-  --f-body:'Inter',system-ui,sans-serif;
-  --f-label:'Montserrat',system-ui,sans-serif;
-}
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400&family=Montserrat:wght@500;600;700&display=swap');
-body{background:var(--bk3);color:var(--wh2)}
-
-.story{display:grid;grid-template-columns:1fr 1fr;overflow:hidden;min-height:560px}
-
-/* ── BANNER SLIDER ── */
-.simg{position:relative;overflow:hidden;min-height:360px}
-.simg-slides{position:absolute;inset:0;display:flex;transition:transform .9s cubic-bezier(.76,0,.24,1)}
-.simg-slide{flex:0 0 100%;position:relative;overflow:hidden}
-.simg-slide img{width:100%;height:100%;object-fit:cover;filter:grayscale(8%) brightness(.75);display:block;
-  transform:scale(1.08);transition:transform 6s linear}
-.simg-slide.active img{transform:scale(1.0)}
-.simgov{position:absolute;inset:0;background:linear-gradient(90deg,transparent 45%,var(--bk3) 100%);z-index:1}
-/* Scan line */
-.simg::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;z-index:2;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);
-  animation:scan 4s ease-in-out infinite;opacity:.4}
-/* Slide dots */
-.simg-dots{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);
-  display:flex;gap:7px;z-index:3}
-.simg-dot{width:22px;height:2px;background:rgba(201,148,58,.25);border:none;padding:0;
-  cursor:pointer;transition:background .4s,width .4s}
-.simg-dot.on{background:var(--gold);width:36px}
-/* Slide caption */
-.simg-cap{position:absolute;bottom:40px;left:20px;z-index:3;
-  font-family:var(--f-label);font-size:9px;font-weight:600;letter-spacing:3px;
-  text-transform:uppercase;color:rgba(201,148,58,.7);
-  opacity:0;transform:translateY(6px);transition:opacity .5s,transform .5s}
-.simg-slide.active .simg-cap{opacity:1;transform:translateY(0)}
-/* Prev/Next arrows */
-.simg-prev,.simg-next{position:absolute;top:50%;transform:translateY(-50%);
-  z-index:3;background:rgba(0,0,0,.45);border:1px solid rgba(201,148,58,.3);
-  color:var(--gold);width:34px;height:34px;display:flex;align-items:center;justify-content:center;
-  cursor:pointer;font-size:16px;transition:background .3s,border-color .3s;
-  border-radius:0}
-.simg-prev{left:14px}.simg-next{right:14px}
-.simg-prev:hover,.simg-next:hover{background:rgba(201,148,58,.18);border-color:var(--gold)}
-
-/* ── RIGHT CONTENT ── */
-.scnt{padding:clamp(40px,5.5vw,88px) clamp(22px,4.5vw,68px);background:var(--bk3);
-  display:flex;flex-direction:column;justify-content:center}
-.section-label{font-family:var(--f-label);font-size:11px;font-weight:600;letter-spacing:5px;
-  text-transform:uppercase;color:var(--gold);margin-bottom:12px;
-  display:flex;align-items:center;gap:12px}
-.section-label::after{content:'';height:1px;flex:0 0 36px;background:linear-gradient(90deg,var(--gold),transparent)}
-.section-h2{font-family:var(--f-head);font-size:clamp(22px,3.8vw,44px);font-weight:700;
-  color:var(--wh);line-height:1.15;margin-bottom:0}
-.section-h2 em{font-style:italic;color:var(--gold2)}
-.silist{display:flex;flex-direction:column;gap:clamp(18px,2.5vw,30px);margin-top:clamp(24px,3.5vw,40px)}
-.si{display:flex;gap:clamp(12px,1.8vw,18px);padding-bottom:clamp(18px,2.5vw,30px);
-  border-bottom:1px solid rgba(201,148,58,.06)}
-.si:last-child{border-bottom:none;padding-bottom:0}
-.si-num{font-family:var(--f-head);font-size:clamp(22px,3vw,34px);font-weight:700;
-  font-style:italic;color:rgba(201,148,58,.22);flex-shrink:0;line-height:1;
-  transition:color .4s}
-.si:hover .si-num{color:var(--gold)}
-.si-title{font-family:var(--f-label);font-size:12px;font-weight:700;
-  letter-spacing:2px;text-transform:uppercase;color:var(--wh);margin-bottom:6px}
-.si-desc{font-family:var(--f-body);font-size:clamp(11px,1.2vw,13px);
-  font-weight:300;line-height:1.9;color:var(--gr)}
-
-@media(max-width:740px){
-  .story{grid-template-columns:1fr}
-  .simg{height:52vw;min-height:220px}
-  .simgov{background:linear-gradient(180deg,transparent 50%,var(--bk3) 100%)}
-  .simg-prev,.simg-next{display:none}
-  .scnt{padding:32px 20px}
-}
-@keyframes scan{0%{top:0;opacity:.5}50%{opacity:.2}100%{top:100%;opacity:.5}}
-</style>
-
+<!-- STORY -->
 <section class="story" id="craft">
   <div class="simg" id="storySlider">
     <div class="simg-slides" id="storySlides">
-      <div class="simg-slide active">
-        <img src="carusal-2.png" alt="Kansai Yamamoto Movement">
-        <div class="simg-cap">Kansai Yamamoto · Automatic</div>
-      </div>
-      <div class="simg-slide">
-        <img src="carusal-1.png" alt="Aqua Crown Seiko">
-        <div class="simg-cap">Seiko · Teal Automatic</div>
-      </div>
-      <div class="simg-slide">
-        <img src="carusal-3.png" alt="Royale Classic">
-        <div class="simg-cap">Royale Classic · Moonphase</div>
-      </div>
-      <div class="simg-slide">
-        <img src="carusal-4.png" alt="Royale Signature">
-        <div class="simg-cap">Royale Signature · Steel</div>
-      </div>
+      <div class="simg-slide active"><img src="carusal-2.png" alt="Kansai Yamamoto Movement"><div class="simg-cap">Kansai Yamamoto · Automatic</div></div>
+      <div class="simg-slide"><img src="carusal-1.png" alt="Aqua Crown Seiko"><div class="simg-cap">Seiko · Teal Automatic</div></div>
+      <div class="simg-slide"><img src="carusal-3.png" alt="Royale Classic"><div class="simg-cap">Royale Classic · Moonphase</div></div>
+      <div class="simg-slide"><img src="carusal-4.png" alt="Royale Signature"><div class="simg-cap">Royale Signature · Steel</div></div>
     </div>
     <div class="simgov"></div>
     <button class="simg-prev" id="sPrev">&#8592;</button>
@@ -3007,43 +1664,14 @@ body{background:var(--bk3);color:var(--wh2)}
       <button class="simg-dot" data-i="3"></button>
     </div>
   </div>
-
   <div class="scnt">
     <div class="section-label left">The Royal Craft</div>
     <h2 class="section-h2">Mechanical <em>Royalty</em></h2>
     <div class="silist">
-      <div class="si">
-        <span class="si-num">I</span>
-        <div>
-          <div class="si-title">The Royal Skeleton</div>
-          <p class="si-desc">Sapphire Crystal Protection
-Scratch-resistant sapphire crystal for lasting clarity and elegance.</p>
-        </div>
-      </div>
-      <div class="si">
-        <span class="si-num">II</span>
-        <div>
-          <div class="si-title">18 Karat Perfection</div>
-          <p class="si-desc">Swiss Precision Movement
-Engineered for exceptional accuracy and reliable performance.</p>
-        </div>
-      </div>
-      <div class="si">
-        <span class="si-num">III</span>
-        <div>
-          <div class="si-title">The Lion's Precision</div>
-          <p class="si-desc">316L Stainless Steel Case
-Corrosion-resistant premium steel with a refined finish.</p>
-        </div>
-      </div>
-      <div class="si">
-        <span class="si-num">IV</span>
-        <div>
-          <div class="si-title">Crown &amp; Shield Guarantee</div>
-          <p class="si-desc">Water Resistance Assurance
-Built to withstand everyday splashes and active lifestyles.</p>
-        </div>
-      </div>
+      <div class="si"><span class="si-num">I</span><div><div class="si-title">The Royal Skeleton</div><p class="si-desc">Sapphire Crystal Protection — scratch-resistant sapphire crystal for lasting clarity and elegance.</p></div></div>
+      <div class="si"><span class="si-num">II</span><div><div class="si-title">18 Karat Perfection</div><p class="si-desc">Swiss Precision Movement — engineered for exceptional accuracy and reliable performance.</p></div></div>
+      <div class="si"><span class="si-num">III</span><div><div class="si-title">The Lion's Precision</div><p class="si-desc">316L Stainless Steel Case — corrosion-resistant premium steel with a refined finish.</p></div></div>
+      <div class="si"><span class="si-num">IV</span><div><div class="si-title">Crown &amp; Shield Guarantee</div><p class="si-desc">Water Resistance Assurance — built to withstand everyday splashes and active lifestyles.</p></div></div>
     </div>
   </div>
 </section>
@@ -3053,41 +1681,25 @@ Built to withstand everyday splashes and active lifestyles.</p>
   const slides=document.querySelectorAll('.simg-slide');
   const track=document.getElementById('storySlides');
   const dots=document.querySelectorAll('.simg-dot');
-  let cur=0, busy=false, timer;
-  const TOTAL=slides.length, INTERVAL=3800;
-
+  let cur=0,busy=false,timer;
+  const TOTAL=slides.length,INTERVAL=3800;
   function goTo(n){
-    if(busy||n===cur)return;
-    busy=true;
-    slides[cur].classList.remove('active');
-    dots[cur].classList.remove('on');
-    cur=(n+TOTAL)%TOTAL;
-    track.style.transform=`translateX(-${cur*100}%)`;
-    slides[cur].classList.add('active');
-    dots[cur].classList.add('on');
-    setTimeout(()=>busy=false, 950);
-    clearInterval(timer);
-    timer=setInterval(()=>goTo(cur+1), INTERVAL);
+    if(busy||n===cur)return;busy=true;
+    slides[cur].classList.remove('active');dots[cur].classList.remove('on');
+    cur=(n+TOTAL)%TOTAL;track.style.transform=`translateX(-${cur*100}%)`;
+    slides[cur].classList.add('active');dots[cur].classList.add('on');
+    setTimeout(()=>busy=false,950);clearInterval(timer);timer=setInterval(()=>goTo(cur+1),INTERVAL);
   }
-
   dots.forEach(d=>d.addEventListener('click',()=>goTo(+d.dataset.i)));
   document.getElementById('sPrev').addEventListener('click',()=>goTo(cur-1));
   document.getElementById('sNext').addEventListener('click',()=>goTo(cur+1));
-
-  // Touch swipe
-  let tx=0;
-  const sl=document.getElementById('storySlider');
+  let tx=0;const sl=document.getElementById('storySlider');
   sl.addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
-  sl.addEventListener('touchend',e=>{
-    const dx=tx-e.changedTouches[0].clientX;
-    if(Math.abs(dx)>40) goTo(dx>0?cur+1:cur-1);
-  },{passive:true});
-
-  // Auto-play
-  slides[0].classList.add('active');
-  timer=setInterval(()=>goTo(cur+1), INTERVAL);
+  sl.addEventListener('touchend',e=>{const dx=tx-e.changedTouches[0].clientX;if(Math.abs(dx)>40)goTo(dx>0?cur+1:cur-1);},{passive:true});
+  slides[0].classList.add('active');timer=setInterval(()=>goTo(cur+1),INTERVAL);
 })();
 </script>
+
 <!-- TESTIMONIALS -->
 <section class="tst">
   <div class="sec-hd" data-anim style="text-align:center">
@@ -3144,7 +1756,7 @@ Built to withstand everyday splashes and active lifestyles.</p>
     <h2 class="section-h2" style="font-size:clamp(26px,4vw,50px)">Reserve Your <em>Royal Viewing</em></h2>
     <p class="ctcdesc">Our Royal Advisors await you by private appointment only. Discretion, elegance, and the finest horology — exclusively for those who command the very best.</p>
     <div class="ctcinfo">
-      <div class="ci"><div class="cii">✦</div><div class="cit"><strong>Showrooms</strong><span>Gulburg· Lahore</span></div></div>
+      <div class="ci"><div class="cii">✦</div><div class="cit"><strong>Showrooms</strong><span>Gulburg · Lahore</span></div></div>
       <div class="ci"><div class="cii">✉</div><div class="cit"><strong>Email</strong><span>royalEcartel3@gmail.com</span></div></div>
       <div class="ci"><div class="cii">📱</div><div class="cit"><strong>WhatsApp Business</strong><a href="https://wa.me/923030555566?text=Hello%20Royale%20Cartel" target="_blank" rel="noopener">+92 303 055 5566</a></div></div>
     </div>
@@ -3165,14 +1777,14 @@ Built to withstand everyday splashes and active lifestyles.</p>
       <label class="flbl">Collection Interest</label>
       <select class="finp fsel">
         <option value="">Select a collection...</option>
-        <option>The Royale Signature — Price 3999</option>
-        <option>Royale Classic —  4699</option>
-        <option>Aqua Dynasty — Price 3999</option>
-        <option>The Dynasty Collection — Price 3999</option>
+        <option>The Royale Signature — PKR 3,999</option>
+        <option>Royale Classic — PKR 4,699</option>
+        <option>Aqua Dynasty — PKR 3,999</option>
+        <option>The Dynasty Collection — PKR 3,999</option>
         <option>Bespoke Commission</option>
       </select>
     </div>
-    <div class="fg"><label class="flbl">Message</label><textarea class="finp ftxt" placeholder="Tell us about your interest or preferred viewing date and location..."></textarea></div>
+    <div class="fg"><label class="flbl">Message</label><textarea class="finp ftxt" placeholder="Tell us about your interest or preferred viewing date..."></textarea></div>
     <button type="submit" class="btn-primary" style="width:100%;text-align:center"><span>✦ &nbsp; Submit Private Inquiry &nbsp; ✦</span></button>
     <div id="fmsg" style="display:none;font-family:var(--f-label);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-align:center;padding:14px;border:1px solid rgba(201,148,58,.2)">✦ Thank you. Your Royal Advisor will be in touch within 24 hours. ✦</div>
   </form>
@@ -3229,100 +1841,137 @@ Built to withstand everyday splashes and active lifestyles.</p>
 
 <script>
 'use strict';
-const isTch=('ontouchstart' in window)||navigator.maxTouchPoints>0;
+const isTch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
 
 /* ── CURSOR ── */
-if(!isTch){
-  const c1=document.getElementById('cur'),c2=document.getElementById('cur2');
-  let mx=0,my=0,rx=0,ry=0;
-  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;c1.style.left=mx+'px';c1.style.top=my+'px'});
-  (function t(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;c2.style.left=rx+'px';c2.style.top=ry+'px';requestAnimationFrame(t)})();
-  document.querySelectorAll('a,button,input,select,textarea').forEach(el=>{
-    el.addEventListener('mouseenter',()=>document.body.classList.add('hvr'));
-    el.addEventListener('mouseleave',()=>document.body.classList.remove('hvr'));
+if (!isTch) {
+  const c1 = document.getElementById('cur'), c2 = document.getElementById('cur2');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; c1.style.left = mx + 'px'; c1.style.top = my + 'px'; });
+  (function t() { rx += (mx - rx) * .1; ry += (my - ry) * .1; c2.style.left = rx + 'px'; c2.style.top = ry + 'px'; requestAnimationFrame(t); })();
+  document.querySelectorAll('a,button,input,select,textarea').forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('hvr'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('hvr'));
   });
 }
 
-/* ════════════════════
-   LOGO INTRO → HERO VIDEO
-════════════════════ */
-const introEl=document.getElementById('intro');
-const site=document.getElementById('site');
-let introDone=false;
+/* ── INTRO ── */
+const introEl = document.getElementById('intro');
+const site = document.getElementById('site');
+let introDone = false;
+document.body.style.overflow = 'hidden';
 
-document.body.style.overflow='hidden';
-
-function endIntro(){
-  if(introDone)return;
-  introDone=true;
+function endIntro() {
+  if (introDone) return;
+  introDone = true;
   introEl.classList.add('out');
   site.classList.add('on');
-  document.body.style.overflow='';
+  document.body.style.overflow = '';
 }
 
-// Show logo for 2.8 seconds, then fade out and reveal site with hero video
-setTimeout(()=>{
-  endIntro();
-},2800);
+setTimeout(() => endIntro(), 2800);
+introEl.addEventListener('click', () => endIntro());
+document.addEventListener('keydown', e => {
+  if (!introDone && (e.key === 'Escape' || e.key === ' ' || e.key === 'Enter')) endIntro();
+}, {once: true});
 
-// Allow click/tap to skip logo
-introEl.addEventListener('click', ()=>endIntro());
-document.addEventListener('keydown',e=>{
-  if(!introDone&&(e.key==='Escape'||e.key===' '||e.key==='Enter'))endIntro();
-},{once:true});
-
-/* ════════════════════
-   VIDEO POPUP
-════════════════════ */
-function openVid(){
+/* ── VIDEO POPUP ── */
+function openVid() {
   document.getElementById('vpop').classList.add('open');
   document.getElementById('pvid').play();
-  document.body.style.overflow='hidden';
+  document.body.style.overflow = 'hidden';
 }
-function closeVid(){
+function closeVid() {
   document.getElementById('vpop').classList.remove('open');
-  const v=document.getElementById('pvid');v.pause();v.currentTime=0;
-  if(!document.getElementById('orderOverlay').classList.contains('open'))
-    document.body.style.overflow='';
+  const v = document.getElementById('pvid'); v.pause(); v.currentTime = 0;
+  if (!document.getElementById('orderOverlay').classList.contains('open')) document.body.style.overflow = '';
 }
-document.getElementById('vcl').addEventListener('click',closeVid);
-document.getElementById('vpop').addEventListener('click',e=>{if(e.target===document.getElementById('vpop'))closeVid()});
+document.getElementById('vcl').addEventListener('click', closeVid);
+document.getElementById('vpop').addEventListener('click', e => { if (e.target === document.getElementById('vpop')) closeVid(); });
 
-/* ════════════════════
-   CART
-════════════════════ */
-let cartItems=[];
-function genId(){return 'RC'+Date.now().toString(36).toUpperCase()}
+/* ════════════════════════════════════
+   CART — COMPLETELY FIXED
+   ● Each unique name gets its own cart line
+   ● Multiple different items all show
+   ● Qty update works correctly
+════════════════════════════════════ */
+let cartItems = [];
 
-function addToCart(name,sub,price,priceNum,img){
-  const ex=cartItems.find(i=>i.name===name);
-  if(ex){ex.qty++;showToast('Quantity updated')}
-  else{cartItems.push({id:genId(),name,sub,price,priceNum,img,qty:1});showToast(name+' added to cart')}
+function genId() { return 'RC' + Date.now().toString(36).toUpperCase() + Math.random().toString(36).slice(2,5).toUpperCase(); }
+
+function addToCart(name, sub, price, priceNum, img) {
+  // Match by BOTH name AND img so different variants (same model, different photo) each get their own cart line
+  const ex = cartItems.find(i => i.name === name && i.img === img);
+  if (ex) {
+    ex.qty++;
+    // Always keep the latest price/img in case it drifted
+    ex.price    = price;
+    ex.priceNum = priceNum;
+    ex.img      = img;
+    showToast('Quantity updated — ' + name);
+  } else {
+    cartItems.push({ id: genId(), name, sub, price, priceNum, img, qty: 1 });
+    showToast('Added: ' + name);
+  }
   updateCartUI();
   openCart();
 }
-function removeFromCart(id){cartItems=cartItems.filter(i=>i.id!==id);updateCartUI()}
-function changeQty(id,d){
-  const it=cartItems.find(i=>i.id===id);if(!it)return;
-  it.qty+=d;
-  if(it.qty<=0)cartItems=cartItems.filter(i=>i.id!==id);
+
+function removeFromCart(id) {
+  cartItems = cartItems.filter(i => i.id !== id);
+  updateCartUI();
+  showToast('Item removed');
+}
+
+function changeQty(id, d) {
+  const it = cartItems.find(i => i.id === id);
+  if (!it) return;
+  it.qty += d;
+  if (it.qty <= 0) {
+    cartItems = cartItems.filter(i => i.id !== id);
+    showToast('Item removed');
+  }
   updateCartUI();
 }
-function updateCartUI(){
-  const count=cartItems.reduce((s,i)=>s+i.qty,0);
-  const total=cartItems.reduce((s,i)=>s+i.priceNum*i.qty,0);
-  const badge=document.getElementById('cbadge');
-  badge.textContent=count;badge.classList.toggle('show',count>0);
-  document.getElementById('cartFtr').style.display=count>0?'block':'none';
-  document.getElementById('cartEmpty').style.display=count>0?'none':'flex';
-  document.getElementById('cartTotal').textContent='Price '+total.toLocaleString();
-  const con=document.getElementById('cartItems');
-  con.querySelectorAll('.cart-item').forEach(e=>e.remove());
-  cartItems.forEach(it=>{
-    const el=document.createElement('div');
-    el.className='cart-item';
-    el.innerHTML=`
-      <img src="${it.img}" alt="${it.name}" class="cart-item-img">
+
+function updateCartUI() {
+  const count = cartItems.reduce((s, i) => s + i.qty, 0);
+  const total = cartItems.reduce((s, i) => s + i.priceNum * i.qty, 0);
+
+  // Badge
+  const badge = document.getElementById('cbadge');
+  badge.textContent = count;
+  badge.classList.toggle('show', count > 0);
+
+  // Title count
+  document.getElementById('cartTitleCount').textContent = count;
+
+  // Footer
+  const ftr = document.getElementById('cartFtr');
+  ftr.style.display = count > 0 ? 'block' : 'none';
+
+  // Item count label
+  const itemLbl = document.getElementById('cartItemCount');
+  if (itemLbl) itemLbl.textContent = count + (count === 1 ? ' item selected' : ' items selected');
+
+  // Total
+  document.getElementById('cartTotal').textContent = 'PKR ' + total.toLocaleString();
+
+  // Empty state
+  document.getElementById('cartEmpty').style.display = count > 0 ? 'none' : 'flex';
+
+  // Rebuild cart items — remove old ones first, keep the empty div
+  const con = document.getElementById('cartItems');
+  // Remove all .cart-item elements
+  con.querySelectorAll('.cart-item').forEach(e => e.remove());
+
+  // Re-insert all items
+  cartItems.forEach(it => {
+    const el = document.createElement('div');
+    el.className = 'cart-item';
+    el.dataset.id = it.id;
+    el.innerHTML = `
+      <img src="${it.img}" alt="${it.name}" class="cart-item-img" onerror="this.style.background='rgba(201,148,58,.08)'">
       <div>
         <div class="cart-item-name">${it.name}</div>
         <div class="cart-item-ref">${it.sub}</div>
@@ -3333,153 +1982,138 @@ function updateCartUI(){
           <button class="qty-btn" onclick="changeQty('${it.id}',1)">+</button>
         </div>
       </div>
-      <button class="cart-item-remove" onclick="removeFromCart('${it.id}')">✕</button>`;
-    con.insertBefore(el,document.getElementById('cartEmpty'));
+      <button class="cart-item-remove" onclick="removeFromCart('${it.id}')" title="Remove">✕</button>`;
+    // Insert before the empty div
+    con.insertBefore(el, document.getElementById('cartEmpty'));
   });
 }
-function openCart(){
+
+function openCart() {
   document.getElementById('cartSidebar').classList.add('open');
   document.getElementById('cartOverlay').classList.add('open');
-  document.body.style.overflow='hidden';
+  document.body.style.overflow = 'hidden';
 }
-function closeCart(){
+
+function closeCart() {
   document.getElementById('cartSidebar').classList.remove('open');
   document.getElementById('cartOverlay').classList.remove('open');
-  if(!document.getElementById('orderOverlay').classList.contains('open'))
-    document.body.style.overflow='';
+  if (!document.getElementById('orderOverlay').classList.contains('open')) document.body.style.overflow = '';
 }
-document.getElementById('cartClose').addEventListener('click',closeCart);
-document.getElementById('cartOverlay').addEventListener('click',closeCart);
 
-/* ════════════════════
-   ORDER
-════════════════════ */
-function openOrder(){
-  if(!cartItems.length){showToast('Your cart is empty');return}
+document.getElementById('cartClose').addEventListener('click', closeCart);
+document.getElementById('cartOverlay').addEventListener('click', closeCart);
+
+/* ── ORDER ── */
+function openOrder() {
+  if (!cartItems.length) { showToast('Your cart is empty'); return; }
   closeCart();
-  const total=cartItems.reduce((s,i)=>s+i.priceNum*i.qty,0);
-  const rows=cartItems.map(i=>`
-  //   <div class="om-item-row">
-  //     <span class="om-item-name">${i.name} <span style="color:var(--gr2)">×${i.qty}</span></span>
-  //     <span class="om-item-pq">CHF ${(i.priceNum*i.qty).toLocaleString()}</span>
-  //   </div>`).join('');
-  // document.getElementById('omSummary').innerHTML=`
-  //   <div class="om-summary">
-  //     <div class="om-summary-title">Order Summary</div>
-  //     ${rows}
-  //     <div class="om-total-row">
-  //       <span class="om-total-lbl">Total</span>
-  //       <span class="om-total-val">CHF ${total.toLocaleString()}</span>
-  //     </div>
-  //   </div>`;
-  document.getElementById('omForm').style.display='flex';
-  document.getElementById('omSummary').style.display='block';
+  const total = cartItems.reduce((s, i) => s + i.priceNum * i.qty, 0);
+  const rows = cartItems.map(i => `
+    <div class="om-item-row">
+      <span class="om-item-name">${i.name} <span style="color:var(--gr2)">×${i.qty}</span></span>
+      <span class="om-item-pq">PKR ${(i.priceNum * i.qty).toLocaleString()}</span>
+    </div>`).join('');
+  document.getElementById('omSummary').innerHTML = `
+    <div class="om-summary">
+      <div class="om-summary-title">Order Summary</div>
+      ${rows}
+      <div class="om-total-row">
+        <span class="om-total-lbl">Total</span>
+        <span class="om-total-val">PKR ${total.toLocaleString()}</span>
+      </div>
+    </div>`;
+  document.getElementById('omForm').style.display = 'flex';
+  document.getElementById('omSummary').style.display = 'block';
   document.getElementById('omSuccess').classList.remove('show');
   document.getElementById('orderOverlay').classList.add('open');
-  document.body.style.overflow='hidden';
+  document.body.style.overflow = 'hidden';
 }
-function closeOrder(){document.getElementById('orderOverlay').classList.remove('open');document.body.style.overflow=''}
-document.getElementById('omClose').addEventListener('click',closeOrder);
-document.getElementById('orderOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('orderOverlay'))closeOrder()});
-function submitOrder(e){
+
+function closeOrder() { document.getElementById('orderOverlay').classList.remove('open'); document.body.style.overflow = ''; }
+document.getElementById('omClose').addEventListener('click', closeOrder);
+document.getElementById('orderOverlay').addEventListener('click', e => { if (e.target === document.getElementById('orderOverlay')) closeOrder(); });
+
+function submitOrder(e) {
   e.preventDefault();
-  const ref='RC-'+Date.now().toString(36).toUpperCase().slice(-8);
-  document.getElementById('omForm').style.display='none';
-  document.getElementById('omSummary').style.display='none';
-  document.getElementById('omRef').textContent='Order Ref: '+ref;
+  const ref = 'RC-' + Date.now().toString(36).toUpperCase().slice(-8);
+  document.getElementById('omForm').style.display = 'none';
+  document.getElementById('omSummary').style.display = 'none';
+  document.getElementById('omRef').textContent = 'Order Ref: ' + ref;
   document.getElementById('omSuccess').classList.add('show');
-  cartItems=[];updateCartUI();
+  cartItems = [];
+  updateCartUI();
 }
 
-/* ════════════════════
-   TOAST
-════════════════════ */
-let toastT=null;
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),3000);
+/* ── TOAST ── */
+let toastT = null;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastT);
+  toastT = setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-/* ════════════════════
-   NAV + SCROLL
-════════════════════ */
-const mainNav=document.getElementById('nav'),btt=document.getElementById('btt'),socsb=document.getElementById('socsb');
-window.addEventListener('scroll',()=>{
-  const s=window.scrollY;
-  mainNav.classList.toggle('sc',s>60);
-  btt.classList.toggle('show',s>400);
-  socsb.classList.toggle('show',s>200);
-},{passive:true});
+/* ── NAV + SCROLL ── */
+const mainNav = document.getElementById('nav'), btt = document.getElementById('btt'), socsb = document.getElementById('socsb');
+window.addEventListener('scroll', () => {
+  const s = window.scrollY;
+  mainNav.classList.toggle('sc', s > 60);
+  btt.classList.toggle('show', s > 400);
+  socsb.classList.toggle('show', s > 200);
+}, {passive: true});
 
-/* ════════════════════
-   MOBILE MENU
-════════════════════ */
-const ham=document.getElementById('ham'),mdr=document.getElementById('mdr'),mov=document.getElementById('mov');
-function toggleMob(o){const open=o!==undefined?o:!mdr.classList.contains('open');ham.classList.toggle('open',open);mdr.classList.toggle('open',open);mov.classList.toggle('open',open);document.body.style.overflow=open?'hidden':''}
-ham.addEventListener('click',()=>toggleMob());
-mov.addEventListener('click',()=>toggleMob(false));
-document.querySelectorAll('.mlink').forEach(a=>a.addEventListener('click',()=>toggleMob(false)));
+/* ── MOBILE MENU ── */
+const ham = document.getElementById('ham'), mdr = document.getElementById('mdr'), mov = document.getElementById('mov');
+function toggleMob(o) {
+  const open = o !== undefined ? o : !mdr.classList.contains('open');
+  ham.classList.toggle('open', open);
+  mdr.classList.toggle('open', open);
+  mov.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+ham.addEventListener('click', () => toggleMob());
+mov.addEventListener('click', () => toggleMob(false));
+document.querySelectorAll('.mlink').forEach(a => a.addEventListener('click', () => toggleMob(false)));
 
-/* ════════════════════
-   INTERSECTION OBSERVER
-════════════════════ */
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(!e.isIntersecting)return;
+/* ── INTERSECTION OBSERVER ── */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
     e.target.classList.add('vis');
-    const cv=e.target.querySelector('[data-count]');
-    if(cv&&!cv.dataset.done){
-      cv.dataset.done=1;const tgt=+cv.dataset.count;let c=0,step=tgt/60;
-      const t=setInterval(()=>{c=Math.min(c+step,tgt);cv.textContent=Math.round(c)+(tgt>=100?'+':'');if(c>=tgt)clearInterval(t)},16);
-    }
   });
-},{threshold:.08,rootMargin:'0px 0px -36px 0px'});
-document.querySelectorAll('[data-anim],.sb,.si,.pc,.q-text,.q-attr,.sec-hd,.scnt,.center-card,.dial-card,.cta-row,.fcta-h,.fcta-p,.fcta-btns,.fcta-logo,.tc,.wc,.ctcform,.ctcl').forEach(el=>obs.observe(el));
+}, {threshold: .08, rootMargin: '0px 0px -36px 0px'});
 
-/* ════════════════════
-   HORIZONTAL DRAG
-════════════════════ */
-const wss=document.getElementById('wscr');
-let dn=false,sx=0,sl=0;
-wss.addEventListener('mousedown',e=>{dn=true;sx=e.pageX-wss.offsetLeft;sl=wss.scrollLeft});
-wss.addEventListener('mouseleave',()=>dn=false);wss.addEventListener('mouseup',()=>dn=false);
-wss.addEventListener('mousemove',e=>{if(!dn)return;e.preventDefault();wss.scrollLeft=sl-(e.pageX-wss.offsetLeft-sx)*1.5});
+document.querySelectorAll('[data-anim],.sb,.si,.pc,.q-text,.q-attr,.sec-hd,.scnt,.center-card,.dial-card,.cta-row,.fcta-h,.fcta-p,.fcta-btns,.fcta-logo,.tc,.wc,.ctcform,.ctcl').forEach(el => obs.observe(el));
 
-/* ════════════════════
-   MAGNETIC BUTTONS
-════════════════════ */
-if(!isTch)document.querySelectorAll('.btn-primary,.ncta').forEach(b=>{
-  b.addEventListener('mousemove',e=>{const r=b.getBoundingClientRect();b.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.15}px,${(e.clientY-r.top-r.height/2)*.15}px)`});
-  b.addEventListener('mouseleave',()=>b.style.transform='');
+/* ── MAGNETIC BUTTONS ── */
+if (!isTch) document.querySelectorAll('.btn-primary,.ncta').forEach(b => {
+  b.addEventListener('mousemove', e => { const r = b.getBoundingClientRect(); b.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * .15}px,${(e.clientY - r.top - r.height / 2) * .15}px)`; });
+  b.addEventListener('mouseleave', () => b.style.transform = '');
 });
 
-/* ════════════════════
-   SMOOTH SCROLL
-════════════════════ */
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click',e=>{
-    const id=a.getAttribute('href').slice(1);if(!id)return;
-    const tgt=document.getElementById(id);
-    if(tgt){e.preventDefault();window.scrollTo({top:tgt.getBoundingClientRect().top+window.scrollY-70,behavior:'smooth'})}
+/* ── SMOOTH SCROLL ── */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const id = a.getAttribute('href').slice(1);
+    if (!id) return;
+    const tgt = document.getElementById(id);
+    if (tgt) { e.preventDefault(); window.scrollTo({top: tgt.getBoundingClientRect().top + window.scrollY - 70, behavior: 'smooth'}); }
   });
 });
 
-/* ════════════════════
-   ENQUIRY FORM
-════════════════════ */
-function handleEnquiry(e){
+/* ── ENQUIRY FORM ── */
+function handleEnquiry(e) {
   e.preventDefault();
-  const m=document.getElementById('fmsg');m.style.display='block';
-  e.target.querySelectorAll('input,select,textarea').forEach(f=>f.value='');
-  setTimeout(()=>m.style.display='none',6000);
+  const m = document.getElementById('fmsg');
+  m.style.display = 'block';
+  e.target.querySelectorAll('input,select,textarea').forEach(f => f.value = '');
+  setTimeout(() => m.style.display = 'none', 6000);
 }
 
-/* ════════════════════
-   ESC key closes modals
-════════════════════ */
-document.addEventListener('keydown',e=>{
-  if(e.key==='Escape'){closeVid();closeCart();closeOrder()}
+/* ── ESC CLOSES MODALS ── */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeVid(); closeCart(); closeOrder(); }
 });
 </script>
 </body>
