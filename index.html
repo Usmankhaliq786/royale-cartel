@@ -122,7 +122,7 @@ nav.sc{
   .ham{order:2;grid-column:3;justify-self:end}
   .nlt{display:none}
 }
-.mdr{position:fixed;top:0;right:-100%;width:min(300px,82vw);height:100vh;background:rgba(5,5,5,.98);backdrop-filter:blur(28px);border-left:1px solid rgba(201,148,58,.15);z-index:499;padding:calc(var(--nh)+32px) 28px 40px;display:flex;flex-direction:column;transition:right .45s var(--ease);box-shadow:-20px 0 60px rgba(0,0,0,.8)}
+.mdr{position:fixed;top:35px;right:-100%;width:min(300px,82vw);height:100vh;background:rgba(5,5,5,.98);backdrop-filter:blur(28px);border-left:1px solid rgba(201,148,58,.15);z-index:499;padding:calc(var(--nh)+32px) 28px 40px;display:flex;flex-direction:column;transition:right .45s var(--ease);box-shadow:-20px 0 60px rgba(0,0,0,.8)}
 .mdr.open{right:0}
 .mdr a{font-family:var(--f-label);font-size:13px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.55);padding:16px 0;border-bottom:1px solid rgba(201,148,58,.07);transition:color .3s;display:block}
 .mdr a:hover{color:var(--gold2)}
@@ -585,7 +585,7 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
 .wm-spec:nth-last-child(1),.wm-spec:nth-last-child(2){border-bottom:none}
 .wm-spec-k{font-family:var(--f-label);font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
 .wm-spec-v{font-family:var(--f-body);font-size:11px;font-weight:300;color:var(--wh2);line-height:1.4}
-.wm-actions{display:flex;gap:8px;margin-top:auto;padding-top:16px;flex-wrap:wrap}
+.wm-actions{display:flex;gap:8px;padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid rgba(201,148,58,.1);flex-wrap:wrap}
 .wm-btn-cart{flex:1;min-width:120px;font-family:var(--f-label);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:13px 16px;background:linear-gradient(135deg,var(--gold4),var(--gold),var(--gold2));color:var(--bk);border:none;cursor:pointer;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;box-shadow:0 4px 20px rgba(201,148,58,.3)}
 .wm-btn-cart:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(201,148,58,.5)}
 .wm-btn-wa{flex:0 0 48px;height:48px;background:linear-gradient(135deg,#25D366,#128C7E);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:opacity .3s}
@@ -655,14 +655,38 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
 .wcard-hover-btn{font-family:var(--f-label);font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold2);border:1px solid rgba(201,148,58,.6);padding:10px 24px;background:rgba(0,0,0,.5);pointer-events:none}
 .wcard-hover-sub{font-family:var(--f-body);font-size:10px;color:rgba(255,255,255,.55);letter-spacing:1px;pointer-events:none}
 .wcard-body{padding:clamp(12px,1.5vw,18px)}
+.wcard-a-view{
+  display:block;width:100%;
+  font-family:var(--f-label);font-size:9px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;
+  padding:9px 14px;margin-bottom:10px;
+  background:linear-gradient(135deg,var(--gold4),var(--gold),var(--gold2));
+  color:var(--bk);border:none;cursor:pointer;
+  position:relative;overflow:hidden;
+  transition:opacity .3s,transform .25s;
+  text-align:center;
+}
+.wcard-a-view::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--gold2),var(--gold3));opacity:0;transition:opacity .35s}
+.wcard-a-view:hover{transform:translateY(-1px);opacity:.92}
+.wcard-a-view:hover::before{opacity:1}
+.wcard-a-view span{position:relative;z-index:1}
 .wcard-brand{font-family:var(--f-label);font-size:8px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
 .wcard-name{font-family:var(--f-head);font-size:clamp(15px,1.8vw,19px);font-weight:700;font-style:italic;color:var(--wh);line-height:1.2;margin-bottom:3px}
 .wcard-sub{font-family:var(--f-body);font-size:11px;font-weight:300;color:var(--gr);margin-bottom:12px;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .wcard-foot{display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid rgba(201,148,58,.1);gap:8px}
 .wcard-price{font-family:var(--f-head);font-size:clamp(14px,1.7vw,17px);font-weight:700;font-style:italic;color:var(--gold)}
 .wcard-actions{display:flex;gap:5px}
-.wcard-a-detail{font-family:var(--f-label);font-size:8px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:6px 12px;border:1px solid rgba(201,148,58,.3);color:var(--gold);background:transparent;cursor:pointer;transition:all .3s;white-space:nowrap}
-.wcard-a-detail:hover{background:rgba(201,148,58,.1);border-color:var(--gold)}
+.wcard-a-addcart{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--f-label);font-size:8px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;
+  padding:6px 14px;
+  background:linear-gradient(135deg,var(--gold4),var(--gold),var(--gold2));
+  color:var(--bk);border:none;cursor:pointer;
+  transition:opacity .3s,transform .25s;
+  white-space:nowrap;
+}
+.wcard-a-addcart:hover{opacity:.85;transform:translateY(-1px)}
 .wcard-a-cart{width:30px;height:30px;border:1px solid rgba(201,148,58,.3);background:transparent;color:var(--gold);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;flex-shrink:0}
 .wcard-a-cart svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.5}
 .wcard-a-cart:hover{background:var(--gold);color:var(--bk);border-color:var(--gold)}
@@ -704,7 +728,79 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
 .btt.show{opacity:1;transform:translateY(0)}
 .btt:hover{background:var(--gold);color:var(--bk)}
 
-/* TOAST */
+/* ── EXPLORE COLLECTION BUTTON ── */
+.gh-explore-btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  font-family:var(--f-label);font-size:12px;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;
+  padding:14px 40px;
+  background:linear-gradient(135deg,var(--gold4),var(--gold),var(--gold2));
+  color:var(--bk);
+  position:relative;overflow:hidden;
+  transition:transform .35s var(--ease),box-shadow .35s;
+  box-shadow:0 8px 32px rgba(201,148,58,.35);
+  cursor:pointer;
+}
+.gh-explore-btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--gold2),var(--gold3),var(--gold5));
+  opacity:0;transition:opacity .4s;
+}
+.gh-explore-btn:hover{transform:translateY(-3px);box-shadow:0 16px 48px rgba(201,148,58,.55)}
+.gh-explore-btn:hover::before{opacity:1}
+.gh-explore-inner{position:relative;z-index:1;display:flex;align-items:center;gap:9px}
+
+/* ── CART POPUP TOAST ── */
+.cart-popup{
+  position:fixed;top:90px;right:clamp(12px,3vw,28px);
+  z-index:4000;
+  width:min(320px,92vw);
+  background:var(--bk2);
+  border:1px solid rgba(201,148,58,.3);
+  box-shadow:0 16px 52px rgba(0,0,0,.8),0 0 0 1px rgba(201,148,58,.06);
+  display:flex;gap:12px;align-items:flex-start;
+  padding:16px;
+  opacity:0;
+  transform:translateX(24px);
+  transition:opacity .38s var(--ease2),transform .38s var(--ease2);
+  pointer-events:none;
+}
+.cart-popup.show{opacity:1;transform:translateX(0);pointer-events:auto}
+.cart-popup::before{content:'';position:absolute;top:-1px;left:-1px;width:12px;height:12px;border-top:2px solid var(--gold);border-left:2px solid var(--gold)}
+.cart-popup::after{content:'';position:absolute;bottom:-1px;right:-1px;width:12px;height:12px;border-bottom:2px solid var(--gold);border-right:2px solid var(--gold)}
+.cp-img{width:60px;height:60px;object-fit:cover;border:1px solid rgba(201,148,58,.2);flex-shrink:0;background:var(--bk3)}
+.cp-body{flex:1;min-width:0}
+.cp-tag{font-family:var(--f-label);font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#4ade80;display:flex;align-items:center;gap:6px;margin-bottom:5px}
+.cp-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:#4ade80;flex-shrink:0}
+.cp-name{font-family:var(--f-label);font-size:11px;font-weight:700;color:var(--wh);letter-spacing:.5px;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cp-sub{font-family:var(--f-body);font-size:11px;font-weight:300;color:var(--gr);font-style:italic;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cp-price{font-family:var(--f-head);font-size:15px;font-weight:700;font-style:italic;color:var(--gold)}
+.cp-close{width:22px;height:22px;border-radius:50%;border:1px solid rgba(201,148,58,.25);background:transparent;color:rgba(255,255,255,.4);cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .3s;line-height:1}
+.cp-close:hover{background:var(--gold);color:var(--bk);border-color:var(--gold)}
+.cp-actions{display:flex;gap:7px;margin-top:10px}
+.cp-btn-cart{
+  flex:1;font-family:var(--f-label);font-size:9px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;
+  padding:8px 10px;
+  background:linear-gradient(135deg,var(--gold4),var(--gold),var(--gold2));
+  color:var(--bk);border:none;cursor:pointer;
+  transition:opacity .3s;
+}
+.cp-btn-cart:hover{opacity:.85}
+.cp-btn-cont{
+  flex:1;font-family:var(--f-label);font-size:9px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;
+  padding:8px 10px;
+  border:1px solid rgba(201,148,58,.3);color:var(--gold);
+  background:transparent;cursor:pointer;transition:all .3s;
+}
+.cp-btn-cont:hover{background:rgba(201,148,58,.1);border-color:var(--gold)}
+/* progress bar inside popup */
+.cp-progress{position:absolute;bottom:0;left:0;height:2px;background:linear-gradient(90deg,var(--gold4),var(--gold2));width:100%;transform-origin:left;animation:none}
+.cart-popup.show .cp-progress{animation:cpBar 3.2s linear forwards}
+@keyframes cpBar{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+
+/* TOAST (kept for non-cart messages) */
 .toast{position:fixed;bottom:clamp(90px,12vw,120px);left:50%;transform:translateX(-50%) translateY(16px);background:var(--bk3);border:1px solid rgba(201,148,58,.35);padding:13px 24px;z-index:900;font-family:var(--f-label);font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);white-space:nowrap;opacity:0;transition:opacity .4s,transform .4s;box-shadow:0 8px 32px rgba(0,0,0,.6)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
@@ -731,6 +827,23 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
 
 <div id="cur"></div><div id="cur2"></div>
 <div class="toast" id="toast"></div>
+
+<!-- ═══ CART ADDED POPUP ═══ -->
+<div class="cart-popup" id="cartPopup">
+  <img class="cp-img" id="cpImg" src="" alt="">
+  <div class="cp-body">
+    <div class="cp-tag">Added to Cart</div>
+    <div class="cp-name" id="cpName"></div>
+    <div class="cp-sub" id="cpSub"></div>
+    <div class="cp-price" id="cpPrice"></div>
+    <div class="cp-actions">
+      <button class="cp-btn-cart" onclick="openCart();closeCartPopup()">View Cart</button>
+      <button class="cp-btn-cont" onclick="closeCartPopup()">Continue</button>
+    </div>
+  </div>
+  <button class="cp-close" onclick="closeCartPopup()">&#x2715;</button>
+  <div class="cp-progress" id="cpProgress"></div>
+</div>
 
 <!-- ═══════════ INTRO ═══════════ -->
 <div id="intro">
@@ -817,11 +930,11 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
         <div class="om-fg">
           <label class="om-lbl">Payment Method</label>
           <select class="om-inp om-sel" required>
-            <option value="">Select payment...</option>
-            <option>Bank Transfer (Wire)</option>
-            <option>WhatsApp Confirmation + Advance</option>
-            <option>Cash on Viewing</option>
-            <option>Installment Plan (Contact Us)</option>
+            <option value="">Select payment method...</option>
+            <option>Cash on Delivery (COD)</option>
+            <option>JazzCash</option>
+            <option>EasyPaisa</option>
+            <option>Bank Transfer</option>
           </select>
         </div>
         <div class="om-fg"><label class="om-lbl">Special Notes</label><textarea class="om-inp om-ta" placeholder="Engraving, gift wrapping, special requests..." style="min-height:70px"></textarea></div>
@@ -889,12 +1002,14 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
     <h1 class="gh-title">Royal E Cartel<br><em>Luxury Timepieces</em></h1>
   </div>
   <div class="gh-stats">
-    <div class="gh-stat-div"></div>
-    <div class="gh-stat"><span class="gh-stat-val">324</span><span class="gh-stat-lbl">Components</span></div>
-    <div class="gh-stat-div"></div>
-    <div class="gh-stat"><span class="gh-stat-val">800h</span><span class="gh-stat-lbl">Per Piece</span></div>
-    <div class="gh-stat-div"></div>
+    <a href="#watches" class="gh-explore-btn">
+      <span class="gh-explore-inner">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        Explore Collection
+      </span>
+    </a>
   </div>
+
   <div class="gh-scroll"><span>Scroll</span><div class="gh-scroll-bar"></div></div>
   <div class="gh-line-bottom"></div>
 </div>
@@ -1103,10 +1218,10 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
           <div class="wm-price" id="wmPrice">PKR 0</div>
           <div class="wm-avail">In Stock</div>
         </div>
+        <div class="wm-actions" id="wmActions"></div>
         <p class="wm-desc" id="wmDesc"></p>
         <div class="wm-specs-title">Specifications</div>
         <div class="wm-specs" id="wmSpecs"></div>
-        <div class="wm-actions" id="wmActions"></div>
       </div>
     </div>
   </div>
@@ -1518,23 +1633,23 @@ function renderWatches(filter) {
         </div>
       </div>
       <div class="wcard-body">
+        <button class="wcard-a-view" data-id="${w.id}">&#x2756; &nbsp; View Details</button>
         <div class="wcard-brand">${w.brand} &nbsp;·&nbsp; ${w.ref}</div>
         <div class="wcard-name">${w.name}</div>
         <div class="wcard-sub">${w.sub}</div>
         <div class="wcard-foot">
           <div class="wcard-price">${w.price}</div>
           <div class="wcard-actions">
-            <button class="wcard-a-detail" data-id="${w.id}">Details</button>
-            <button class="wcard-a-cart" data-id="${w.id}" title="Add to cart">
-              <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            <button class="wcard-a-addcart" data-id="${w.id}" title="Add to cart">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+              Add
             </button>
           </div>
         </div>
       </div>`;
 
-    el.addEventListener('click', () => openWatchModal(w.id));
-    el.querySelector('.wcard-a-detail').addEventListener('click', e => { e.stopPropagation(); openWatchModal(w.id); });
-    el.querySelector('.wcard-a-cart').addEventListener('click', e => {
+    el.querySelector('.wcard-a-view').addEventListener('click', e => { e.stopPropagation(); openWatchModal(w.id); });
+    el.querySelector('.wcard-a-addcart').addEventListener('click', e => {
       e.stopPropagation();
       addToCart(w.name, w.sub, w.price, w.priceNum, w.photos[0]);
     });
@@ -1900,21 +2015,41 @@ let cartItems = [];
 function genId() { return 'RC' + Date.now().toString(36).toUpperCase() + Math.random().toString(36).slice(2,5).toUpperCase(); }
 
 function addToCart(name, sub, price, priceNum, img) {
-  // Match by BOTH name AND img so different variants (same model, different photo) each get their own cart line
   const ex = cartItems.find(i => i.name === name && i.img === img);
   if (ex) {
     ex.qty++;
-    // Always keep the latest price/img in case it drifted
     ex.price    = price;
     ex.priceNum = priceNum;
     ex.img      = img;
-    showToast('Quantity updated — ' + name);
   } else {
     cartItems.push({ id: genId(), name, sub, price, priceNum, img, qty: 1 });
-    showToast('Added: ' + name);
   }
   updateCartUI();
-  openCart();
+  showCartPopup(name, sub, price, img);
+}
+
+/* ── RICH CART POPUP ── */
+let cpTimer = null;
+function showCartPopup(name, sub, price, img) {
+  const popup = document.getElementById('cartPopup');
+  document.getElementById('cpImg').src   = img;
+  document.getElementById('cpImg').alt   = name;
+  document.getElementById('cpName').textContent  = name;
+  document.getElementById('cpSub').textContent   = sub;
+  document.getElementById('cpPrice').textContent = price;
+  // Reset animation
+  const bar = document.getElementById('cpProgress');
+  bar.style.animation = 'none';
+  popup.classList.remove('show');
+  void popup.offsetWidth; // reflow
+  bar.style.animation = '';
+  popup.classList.add('show');
+  clearTimeout(cpTimer);
+  cpTimer = setTimeout(() => closeCartPopup(), 3200);
+}
+function closeCartPopup() {
+  document.getElementById('cartPopup').classList.remove('show');
+  clearTimeout(cpTimer);
 }
 
 function removeFromCart(id) {
