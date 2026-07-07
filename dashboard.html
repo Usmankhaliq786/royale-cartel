@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Royale Cartel — Admin Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;500;600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & VARS ── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#C9943A;--gold2:#E8C060;--gold3:#F5D78A;--gold4:#8B6014;
+  --bk:#050505;--bk2:#0A0A0A;--bk3:#101010;--bk4:#161616;--bk5:#1C1C1C;
+  --wh:#FFFFFF;--wh2:#F5F0E8;--wh3:#E0D8CC;
+  --gr:#9A9289;--gr2:#6A6258;
+  --green:#22c55e;--red:#ef4444;--blue:#3b82f6;--orange:#f97316;
+  --f-head:'Playfair Display',Georgia,serif;
+  --f-body:'Inter',system-ui,sans-serif;
+  --f-label:'Montserrat',system-ui,sans-serif;
+  --ease:cubic-bezier(.76,0,.24,1);
+  --ease2:cubic-bezier(.22,1,.36,1);
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--f-body);background:var(--bk);color:var(--wh2);min-height:100vh}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:var(--bk2)}
+::-webkit-scrollbar-thumb{background:var(--gold4);border-radius:2px}
+button{cursor:pointer}
+
+/* ── LOGIN SCREEN ── */
+#loginScreen{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--bk);
+  display:flex;align-items:center;justify-content:center;
+}
+#loginScreen.hide{display:none}
+.login-box{
+  width:min(420px,92vw);
+  background:var(--bk2);
+  border:1px solid rgba(201,148,58,.25);
+  padding:48px 40px;
+  position:relative;
+  animation:fadeUp .7s var(--ease2);
+}
+.login-box::before{content:'';position:absolute;top:-1px;left:-1px;width:20px;height:20px;border-top:2px solid var(--gold);border-left:2px solid var(--gold)}
+.login-box::after{content:'';position:absolute;bottom:-1px;right:-1px;width:20px;height:20px;border-bottom:2px solid var(--gold);border-right:2px solid var(--gold)}
+.login-logo{text-align:center;margin-bottom:32px}
+.login-logo-title{font-family:var(--f-label);font-size:18px;font-weight:700;letter-spacing:6px;text-transform:uppercase;color:var(--gold2);margin-bottom:4px}
+.login-logo-sub{font-family:var(--f-body);font-size:11px;font-weight:300;letter-spacing:3px;color:var(--gr);text-transform:uppercase}
+.login-divider{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto 32px;width:80px}
+.login-label{font-family:var(--f-label);font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:8px}
+.login-inp{
+  width:100%;background:rgba(255,255,255,.04);
+  border:1px solid rgba(201,148,58,.2);
+  color:var(--wh);padding:14px 16px;
+  font-family:var(--f-body);font-size:15px;font-weight:300;
+  outline:none;transition:border-color .3s,background .3s;
+  margin-bottom:20px;
+}
+.login-inp:focus{border-color:var(--gold);background:rgba(201,148,58,.05)}
+.login-btn{
+  width:100%;padding:16px;
+  background:linear-gradient(135deg,var(--gold4),var(--gold),var(--gold2));
+  color:var(--bk);font-family:var(--f-label);font-size:12px;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;border:none;
+  transition:opacity .3s,transform .25s;
+  box-shadow:0 6px 24px rgba(201,148,58,.3);
+}
+.login-btn:hover{opacity:.9;transform:translateY(-1px)}
+.login-err{
+  font-family:var(--f-label);font-size:10px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--red);text-align:center;
+  margin-top:12px;display:none;
+}
+
+/* ── DASHBOARD LAYOUT ── */
+#dashboard{display:none}
+#dashboard.show{display:block}
+
+/* Sidebar */
+.sidebar{
+  position:fixed;top:0;left:0;bottom:0;
+  width:230px;
+  background:var(--bk2);
+  border-right:1px solid rgba(201,148,58,.12);
+  display:flex;flex-direction:column;
+  z-index:100;
+  transition:transform .4s var(--ease);
+}
+.sb-logo{
+  padding:28px 24px 20px;
+  border-bottom:1px solid rgba(201,148,58,.1);
+}
+.sb-logo-name{font-family:var(--f-label);font-size:13px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold2)}
+.sb-logo-sub{font-family:var(--f-body);font-size:10px;font-weight:300;letter-spacing:2px;color:var(--gr);margin-top:2px}
+.sb-nav{flex:1;padding:20px 0;overflow-y:auto}
+.sb-section{font-family:var(--f-label);font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gr2);padding:0 24px;margin:16px 0 8px}
+.sb-link{
+  display:flex;align-items:center;gap:12px;
+  padding:11px 24px;
+  font-family:var(--f-label);font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  color:rgba(255,255,255,.5);
+  cursor:pointer;transition:color .3s,background .3s;
+  border-left:2px solid transparent;
+  user-select:none;
+}
+.sb-link svg{width:15px;height:15px;flex-shrink:0;opacity:.6}
+.sb-link:hover{color:rgba(255,255,255,.8);background:rgba(201,148,58,.05)}
+.sb-link.active{color:var(--gold2);background:rgba(201,148,58,.07);border-left-color:var(--gold)}
+.sb-link.active svg{opacity:1}
+.sb-bottom{padding:20px 24px;border-top:1px solid rgba(201,148,58,.1)}
+.sb-logout{
+  width:100%;padding:10px;
+  background:transparent;border:1px solid rgba(201,148,58,.2);
+  color:var(--gr);font-family:var(--f-label);font-size:10px;
+  font-weight:600;letter-spacing:2px;text-transform:uppercase;
+  transition:all .3s;
+}
+.sb-logout:hover{border-color:var(--red);color:var(--red);background:rgba(239,68,68,.06)}
+
+/* Main content */
+.main{margin-left:230px;min-height:100vh;background:var(--bk)}
+
+/* Top bar */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  background:rgba(5,5,5,.95);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(201,148,58,.1);
+  padding:0 32px;height:64px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;
+}
+.topbar-title{font-family:var(--f-head);font-size:22px;font-weight:700;font-style:italic;color:var(--wh)}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.topbar-date{font-family:var(--f-label);font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--gr)}
+.topbar-live{display:flex;align-items:center;gap:6px;font-family:var(--f-label);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--green)}
+.topbar-live::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--green);animation:livepulse 2s infinite}
+@keyframes livepulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+
+/* Page content */
+.page{display:none;padding:32px}
+.page.active{display:block}
+
+/* ── STATS ROW ── */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+.stat-card{
+  background:var(--bk2);border:1px solid rgba(201,148,58,.12);
+  padding:24px;position:relative;overflow:hidden;
+  transition:border-color .3s,transform .3s;
+}
+.stat-card:hover{border-color:rgba(201,148,58,.3);transform:translateY(-2px)}
+.stat-card::before{content:'';position:absolute;top:-1px;left:-1px;width:12px;height:12px;border-top:2px solid var(--gold);border-left:2px solid var(--gold)}
+.stat-card-label{font-family:var(--f-label);font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gr);margin-bottom:10px}
+.stat-card-val{font-family:var(--f-head);font-size:32px;font-weight:700;font-style:italic;color:var(--gold);line-height:1;margin-bottom:4px}
+.stat-card-sub{font-family:var(--f-body);font-size:11px;font-weight:300;color:var(--gr2)}
+.stat-card-icon{position:absolute;top:20px;right:20px;font-size:22px;opacity:.15}
+
+/* ── SECTION HEADER ── */
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:12px;flex-wrap:wrap}
+.sec-title{font-family:var(--f-head);font-size:22px;font-weight:700;font-style:italic;color:var(--wh)}
+.sec-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+/* ── FILTER BAR ── */
+.filter-bar{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;align-items:center}
+.filter-btn{
+  font-family:var(--f-label);font-size:9px;font-weight:600;letter-spacing:2px;
+  text-transform:uppercase;padding:7px 16px;
+  border:1px solid rgba(201,148,58,.2);
+  background:transparent;color:rgba(255,255,255,.45);
+  transition:all .3s;
+}
+.filter-btn:hover{border-color:rgba(201,148,58,.5);color:rgba(255,255,255,.8)}
+.filter-btn.on{background:linear-gradient(135deg,var(--gold4),var(--gold),var(--gold2));border-color:transparent;color:var(--bk)}
+.search-inp{
+  margin-left:auto;
+  background:rgba(255,255,255,.04);border:1px solid rgba(201,148,58,.18);
+  color:var(--wh);padding:8px 14px;
+  font-family:var(--f-body);font-size:13px;font-weight:300;
+  outline:none;transition:border-color .3s;
+  width:220px;
+}
+.search-inp:focus{border-color:var(--gold)}
+.search-inp::placeholder{color:var(--gr2)}
+
+/* ── ORDERS TABLE ── */
+.orders-table{width:100%;border-collapse:collapse;background:var(--bk2)}
+.orders-table th{
+  font-family:var(--f-label);font-size:9px;font-weight:700;letter-spacing:3px;
+  text-transform:uppercase;color:var(--gold);
+  padding:12px 16px;border-bottom:1px solid rgba(201,148,58,.2);
+  text-align:left;white-space:nowrap;background:var(--bk3);
+}
+.orders-table td{
+  padding:14px 16px;border-bottom:1px solid rgba(201,148,58,.07);
+  vertical-align:middle;
+}
+.orders-table tr:hover td{background:rgba(201,148,58,.03)}
+.orders-table tr:last-child td{border-bottom:none}
+
+/* Order ref */
+.ord-ref{font-family:var(--f-label);font-size:10px;font-weight:700;letter-spacing:1px;color:var(--gold)}
+.ord-date{font-family:var(--f-body);font-size:11px;color:var(--gr2);margin-top:3px}
+
+/* Customer */
+.ord-cust-name{font-family:var(--f-body);font-size:13px;font-weight:500;color:var(--wh2)}
+.ord-cust-phone{font-family:var(--f-body);font-size:11px;color:var(--gr);margin-top:2px}
+
+/* Items preview */
+.ord-items{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.ord-item-img{width:44px;height:44px;object-fit:cover;border:1px solid rgba(201,148,58,.2);border-radius:2px;background:var(--bk3)}
+.ord-item-more{font-family:var(--f-label);font-size:9px;font-weight:600;letter-spacing:1px;color:var(--gr);background:rgba(201,148,58,.08);border:1px solid rgba(201,148,58,.15);padding:3px 7px}
+
+/* Price */
+.ord-price{font-family:var(--f-head);font-size:16px;font-weight:700;font-style:italic;color:var(--gold)}
+
+/* Payment badge */
+.pay-badge{
+  font-family:var(--f-label);font-size:8px;font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;padding:4px 10px;border-radius:2px;
+  white-space:nowrap;
+}
+.pay-cod{background:rgba(249,115,22,.15);color:#f97316;border:1px solid rgba(249,115,22,.3)}
+.pay-jazz{background:rgba(139,92,246,.15);color:#a78bfa;border:1px solid rgba(139,92,246,.3)}
+.pay-easy{background:rgba(34,197,94,.15);color:#22c55e;border:1px solid rgba(34,197,94,.3)}
+.pay-bank{background:rgba(59,130,246,.15);color:#60a5fa;border:1px solid rgba(59,130,246,.3)}
+
+/* Status badge + selector */
+.status-sel{
+  font-family:var(--f-label);font-size:9px;font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;padding:6px 10px;
+  border-radius:2px;border:none;outline:none;cursor:pointer;
+  -webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23ffffff60'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 8px center;
+  padding-right:26px;
+}
+.status-sel option{background:#101010;color:#fff}
+.st-pending{background:rgba(249,115,22,.15);color:#f97316;border:1px solid rgba(249,115,22,.3)}
+.st-confirmed{background:rgba(59,130,246,.15);color:#60a5fa;border:1px solid rgba(59,130,246,.3)}
+.st-shipped{background:rgba(139,92,246,.15);color:#a78bfa;border:1px solid rgba(139,92,246,.3)}
+.st-delivered{background:rgba(34,197,94,.15);color:#22c55e;border:1px solid rgba(34,197,94,.3)}
+.st-cancelled{background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3)}
+
+/* Action buttons */
+.act-btns{display:flex;gap:6px;align-items:center}
+.act-btn{
+  width:32px;height:32px;border-radius:50%;
+  border:1px solid rgba(201,148,58,.2);background:transparent;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .3s;font-size:14px;
+}
+.act-btn:hover{border-color:var(--gold);background:rgba(201,148,58,.1)}
+.act-btn.del:hover{border-color:var(--red);background:rgba(239,68,68,.1);color:var(--red)}
+.act-btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.5}
+
+/* Empty state */
+.empty-state{
+  text-align:center;padding:80px 20px;
+  font-family:var(--f-body);font-size:15px;font-weight:300;
+  color:var(--gr);font-style:italic;
+}
+.empty-icon{font-size:40px;opacity:.2;margin-bottom:16px}
+
+/* Loading */
+.loading{text-align:center;padding:60px;color:var(--gr);font-family:var(--f-label);font-size:10px;letter-spacing:3px;text-transform:uppercase}
+.loading::after{content:'';display:inline-block;width:16px;height:16px;border:2px solid rgba(201,148,58,.3);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin-left:10px;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── ORDER DETAIL MODAL ── */
+.od-overlay{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,.85);backdrop-filter:blur(10px);
+  display:none;align-items:center;justify-content:center;
+  padding:20px;
+}
+.od-overlay.open{display:flex}
+.od-modal{
+  width:min(700px,96vw);max-height:92vh;
+  background:var(--bk2);border:1px solid rgba(201,148,58,.25);
+  overflow-y:auto;position:relative;
+  animation:popUp .4s var(--ease2);
+  scrollbar-width:thin;scrollbar-color:var(--gold4) transparent;
+}
+@keyframes popUp{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.od-corner{position:absolute;width:16px;height:16px}
+.od-corner.tl{top:-1px;left:-1px;border-top:2px solid var(--gold);border-left:2px solid var(--gold)}
+.od-corner.tr{top:-1px;right:-1px;border-top:2px solid var(--gold);border-right:2px solid var(--gold)}
+.od-corner.bl{bottom:-1px;left:-1px;border-bottom:2px solid var(--gold);border-left:2px solid var(--gold)}
+.od-corner.br{bottom:-1px;right:-1px;border-bottom:2px solid var(--gold);border-right:2px solid var(--gold)}
+.od-hdr{
+  padding:20px 24px;border-bottom:1px solid rgba(201,148,58,.12);
+  background:var(--bk3);display:flex;align-items:center;
+  justify-content:space-between;gap:12px;position:sticky;top:0;z-index:2;
+}
+.od-hdr-title{font-family:var(--f-label);font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}
+.od-close{width:32px;height:32px;border-radius:50%;border:1px solid rgba(201,148,58,.3);background:transparent;color:var(--gold);font-size:14px;display:flex;align-items:center;justify-content:center;transition:background .3s}
+.od-close:hover{background:var(--gold);color:var(--bk)}
+.od-body{padding:24px}
+.od-section{margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid rgba(201,148,58,.07)}
+.od-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.od-section-title{font-family:var(--f-label);font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.od-section-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(201,148,58,.3),transparent)}
+.od-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.od-field label{font-family:var(--f-label);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gr);display:block;margin-bottom:4px}
+.od-field span{font-family:var(--f-body);font-size:13px;font-weight:400;color:var(--wh2)}
+
+/* Order items in detail */
+.od-item{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;padding:12px;background:var(--bk3);border:1px solid rgba(201,148,58,.1);margin-bottom:8px}
+.od-item img{width:56px;height:56px;object-fit:cover;border:1px solid rgba(201,148,58,.15)}
+.od-item-name{font-family:var(--f-label);font-size:10px;font-weight:700;letter-spacing:.5px;color:var(--wh);margin-bottom:2px}
+.od-item-sub{font-family:var(--f-body);font-size:11px;color:var(--gr);font-style:italic}
+.od-item-price{font-family:var(--f-head);font-size:15px;font-weight:700;font-style:italic;color:var(--gold);white-space:nowrap}
+.od-total-row{display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid rgba(201,148,58,.15);margin-top:4px}
+.od-total-lbl{font-family:var(--f-label);font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gr)}
+.od-total-val{font-family:var(--f-head);font-size:22px;font-weight:700;font-style:italic;color:var(--gold2)}
+
+/* Modal action buttons */
+.od-actions{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+.od-btn{
+  flex:1;min-width:120px;
+  font-family:var(--f-label);font-size:10px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;padding:12px 16px;border:none;cursor:pointer;
+  transition:opacity .3s,transform .25s;text-align:center;
+}
+.od-btn:hover{opacity:.85;transform:translateY(-1px)}
+.od-btn-print{background:linear-gradient(135deg,var(--gold4),var(--gold),var(--gold2));color:var(--bk)}
+.od-btn-wa{background:linear-gradient(135deg,#25D366,#128C7E);color:#fff}
+.od-btn-del{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3)!important;color:var(--red)}
+
+/* ── PRINT SLIP ── */
+@media print{
+  body *{visibility:hidden!important}
+  #printSlip,#printSlip *{visibility:visible!important}
+  #printSlip{
+    position:fixed!important;inset:0!important;
+    width:100%!important;height:auto!important;
+    background:#fff!important;color:#000!important;
+    padding:0!important;margin:0!important;
+    display:block!important;z-index:99999!important;
+  }
+}
+#printSlip{display:none}
+.slip{
+  background:#fff;color:#111;
+  width:100%;max-width:680px;margin:0 auto;
+  font-family:'Inter',system-ui,sans-serif;
+  border:1px solid #ddd;
+}
+.slip-header{
+  background:#111;color:#fff;
+  padding:24px 28px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.slip-brand{font-family:'Montserrat',system-ui,sans-serif;font-size:20px;font-weight:700;letter-spacing:6px;color:#E8C060}
+.slip-brand-sub{font-size:10px;letter-spacing:3px;color:rgba(232,192,96,.6);margin-top:2px}
+.slip-ref{text-align:right}
+.slip-ref-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.slip-ref-val{font-size:16px;font-weight:700;color:#E8C060;margin-top:2px}
+.slip-ref-date{font-size:10px;color:rgba(255,255,255,.5);margin-top:2px}
+.slip-body{padding:24px 28px}
+.slip-section-title{
+  font-family:'Montserrat',system-ui,sans-serif;
+  font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;
+  color:#8B6014;border-bottom:1px solid #e5e5e5;
+  padding-bottom:6px;margin-bottom:12px;margin-top:20px;
+}
+.slip-section-title:first-child{margin-top:0}
+.slip-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;margin-bottom:4px}
+.slip-field label{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#888;display:block;margin-bottom:2px}
+.slip-field span{font-size:13px;color:#111;font-weight:400}
+.slip-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0f0}
+.slip-item img{width:52px;height:52px;object-fit:cover;border:1px solid #eee}
+.slip-item-name{font-size:12px;font-weight:600;color:#111;margin-bottom:2px}
+.slip-item-sub{font-size:11px;color:#888;font-style:italic}
+.slip-item-price{margin-left:auto;font-size:14px;font-weight:700;color:#8B6014;white-space:nowrap}
+.slip-total{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:12px 0 0;margin-top:4px;
+  border-top:2px solid #111;
+}
+.slip-total-lbl{font-family:'Montserrat',system-ui,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#555}
+.slip-total-val{font-size:22px;font-weight:700;color:#8B6014}
+.slip-footer{
+  background:#f8f8f8;border-top:1px solid #e5e5e5;
+  padding:14px 28px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.slip-footer-text{font-size:10px;color:#888;letter-spacing:1px}
+.slip-footer-brand{font-family:'Montserrat',system-ui,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;color:#8B6014}
+
+/* ── TOAST ── */
+.dash-toast{
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(16px);
+  background:var(--bk3);border:1px solid rgba(201,148,58,.35);
+  padding:12px 24px;z-index:9000;
+  font-family:var(--f-label);font-size:11px;font-weight:600;letter-spacing:2px;
+  text-transform:uppercase;color:var(--gold);white-space:nowrap;
+  opacity:0;transition:opacity .4s,transform .4s;
+  box-shadow:0 8px 32px rgba(0,0,0,.6);
+}
+.dash-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ── MOBILE ── */
+.mob-menu-btn{display:none;position:fixed;top:16px;left:16px;z-index:200;width:40px;height:40px;border-radius:50%;background:var(--bk2);border:1px solid rgba(201,148,58,.3);color:var(--gold);font-size:18px;align-items:center;justify-content:center}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0}
+  .mob-menu-btn{display:flex}
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+  .od-grid{grid-template-columns:1fr}
+  .orders-table{font-size:12px}
+  .orders-table th:nth-child(5),.orders-table td:nth-child(5){display:none}
+  .topbar{padding:0 16px 0 56px}
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<!-- ── PRINT SLIP (hidden, shown only on print) ── -->
+<div id="printSlip"></div>
+
+<!-- ── TOAST ── -->
+<div class="dash-toast" id="dashToast"></div>
+
+<!-- ── LOGIN ── -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-logo-title">Royale Cartel</div>
+      <div class="login-logo-sub">Admin Dashboard</div>
+    </div>
+    <div class="login-divider"></div>
+    <label class="login-label">Password</label>
+    <input class="login-inp" type="password" id="pwdInput" placeholder="Enter admin password" autocomplete="current-password">
+    <button class="login-btn" onclick="doLogin()">✦ &nbsp; Enter Dashboard</button>
+    <div class="login-err" id="loginErr">Incorrect password. Try again.</div>
+  </div>
+</div>
+
+<!-- ── MOBILE MENU BTN ── -->
+<button class="mob-menu-btn" id="mobMenuBtn">☰</button>
+
+<!-- ── DASHBOARD ── -->
+<div id="dashboard">
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-name">Royale Cartel</div>
+      <div class="sb-logo-sub">Admin Panel</div>
+    </div>
+    <nav class="sb-nav">
+      <div class="sb-section">Main</div>
+      <div class="sb-link active" data-page="orders" onclick="switchPage('orders',this)">
+        <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/></svg>
+        All Orders
+      </div>
+      <div class="sb-link" data-page="pending" onclick="switchPage('pending',this)">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        Pending
+      </div>
+      <div class="sb-link" data-page="shipped" onclick="switchPage('shipped',this)">
+        <svg viewBox="0 0 24 24"><path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3m0 0h4l3 3v4h-7m0-7v7m0 0a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm-9 0a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/></svg>
+        Shipped
+      </div>
+      <div class="sb-link" data-page="delivered" onclick="switchPage('delivered',this)">
+        <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></svg>
+        Delivered
+      </div>
+    </nav>
+    <div class="sb-bottom">
+      <button class="sb-logout" onclick="doLogout()">✕ &nbsp; Logout</button>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+
+    <!-- Top bar -->
+    <div class="topbar">
+      <div class="topbar-title" id="pageTitle">All Orders</div>
+      <div class="topbar-right">
+        <div class="topbar-live">Live</div>
+        <div class="topbar-date" id="topDate"></div>
+      </div>
+    </div>
+
+    <!-- ── ORDERS PAGE ── -->
+    <div class="page active" id="page-orders">
+      <div class="stats-row" id="statsRow">
+        <div class="stat-card">
+          <div class="stat-card-label">Total Orders</div>
+          <div class="stat-card-val" id="statTotal">—</div>
+          <div class="stat-card-sub">All time</div>
+          <div class="stat-card-icon">📋</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Pending</div>
+          <div class="stat-card-val" id="statPending" style="color:#f97316">—</div>
+          <div class="stat-card-sub">Awaiting confirmation</div>
+          <div class="stat-card-icon">⏳</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Revenue</div>
+          <div class="stat-card-val" id="statRevenue">—</div>
+          <div class="stat-card-sub">Total PKR</div>
+          <div class="stat-card-icon">💰</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Delivered</div>
+          <div class="stat-card-val" id="statDelivered" style="color:#22c55e">—</div>
+          <div class="stat-card-sub">Completed orders</div>
+          <div class="stat-card-icon">✅</div>
+        </div>
+      </div>
+
+      <div class="sec-header">
+        <div class="sec-title">Orders</div>
+      </div>
+
+      <div class="filter-bar">
+        <button class="filter-btn on" data-f="all" onclick="setFilter('all',this)">All</button>
+        <button class="filter-btn" data-f="Pending" onclick="setFilter('Pending',this)">Pending</button>
+        <button class="filter-btn" data-f="Confirmed" onclick="setFilter('Confirmed',this)">Confirmed</button>
+        <button class="filter-btn" data-f="Shipped" onclick="setFilter('Shipped',this)">Shipped</button>
+        <button class="filter-btn" data-f="Delivered" onclick="setFilter('Delivered',this)">Delivered</button>
+        <button class="filter-btn" data-f="Cancelled" onclick="setFilter('Cancelled',this)">Cancelled</button>
+        <input class="search-inp" type="text" id="searchInp" placeholder="Search name, ref, phone..." oninput="renderOrders()">
+      </div>
+
+      <div style="overflow-x:auto;background:var(--bk2);border:1px solid rgba(201,148,58,.12)">
+        <table class="orders-table" id="ordersTable">
+          <thead>
+            <tr>
+              <th>Order Ref</th>
+              <th>Customer</th>
+              <th>Items</th>
+              <th>Total</th>
+              <th>Payment</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="ordersBody">
+            <tr><td colspan="7"><div class="loading">Loading orders</div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── PENDING PAGE ── -->
+    <div class="page" id="page-pending">
+      <div class="sec-header"><div class="sec-title">Pending Orders</div></div>
+      <div style="overflow-x:auto;background:var(--bk2);border:1px solid rgba(201,148,58,.12)">
+        <table class="orders-table"><thead><tr><th>Order Ref</th><th>Customer</th><th>Items</th><th>Total</th><th>Payment</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="pendingBody"><tr><td colspan="7"><div class="loading">Loading</div></td></tr></tbody></table>
+      </div>
+    </div>
+
+    <!-- ── SHIPPED PAGE ── -->
+    <div class="page" id="page-shipped">
+      <div class="sec-header"><div class="sec-title">Shipped Orders</div></div>
+      <div style="overflow-x:auto;background:var(--bk2);border:1px solid rgba(201,148,58,.12)">
+        <table class="orders-table"><thead><tr><th>Order Ref</th><th>Customer</th><th>Items</th><th>Total</th><th>Payment</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="shippedBody"><tr><td colspan="7"><div class="loading">Loading</div></td></tr></tbody></table>
+      </div>
+    </div>
+
+    <!-- ── DELIVERED PAGE ── -->
+    <div class="page" id="page-delivered">
+      <div class="sec-header"><div class="sec-title">Delivered Orders</div></div>
+      <div style="overflow-x:auto;background:var(--bk2);border:1px solid rgba(201,148,58,.12)">
+        <table class="orders-table"><thead><tr><th>Order Ref</th><th>Customer</th><th>Items</th><th>Total</th><th>Payment</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="deliveredBody"><tr><td colspan="7"><div class="loading">Loading</div></td></tr></tbody></table>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /dashboard -->
+
+<!-- ── ORDER DETAIL MODAL ── -->
+<div class="od-overlay" id="odOverlay">
+  <div class="od-modal" id="odModal">
+    <div class="od-corner tl"></div><div class="od-corner tr"></div>
+    <div class="od-corner bl"></div><div class="od-corner br"></div>
+    <div class="od-hdr">
+      <div class="od-hdr-title" id="odTitle">Order Details</div>
+      <button class="od-close" onclick="closeDetail()">✕</button>
+    </div>
+    <div class="od-body" id="odBody"></div>
+  </div>
+</div>
+
+<script type="module">
+// ── FIREBASE ──
+import { initializeApp }                          from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import { getFirestore, collection, onSnapshot,
+         doc, updateDoc, deleteDoc, query,
+         orderBy }                                from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+const fbApp = initializeApp({
+  apiKey: "AIzaSyA02hXOnvnboIoBCSjHKXz5MOrMyydtZh4",
+  authDomain: "royale-cartel.firebaseapp.com",
+  projectId: "royale-cartel",
+  storageBucket: "royale-cartel.firebasestorage.app",
+  messagingSenderId: "566005386614",
+  appId: "1:566005386614:web:cc7a3e730d47302a6cfe57"
+});
+const db = getFirestore(fbApp);
+
+// ── PASSWORD ──
+const ADMIN_PASSWORD = 'royale2024';   // ← CHANGE THIS to your own password
+let allOrders = [];
+let currentFilter = 'all';
+let unsub = null;
+
+window.doLogin = function() {
+  const pwd = document.getElementById('pwdInput').value;
+  if (pwd === ADMIN_PASSWORD) {
+    document.getElementById('loginScreen').classList.add('hide');
+    document.getElementById('dashboard').classList.add('show');
+    startListening();
+    setDate();
+  } else {
+    document.getElementById('loginErr').style.display = 'block';
+    document.getElementById('pwdInput').value = '';
+    document.getElementById('pwdInput').focus();
+  }
+};
+
+window.doLogout = function() {
+  if (unsub) unsub();
+  document.getElementById('loginScreen').classList.remove('hide');
+  document.getElementById('dashboard').classList.remove('show');
+  document.getElementById('pwdInput').value = '';
+  document.getElementById('loginErr').style.display = 'none';
+  allOrders = [];
+};
+
+// Enter key on password
+document.getElementById('pwdInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') window.doLogin();
+});
+
+// ── DATE ──
+function setDate() {
+  const now = new Date();
+  document.getElementById('topDate').textContent = now.toLocaleDateString('en-PK', {
+    weekday:'short', day:'numeric', month:'short', year:'numeric'
+  });
+}
+
+// ── REAL-TIME LISTENER ──
+function startListening() {
+  const q = query(collection(db, 'orders'), orderBy('date', 'desc'));
+  unsub = onSnapshot(q, snap => {
+    allOrders = snap.docs.map(d => ({ _id: d.id, ...d.data() }));
+    updateStats();
+    renderOrders();
+    renderFiltered('Pending',  'pendingBody');
+    renderFiltered('Shipped',  'shippedBody');
+    renderFiltered('Delivered','deliveredBody');
+  }, err => {
+    console.error('Firestore error:', err);
+    document.getElementById('ordersBody').innerHTML =
+      '<tr><td colspan="7"><div class="empty-state">⚠️ Could not load orders. Check Firebase rules.</div></td></tr>';
+  });
+}
+
+// ── STATS ──
+function updateStats() {
+  const total     = allOrders.length;
+  const pending   = allOrders.filter(o => o.status === 'Pending').length;
+  const delivered = allOrders.filter(o => o.status === 'Delivered').length;
+  const revenue   = allOrders.reduce((s,o) => s + (o.total || 0), 0);
+  document.getElementById('statTotal').textContent     = total;
+  document.getElementById('statPending').textContent   = pending;
+  document.getElementById('statDelivered').textContent = delivered;
+  document.getElementById('statRevenue').textContent   = 'PKR ' + revenue.toLocaleString();
+}
+
+// ── RENDER ──
+window.renderOrders = function() {
+  const search = (document.getElementById('searchInp')?.value || '').toLowerCase();
+  let list = allOrders;
+  if (currentFilter !== 'all') list = list.filter(o => o.status === currentFilter);
+  if (search) list = list.filter(o => {
+    const c = o.customer || {};
+    return (o.ref||'').toLowerCase().includes(search) ||
+           (c.firstName||'').toLowerCase().includes(search) ||
+           (c.lastName||'').toLowerCase().includes(search) ||
+           (c.phone||'').toLowerCase().includes(search) ||
+           (c.email||'').toLowerCase().includes(search);
+  });
+  buildTable(list, 'ordersBody');
+};
+
+function renderFiltered(status, bodyId) {
+  const list = allOrders.filter(o => o.status === status);
+  buildTable(list, bodyId);
+}
+
+function buildTable(list, bodyId) {
+  const tbody = document.getElementById(bodyId);
+  if (!tbody) return;
+  if (!list.length) {
+    tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">📭</div>No orders found</div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = list.map(o => {
+    const c    = o.customer || {};
+    const items= o.items    || [];
+    const date = o.date ? new Date(o.date).toLocaleDateString('en-PK',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : '—';
+    const payClass = payBadgeClass(o.payment);
+    const stClass  = statusClass(o.status);
+    const imgs = items.slice(0,3).map(i =>
+      `<img class="ord-item-img" src="${i.img||''}" alt="${i.name||''}" onerror="this.style.background='#1c1c1c'">`
+    ).join('');
+    const moreCount = items.length > 3 ? `<div class="ord-item-more">+${items.length-3}</div>` : '';
+    return `<tr>
+      <td><div class="ord-ref">${o.ref||'—'}</div><div class="ord-date">${date}</div></td>
+      <td><div class="ord-cust-name">${c.firstName||''} ${c.lastName||''}</div><div class="ord-cust-phone">${c.phone||''}</div></td>
+      <td><div class="ord-items">${imgs}${moreCount}</div></td>
+      <td><div class="ord-price">PKR ${(o.total||0).toLocaleString()}</div></td>
+      <td><span class="pay-badge ${payClass}">${o.payment||'—'}</span></td>
+      <td>
+        <select class="status-sel ${stClass}" onchange="updateStatus('${o._id}',this)">
+          <option ${o.status==='Pending'   ?'selected':''}>Pending</option>
+          <option ${o.status==='Confirmed' ?'selected':''}>Confirmed</option>
+          <option ${o.status==='Shipped'   ?'selected':''}>Shipped</option>
+          <option ${o.status==='Delivered' ?'selected':''}>Delivered</option>
+          <option ${o.status==='Cancelled' ?'selected':''}>Cancelled</option>
+        </select>
+      </td>
+      <td>
+        <div class="act-btns">
+          <button class="act-btn" title="View Details" onclick="openDetail('${o._id}')">
+            <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+          <button class="act-btn" title="Print Slip" onclick="printSlip('${o._id}')">
+            <svg viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          </button>
+          <button class="act-btn del" title="Delete" onclick="deleteOrder('${o._id}','${o.ref}')">
+            <svg viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+          </button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+
+  // Re-apply status class when dropdown changes
+  tbody.querySelectorAll('.status-sel').forEach(sel => {
+    sel.className = `status-sel ${statusClass(sel.value)}`;
+    sel.addEventListener('change', function() {
+      this.className = `status-sel ${statusClass(this.value)}`;
+    });
+  });
+}
+
+// ── STATUS UPDATE ──
+window.updateStatus = async function(id, sel) {
+  const newStatus = sel.value;
+  sel.className = `status-sel ${statusClass(newStatus)}`;
+  try {
+    await updateDoc(doc(db, 'orders', id), { status: newStatus });
+    showDashToast('Status updated → ' + newStatus);
+  } catch(e) {
+    console.error(e);
+    showDashToast('Error updating status');
+  }
+};
+
+// ── DELETE ──
+window.deleteOrder = async function(id, ref) {
+  if (!confirm(`Delete order ${ref}?\n\nThis cannot be undone.`)) return;
+  try {
+    await deleteDoc(doc(db, 'orders', id));
+    showDashToast('Order ' + ref + ' deleted');
+  } catch(e) {
+    console.error(e);
+    showDashToast('Error deleting order');
+  }
+};
+
+// ── ORDER DETAIL MODAL ──
+window.openDetail = function(id) {
+  const o = allOrders.find(x => x._id === id);
+  if (!o) return;
+  const c     = o.customer || {};
+  const items = o.items    || [];
+  const date  = o.date ? new Date(o.date).toLocaleString('en-PK') : '—';
+
+  document.getElementById('odTitle').textContent = 'Order · ' + (o.ref || id);
+  document.getElementById('odBody').innerHTML = `
+    <div class="od-section">
+      <div class="od-section-title">Customer Information</div>
+      <div class="od-grid">
+        <div class="od-field"><label>Full Name</label><span>${c.firstName||''} ${c.lastName||''}</span></div>
+        <div class="od-field"><label>Phone / WhatsApp</label><span>${c.phone||'—'}</span></div>
+        <div class="od-field"><label>Email</label><span>${c.email||'—'}</span></div>
+        <div class="od-field"><label>Country</label><span>${c.country||'—'}</span></div>
+      </div>
+      <div class="od-field" style="margin-top:10px"><label>Delivery Address</label><span>${c.address||'—'}</span></div>
+      ${c.notes ? `<div class="od-field" style="margin-top:10px"><label>Notes</label><span>${c.notes}</span></div>` : ''}
+    </div>
+    <div class="od-section">
+      <div class="od-section-title">Order Information</div>
+      <div class="od-grid">
+        <div class="od-field"><label>Order Ref</label><span>${o.ref||'—'}</span></div>
+        <div class="od-field"><label>Date</label><span>${date}</span></div>
+        <div class="od-field"><label>Payment Method</label><span>${o.payment||'—'}</span></div>
+        <div class="od-field"><label>Status</label><span>${o.status||'—'}</span></div>
+      </div>
+    </div>
+    <div class="od-section">
+      <div class="od-section-title">Items Ordered</div>
+      ${items.map(i => `
+        <div class="od-item">
+          <img src="${i.img||''}" alt="${i.name||''}" onerror="this.style.background='#1c1c1c'">
+          <div>
+            <div class="od-item-name">${i.name||'Unknown Item'}</div>
+            <div class="od-item-sub">${i.sub||''} &nbsp;·&nbsp; Qty: ${i.qty||1}</div>
+          </div>
+          <div class="od-item-price">PKR ${((i.priceNum||0)*(i.qty||1)).toLocaleString()}</div>
+        </div>`).join('')}
+      <div class="od-total-row">
+        <span class="od-total-lbl">Total</span>
+        <span class="od-total-val">PKR ${(o.total||0).toLocaleString()}</span>
+      </div>
+    </div>
+    <div class="od-actions">
+      <button class="od-btn od-btn-print" onclick="printSlip('${id}')">🖨️ &nbsp; Print Shipping Slip</button>
+      <a href="https://wa.me/${(c.phone||'').replace(/[^0-9]/g,'')}" target="_blank" class="od-btn od-btn-wa" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center">📱 &nbsp; WhatsApp Customer</a>
+      <button class="od-btn od-btn-del" onclick="deleteOrder('${id}','${o.ref}');closeDetail()">🗑️ &nbsp; Delete Order</button>
+    </div>`;
+
+  document.getElementById('odOverlay').classList.add('open');
+};
+
+window.closeDetail = function() {
+  document.getElementById('odOverlay').classList.remove('open');
+};
+document.getElementById('odOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('odOverlay')) window.closeDetail();
+});
+
+// ── PRINT SLIP ──
+window.printSlip = function(id) {
+  const o = allOrders.find(x => x._id === id);
+  if (!o) return;
+  const c     = o.customer || {};
+  const items = o.items    || [];
+  const date  = o.date ? new Date(o.date).toLocaleDateString('en-PK',{day:'numeric',month:'long',year:'numeric'}) : '—';
+
+  document.getElementById('printSlip').innerHTML = `
+    <div class="slip">
+      <div class="slip-header">
+        <div>
+          <div class="slip-brand">ROYALE CARTEL</div>
+          <div class="slip-brand-sub">Haute Horlogerie · Lahore</div>
+        </div>
+        <div class="slip-ref">
+          <div class="slip-ref-label">Order Reference</div>
+          <div class="slip-ref-val">${o.ref||'—'}</div>
+          <div class="slip-ref-date">${date}</div>
+        </div>
+      </div>
+      <div class="slip-body">
+        <div class="slip-section-title">Ship To</div>
+        <div class="slip-grid">
+          <div class="slip-field"><label>Customer Name</label><span>${c.firstName||''} ${c.lastName||''}</span></div>
+          <div class="slip-field"><label>Phone / WhatsApp</label><span>${c.phone||'—'}</span></div>
+          <div class="slip-field"><label>Email</label><span>${c.email||'—'}</span></div>
+          <div class="slip-field"><label>Country</label><span>${c.country||'—'}</span></div>
+        </div>
+        <div class="slip-field" style="margin-top:10px"><label>Delivery Address</label><span>${c.address||'—'}</span></div>
+        ${c.notes?`<div class="slip-field" style="margin-top:8px"><label>Special Notes</label><span>${c.notes}</span></div>`:''}
+
+        <div class="slip-section-title">Order Items</div>
+        ${items.map(i=>`
+          <div class="slip-item">
+            <img src="${i.img||''}" alt="${i.name||''}" onerror="this.style.background='#eee'">
+            <div>
+              <div class="slip-item-name">${i.name||'Unknown Item'}</div>
+              <div class="slip-item-sub">${i.sub||''} &nbsp;·&nbsp; Qty: ${i.qty||1}</div>
+            </div>
+            <div class="slip-item-price">PKR ${((i.priceNum||0)*(i.qty||1)).toLocaleString()}</div>
+          </div>`).join('')}
+        <div class="slip-total">
+          <span class="slip-total-lbl">Total Amount</span>
+          <span class="slip-total-val">PKR ${(o.total||0).toLocaleString()}</span>
+        </div>
+
+        <div class="slip-section-title">Payment</div>
+        <div class="slip-grid">
+          <div class="slip-field"><label>Payment Method</label><span>${o.payment||'—'}</span></div>
+          <div class="slip-field"><label>Status</label><span>${o.status||'Pending'}</span></div>
+        </div>
+      </div>
+      <div class="slip-footer">
+        <div class="slip-footer-text">royalEcartel3@gmail.com &nbsp;·&nbsp; +92 303 055 5566 &nbsp;·&nbsp; Gulberg, Lahore</div>
+        <div class="slip-footer-brand">ROYALE CARTEL</div>
+      </div>
+    </div>`;
+
+  setTimeout(() => window.print(), 150);
+};
+
+// ── FILTER ──
+window.setFilter = function(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  renderOrders();
+};
+
+// ── PAGE SWITCH ──
+window.switchPage = function(page, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sb-link').forEach(l => l.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  el.classList.add('active');
+  const titles = {orders:'All Orders', pending:'Pending Orders', shipped:'Shipped Orders', delivered:'Delivered Orders'};
+  document.getElementById('pageTitle').textContent = titles[page] || page;
+  // Close mobile sidebar
+  document.getElementById('sidebar').classList.remove('open');
+};
+
+// ── MOBILE MENU ──
+document.getElementById('mobMenuBtn').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('open');
+});
+
+// ── HELPERS ──
+function payBadgeClass(p) {
+  if (!p) return '';
+  const pl = p.toLowerCase();
+  if (pl.includes('cod') || pl.includes('cash')) return 'pay-cod';
+  if (pl.includes('jazz'))                        return 'pay-jazz';
+  if (pl.includes('easy'))                        return 'pay-easy';
+  if (pl.includes('bank'))                        return 'pay-bank';
+  return 'pay-cod';
+}
+
+function statusClass(s) {
+  const map = {Pending:'st-pending', Confirmed:'st-confirmed', Shipped:'st-shipped', Delivered:'st-delivered', Cancelled:'st-cancelled'};
+  return map[s] || 'st-pending';
+}
+
+let toastTimer = null;
+function showDashToast(msg) {
+  const t = document.getElementById('dashToast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+window.showDashToast = showDashToast;
+
+// Keyboard: Escape closes modals
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') window.closeDetail();
+});
+</script>
+</body>
+</html>
