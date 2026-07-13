@@ -241,7 +241,7 @@ canvas#gc{position:absolute;inset:0;width:100%;height:100%;display:block}
 .gh-title em{font-style:italic;color:var(--gold2)}
 .gh-line-bottom{position:absolute;bottom:0;left:0;right:0;height:2px;z-index:3;background:linear-gradient(90deg,transparent 0%,rgba(201,148,58,.4) 25%,rgba(232,192,96,.85) 50%,rgba(201,148,58,.4) 75%,transparent 100%)}
 .gh-scroll{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:.7}
-.gh-scroll span{font-family:var(--f-label);font-size:9px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.gh-scroll span{font-family:var(--f-label);font-size:9px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom: -20px;}
 .gh-scroll-bar{width:1px;height:32px;background:rgba(201,148,58,.25);position:relative;overflow:hidden}
 .gh-scroll-bar::after{content:'';position:absolute;top:-100%;left:0;width:100%;height:100%;background:linear-gradient(to bottom,transparent,var(--gold));animation:sdrop 2s ease-in-out infinite}
 .gh-stats{position:absolute;bottom:70px;left:50%;transform:translateX(-50%);z-index:3;display:flex;gap:clamp(24px,5vw,60px);align-items:center}
@@ -2006,7 +2006,7 @@ document.addEventListener('keydown', e => {
   <p class="fcta-p" data-anim>Private viewings by appointment only. Our Royal Advisors await in London, Geneva, Dubai, and Lahore.</p>
   <div class="fcta-btns" data-anim>
     <button class="btn-primary" onclick="openCart()"><span>✦ &nbsp; View My Selection &nbsp; ✦</span></button>
-    <button class="btn-secondary" onclick="openVid()">▶ &nbsp; Watch the Film</button>
+    <!-- <button class="btn-secondary" onclick="openVid()">▶ &nbsp; Watch the Film</button> -->
   </div>
 </section>
 
@@ -2397,5 +2397,6 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') { closeVid(); closeCart(); closeOrder(); }
 });
 </script>
+
 </body>
 </html>
