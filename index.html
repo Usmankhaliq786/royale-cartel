@@ -18,7 +18,7 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '2797554400546712 9'.replace(' ',''));
+fbq('init', '27975544005467129');
 fbq('track', 'PageView');
 </script>
 <noscript>
@@ -841,9 +841,108 @@ body.noscroll{
 .toast{position:fixed;bottom:clamp(90px,12vw,120px);left:50%;transform:translateX(-50%) translateY(16px);background:var(--bk3);border:1px solid rgba(201,148,58,.35);padding:13px 24px;z-index:900;font-family:var(--f-label);font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);white-space:nowrap;opacity:0;transition:opacity .4s,transform .4s;box-shadow:0 8px 32px rgba(0,0,0,.6)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* ─────────────────────────────────────
-   KEYFRAMES
-───────────────────────────────────── */
+/* ═══════════════════════════════════
+   AZADI SALE BANNER + COUNTDOWN
+═══════════════════════════════════ */
+.azadi-bar{
+  position:relative;z-index:499;
+  background:linear-gradient(90deg,#006600,#ffffff,#006600);
+  padding:0;overflow:hidden;
+}
+.azadi-inner{
+  display:flex;align-items:center;justify-content:center;
+  gap:clamp(8px,2vw,24px);flex-wrap:wrap;
+  padding:10px clamp(12px,3vw,32px);
+  background:linear-gradient(135deg,rgba(0,102,0,.92),rgba(1,82,1,.95));
+  position:relative;
+}
+.azadi-inner::before{
+  content:'🇵🇰';position:absolute;left:16px;font-size:22px;
+}
+.azadi-inner::after{
+  content:'🇵🇰';position:absolute;right:16px;font-size:22px;
+}
+.azadi-flag{font-size:20px}
+.azadi-text{
+  font-family:var(--f-label);font-size:clamp(11px,1.5vw,14px);
+  font-weight:700;letter-spacing:clamp(1px,0.5vw,3px);
+  text-transform:uppercase;color:#fff;text-align:center;
+}
+.azadi-text span{
+  color:#FFD700;
+  font-size:clamp(13px,1.8vw,17px);
+}
+.azadi-countdown{
+  display:flex;gap:6px;align-items:center;
+}
+.azadi-unit{
+  text-align:center;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.2);
+  padding:4px 8px;min-width:44px;
+}
+.azadi-num{
+  font-family:var(--f-head);font-size:clamp(16px,2.5vw,22px);
+  font-weight:700;color:#FFD700;line-height:1;display:block;
+}
+.azadi-lbl{
+  font-family:var(--f-label);font-size:8px;font-weight:600;
+  letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.7);
+  display:block;margin-top:2px;
+}
+.azadi-sep{
+  font-family:var(--f-head);font-size:20px;font-weight:700;
+  color:#FFD700;margin-bottom:4px;
+}
+.azadi-close{
+  position:absolute;right:40px;top:50%;transform:translateY(-50%);
+  background:transparent;border:none;color:rgba(255,255,255,.6);
+  font-size:16px;cursor:pointer;padding:4px 8px;
+  transition:color .3s;
+}
+.azadi-close:hover{color:#fff}
+@media(max-width:600px){
+  .azadi-inner::before,.azadi-inner::after{display:none}
+  .azadi-close{right:8px}
+}
+
+/* ── SALE BADGE ON WATCH CARDS ── */
+.sale-badge{
+  position:absolute;top:10px;right:10px;z-index:3;
+  background:linear-gradient(135deg,#006600,#00aa00);
+  color:#FFD700;
+  font-family:var(--f-label);font-size:9px;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;
+  padding:5px 10px;
+  border:1px solid rgba(255,215,0,.4);
+  box-shadow:0 2px 12px rgba(0,102,0,.4);
+}
+
+/* ── STRIKETHROUGH ORIGINAL PRICE ── */
+.price-original{
+  font-family:var(--f-body);font-size:11px;font-weight:300;
+  color:var(--gr);text-decoration:line-through;
+  margin-right:6px;
+}
+.price-sale{color:#22c55e!important}
+
+/* ── SALE STRIP ON HERO ── */
+.sale-strip{
+  position:absolute;bottom:50px;left:50%;transform:translateX(-50%);
+  z-index:4;
+  background:linear-gradient(135deg,rgba(0,102,0,.9),rgba(0,140,0,.85));
+  border:1px solid rgba(255,215,0,.4);
+  padding:10px 28px;
+  font-family:var(--f-label);font-size:12px;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;
+  color:#FFD700;white-space:nowrap;
+  backdrop-filter:blur(8px);
+  box-shadow:0 4px 24px rgba(0,102,0,.4);
+  animation:salePulse 2s ease-in-out infinite;
+}
+@keyframes salePulse{0%,100%{box-shadow:0 4px 24px rgba(0,102,0,.4)}50%{box-shadow:0 4px 36px rgba(0,180,0,.7),0 0 0 4px rgba(255,215,0,.15)}}
+
+
 @keyframes heroIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes scanLine{0%{top:-1px;opacity:.7}100%{top:100%;opacity:.1}}
 @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
@@ -864,6 +963,25 @@ body.noscroll{
 
 <div id="cur"></div><div id="cur2"></div>
 <div class="toast" id="toast"></div>
+
+<!-- ═══ AZADI SALE BANNER ═══ -->
+<div class="azadi-bar" id="azadiBar">
+  <div class="azadi-inner">
+    <div class="azadi-text">
+      🇵🇰 &nbsp; <span>14 August Azadi Sale — 30% OFF</span> &nbsp; Sab Watches Pe &nbsp;|&nbsp; Offer Khatam Hone Mein:
+    </div>
+    <div class="azadi-countdown">
+      <div class="azadi-unit"><span class="azadi-num" id="cdDays">00</span><span class="azadi-lbl">Days</span></div>
+      <div class="azadi-sep">:</div>
+      <div class="azadi-unit"><span class="azadi-num" id="cdHours">00</span><span class="azadi-lbl">Hrs</span></div>
+      <div class="azadi-sep">:</div>
+      <div class="azadi-unit"><span class="azadi-num" id="cdMins">00</span><span class="azadi-lbl">Min</span></div>
+      <div class="azadi-sep">:</div>
+      <div class="azadi-unit"><span class="azadi-num" id="cdSecs">00</span><span class="azadi-lbl">Sec</span></div>
+    </div>
+    <button class="azadi-close" onclick="document.getElementById('azadiBar').style.display='none'" title="Close">✕</button>
+  </div>
+</div>
 
 <!-- ═══ CART ADDED POPUP ═══ -->
 <div class="cart-popup" id="cartPopup">
@@ -886,7 +1004,7 @@ body.noscroll{
 <div id="intro">
   <div id="vphase">
     <video id="ivid" autoplay muted playsinline preload="auto" loop style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-      <source src="Royel-cartel-video.mp4" type="video/mp4">
+      <source src="Royale_Cartel_luxury_watch_sale_202608041446.mp4" type="video/mp4">
     </video>
     <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.35) 0%,rgba(0,0,0,.15) 45%,rgba(0,0,0,.55) 100%);z-index:1;pointer-events:none"></div>
     <div style="position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;pointer-events:none">
@@ -1104,17 +1222,17 @@ body.noscroll{
   <span class="mqi">Swiss Made<span class="mqgem">✦</span></span>
   <span class="mqi">Free Delivery<span class="mqgem">✦</span></span>
   <span class="mqi">Hand-Skeletonized<span class="mqgem">✦</span></span>
+  <span class="mqi" style="color:#FFD700;font-weight:600">🇵🇰 Azadi Sale — 30% Off<span class="mqgem">✦</span></span>
   <span class="mqi">800 Hours Per Piece<span class="mqgem">✦</span></span>
   <span class="mqi">Geneva Certified<span class="mqgem">✦</span></span>
   <span class="mqi">Royale Heritage<span class="mqgem">✦</span></span>
-  <span class="mqi">Bespoke Engraving<span class="mqgem">✦</span></span>
   <span class="mqi">Swiss Made<span class="mqgem">✦</span></span>
   <span class="mqi">Free Delivery<span class="mqgem">✦</span></span>
   <span class="mqi">Hand-Skeletonized<span class="mqgem">✦</span></span>
+  <span class="mqi" style="color:#FFD700;font-weight:600">🇵🇰 Azadi Sale — 30% Off<span class="mqgem">✦</span></span>
   <span class="mqi">800 Hours Per Piece<span class="mqgem">✦</span></span>
   <span class="mqi">Geneva Certified<span class="mqgem">✦</span></span>
   <span class="mqi">Royale Heritage<span class="mqgem">✦</span></span>
-  <span class="mqi">Bespoke Engraving<span class="mqgem">✦</span></span>
 </div></div>
 
 <!-- GALAXY STATS -->
@@ -1186,6 +1304,7 @@ body.noscroll{
   <div class="hero-scan"></div>
   <div class="hero-content"></div>
   <div class="hero-line"></div>
+  <div class="sale-strip">🇵🇰 &nbsp; Azadi Sale — 30% Off All Watches &nbsp; 🇵🇰</div>
   <div class="hero-scroll"><span>Scroll</span><div class="scroll-bar"></div></div>
 </section>
 
@@ -1264,7 +1383,10 @@ body.noscroll{
         <div class="wm-name" id="wmName">Watch Name</div>
         <div class="wm-model" id="wmModel">Model Reference</div>
         <div class="wm-price-row">
-          <div class="wm-price" id="wmPrice">PKR 0</div>
+          <div>
+            <div style="font-family:var(--f-body);font-size:11px;color:var(--gr);text-decoration:line-through;margin-bottom:2px" id="wmOrigPrice"></div>
+            <div class="wm-price" id="wmPrice" style="color:#22c55e">PKR 0</div>
+          </div>
           <div class="wm-avail">In Stock</div>
         </div>
         <div class="wm-actions" id="wmActions"></div>
@@ -1316,8 +1438,9 @@ const WCATALOGUE = [
     model:'CASIRUI Automatic Skeleton Series',
     ref:'CS-001',
     sub:'Stainless Steel · Open-Heart Dial',
-    price:'PKR 3,999',
-    priceNum:3999,
+    price:'PKR 2,799',
+    originalPrice:'PKR 3,999',
+    priceNum:2799,
     photos:['Rolex Oyster-1.jpeg','Rolex Oyster-2.jpeg','Rolex Oyster-3.png','Rolex Oyster-4.png'],
     desc:`A striking open-heart skeleton dial showcases the precision automatic mechanical movement in motion. The black and gold skeleton design, paired with a polished stainless steel bracelet, delivers a bold luxury timepiece crafted for those who appreciate modern elegance and timeless engineering.
 
@@ -1345,8 +1468,9 @@ PACKAGE INCLUDES: CASIRUI Automatic Skeleton Watch + Premium Gift Box + Delivery
     model:'Charcoal Diamond Dial Edition',
     ref:'RX-002',
     sub:'Two-Tone Stainless Steel · Diamond Dial',
-    price:'PKR 3,999',
-    priceNum:3999,
+    price:'PKR 2,799',
+    originalPrice:'PKR 3,999',
+    priceNum:2799,
     photos:['second-slot1.png','second-slot2.png','second-slot3.png'],
     desc:`A refined Rolex Oyster Perpetual Datejust featuring an elegant charcoal diamond dial with sparkling diamond hour markers. The gold-tone diamond-set bezel, two-tone stainless steel bracelet, and luxurious finish make it a perfect choice for both formal occasions and everyday sophistication.
 
@@ -1367,8 +1491,9 @@ PACKAGE INCLUDES: Rolex Watch + Royale Cartel Box + Delivery Charges Included`,
     model:'Silver Diamond Dial Edition',
     ref:'RX-003',
     sub:'Silver Diamond Dial · Stainless Steel Bracelet',
-    price:'PKR 3,999',
-    priceNum:3999,
+    price:'PKR 2,799',
+    originalPrice:'PKR 3,999',
+    priceNum:2799,
     photos:['Next-1.png','Next-2.png','Next-3.png','Next-4.png','Next-5.png'],
     desc:`A sophisticated Rolex Oyster Perpetual Datejust featuring a luxurious silver diamond dial accented with brilliant diamond hour markers. The elegant silver fluted bezel and premium stainless steel bracelet create a timeless design suitable for both formal occasions and everyday wear.
 
@@ -1389,8 +1514,9 @@ PACKAGE INCLUDES: Rolex Watch + Royale Cartel Box + Delivery Charges Included`,
     model:'Emerald Green Diamond Dial',
     ref:'RX-004',
     sub:'Emerald Green Diamond Dial · Jubilee Bracelet',
-    price:'PKR 3,999',
-    priceNum:3999,
+    price:'PKR 2,799',
+    originalPrice:'PKR 3,999',
+    priceNum:2799,
     photos:['Next-6.png','Next-7.png','Next-8.png','Next-9.png','Next-10.png'],
     desc:`Experience timeless luxury with the Rolex Oyster Perpetual Datejust featuring a stunning emerald green diamond dial. Crafted with a stainless steel case, elegant Jubilee bracelet, and signature silver fluted bezel.
 
@@ -1411,8 +1537,9 @@ PACKAGE INCLUDES: Rolex Watch + Premium Luxury Green Box + Delivery Charges Incl
     model:'Tissot PRX Quartz',
     ref:'TS-001',
     sub:'Green Sunburst Dial · Swiss Quartz',
-    price:'PKR 3,999',
-    priceNum:3999,
+    price:'PKR 2,799',
+    originalPrice:'PKR 3,999',
+    priceNum:2799,
     photos:['Tissot-1.png','Tissot-2.png','Tissot-3.png','Tissot-4.png','Tissot-5.png'],
     desc:`The Tissot PRX Quartz blends iconic Swiss craftsmanship with contemporary styling. Featuring a stunning green sunburst dial, integrated stainless steel bracelet, and scratch-resistant sapphire crystal.
 
@@ -1433,8 +1560,9 @@ PACKAGE INCLUDES: Tissot PRX Watch + Premium Luxury Watch Box + Delivery Charges
     model:'Full Diamond Green Edition',
     ref:'FM-001',
     sub:'Full Diamond Green Edition · Quartz Movement',
-    price:'PKR 3,999',
-    priceNum:3999,
+    price:'PKR 2,799',
+    originalPrice:'PKR 3,999',
+    priceNum:2799,
     photos:['Franck-Muller1.png','Franck-Muller2.png'],
     desc:`The Franck Muller Vanguard Full Diamond Green Edition features a fully iced-out diamond dial, signature oversized green Arabic numerals, and a premium green hybrid strap.
 
@@ -1455,8 +1583,9 @@ PACKAGE INCLUDES: Franck Muller Watch + Premium Luxury Watch Box + Delivery Char
     model:'Patek Philippe Nautilus',
     ref:'PP-001',
     sub:'Black Horizontal Embossed Dial · Quartz Movement',
-    price:'PKR 3,699',
-    priceNum:3699,
+    price:'PKR 2,589',
+    originalPrice:'PKR 3,699',
+    priceNum:2589,
     photos:['Patek-Philippe1.png','Patek-Philippe2.png'],
     desc:`The Patek Philippe Nautilus Black Dial embodies timeless elegance with its iconic rounded octagonal bezel and sophisticated black textured dial.
 
@@ -1477,8 +1606,9 @@ PACKAGE INCLUDES: Patek Philippe Watch + Premium Luxury Watch Box + Delivery Cha
     model:'Black Grande Tapisserie Dial',
     ref:'AP-001',
     sub:'Black Grande Tapisserie Dial · Quartz Movement',
-    price:'PKR 3,999',
-    priceNum:3999,
+    price:'PKR 2,799',
+    originalPrice:'PKR 3,999',
+    priceNum:2799,
     photos:['Patek-Philippe3.png','new-changes.png'],
     desc:`The Audemars Piguet Royal Oak features the signature Grande Tapisserie textured dial, octagonal bezel with exposed hexagonal screws, and an integrated stainless steel bracelet.
 
@@ -1499,8 +1629,9 @@ PACKAGE INCLUDES: Audemars Piguet Watch + Premium Luxury Watch Box + Delivery Ch
     model:'Two-Tone Green Edition',
     ref:'RS-001',
     sub:'Two-Tone Green Edition · Quartz Movement',
-    price:'PKR 3,999',
-    priceNum:3999,
+    price:'PKR 2,799',
+    originalPrice:'PKR 3,999',
+    priceNum:2799,
     photos:['Rolex-Submariner1.png','Rolex-Submariner2.png','Rolex-Submariner3.png'],
     desc:`The Rolex Submariner Date Two-Tone Green Edition combines iconic diving heritage with modern luxury. Featuring a striking sunburst green dial and signature green rotatable bezel.
 
@@ -1521,8 +1652,9 @@ PACKAGE INCLUDES: Rolex Submariner Watch + Premium Luxury Watch Box + Delivery C
     model:'Titanium/Grey Edition',
     ref:'HB-005',
     sub:'Geometric Orlinski Design · Quartz Movement',
-    price:'PKR 3,999',
-    priceNum:3999,
+    price:'PKR 2,799',
+    originalPrice:'PKR 3,999',
+    priceNum:2799,
     photos:['Hublot1.png','Hublot2.png','Hublot3.png'],
     desc:`The Hublot Classic Fusion Orlinski Edition is a bold fusion of modern art and luxury watchmaking with a faceted geometric case design inspired by Richard Orlinski.
 
@@ -1543,8 +1675,9 @@ PACKAGE INCLUDES: Hublot Watch + Premium Luxury Watch Box + Delivery Charges Inc
     model:'Brown/White Collector Edition',
     ref:'HB-004',
     sub:'Collector Vault Edition · 3-Watch Set',
-    price:'PKR 3,999',
-    priceNum:3999,
+    price:'PKR 2,799',
+    originalPrice:'PKR 3,999',
+    priceNum:2799,
     photos:['Hublot4.png','Hublot5.png','Hublot6.png'],
     desc:`The Dynasty Collector Set includes three signature Hublot-inspired designs housed in a handcrafted mahogany and gold presentation case.
 
@@ -1565,8 +1698,9 @@ PACKAGE INCLUDES: 3 Luxury Timepieces + Premium Collector Vault + Delivery Charg
     model:'CASIRUI Automatic Skeleton Series',
     ref:'CS-005',
     sub:'Silver Skeleton Edition · Fully Automatic',
-    price:'PKR 7,499',
-    priceNum:7499,
+    price:'PKR 5,249',
+    originalPrice:'PKR 7,499',
+    priceNum:5249,
     photos:['single-check1.png'],
     desc:`The CASIRUI Silver Skeleton Edition features a fully automatic movement, artistic open skeleton dial, and a premium stainless steel bracelet.
 
@@ -1587,8 +1721,9 @@ PACKAGE INCLUDES: CASIRUI Automatic Watch + Premium Luxury Watch Box + Delivery 
     model:'CASIRUI Skeleton Masterpiece',
     ref:'CS-006',
     sub:'Full Skeleton Dial · Fully Automatic',
-    price:'PKR 7,499',
-    priceNum:7499,
+    price:'PKR 5,249',
+    originalPrice:'PKR 7,499',
+    priceNum:5249,
     photos:['single-check2.png'],
     desc:`The CASIRUI Skeleton Masterpiece Edition features a full skeleton dial, exhibition case back, and premium stainless steel construction.
 
@@ -1609,8 +1744,9 @@ PACKAGE INCLUDES: CASIRUI Automatic Watch + Premium Luxury Watch Box + Delivery 
     model:'Rolex Cosmograph Daytona Style',
     ref:'RX-005',
     sub:'Open-Heart Tourbillon Style · Semi-Automatic',
-    price:'PKR 4,999',
-    priceNum:4999,
+    price:'PKR 3,499',
+    originalPrice:'PKR 4,999',
+    priceNum:3499,
     photos:['single-check3.png'],
     desc:`The Rolex Cosmograph Premium Tourbillon Edition features a dynamic rotating open-heart dial, tachymeter bezel, and premium black rubber strap.
 
@@ -1631,8 +1767,9 @@ PACKAGE INCLUDES: Rolex Cosmograph Watch + Premium Luxury Watch Box + Delivery C
     model:'Geometric Sculpted Green Edition',
     ref:'HB-011',
     sub:'Green Dial Open-Heart Edition · Quartz Movement',
-    price:'PKR 3,999',
-    priceNum:3999,
+    price:'PKR 2,799',
+    originalPrice:'PKR 3,999',
+    priceNum:2799,
     photos:['new-changes1.png','new-changes2.png','new-changes3.png','new-changes4.png','new-changes5.png'],
     desc:`The Hublot Classic Fusion Orlinski Green Dial Edition features a vibrant sunburst green dial, open-heart skeleton window, and the iconic faceted Orlinski case.
 
@@ -1672,6 +1809,7 @@ function renderWatches(filter) {
         <img src="${w.photos[0]}" alt="${w.name}" loading="lazy">
         <div class="wcard-img-ov"></div>
         ${w.badge ? `<div class="wcard-badge ${w.badge.cls}">${w.badge.text}</div>` : ''}
+        <div class="sale-badge">30% OFF 🇵🇰</div>
         <div class="wcard-pics">
           <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
           ${w.photos.length} photo${w.photos.length>1?'s':''}
@@ -1687,7 +1825,10 @@ function renderWatches(filter) {
         <div class="wcard-name">${w.name}</div>
         <div class="wcard-sub">${w.sub}</div>
         <div class="wcard-foot">
-          <div class="wcard-price">${w.price}</div>
+          <div>
+            ${w.originalPrice ? `<span class="price-original">${w.originalPrice}</span>` : ''}
+            <div class="wcard-price price-sale">${w.price}</div>
+          </div>
           <div class="wcard-actions">
             <button class="wcard-a-addcart" data-id="${w.id}" title="Add to cart">
               <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
@@ -1731,6 +1872,7 @@ function openWatchModal(id) {
   document.getElementById('wmName').textContent = w.name;
   document.getElementById('wmModel').textContent = w.ref + ' · ' + w.model;
   document.getElementById('wmPrice').textContent = w.price;
+  document.getElementById('wmOrigPrice').textContent = w.originalPrice ? w.originalPrice : '';
   document.getElementById('wmDesc').textContent = w.desc;
 
   const slidesEl = document.getElementById('wmSlides');
@@ -1767,6 +1909,17 @@ function openWatchModal(id) {
 
   modalOv.classList.add('open');
   lockScroll();
+  // ── META PIXEL: ViewContent ──
+  if(typeof fbq !== 'undefined') {
+    fbq('track', 'ViewContent', {
+      content_name: w.name,
+      content_category: 'Luxury Watch',
+      content_ids: [w.id],
+      content_type: 'product',
+      value: w.priceNum,
+      currency: 'PKR'
+    });
+  }
 }
 
 function galTo(n) {
@@ -2088,6 +2241,17 @@ function addToCart(name, sub, price, priceNum, img) {
   } else {
     cartItems.push({ id: genId(), name, sub, price, priceNum, img, qty: 1 });
   }
+  // ── META PIXEL: AddToCart ──
+  if(typeof fbq !== 'undefined') {
+    fbq('track', 'AddToCart', {
+      content_name: name,
+      content_category: 'Luxury Watch',
+      content_ids: [name.replace(/\s+/g,'-').toLowerCase()],
+      content_type: 'product',
+      value: priceNum,
+      currency: 'PKR'
+    });
+  }
   updateCartUI();
   showCartPopup(name, sub, price, img);
 }
@@ -2205,6 +2369,17 @@ document.getElementById('cartOverlay').addEventListener('click', closeCart);
 /* ── ORDER ── */
 function openOrder() {
   if (!cartItems.length) { showToast('Your cart is empty'); return; }
+  // ── META PIXEL: InitiateCheckout ──
+  if(typeof fbq !== 'undefined') {
+    const total = cartItems.reduce((s,i) => s + i.priceNum * i.qty, 0);
+    fbq('track', 'InitiateCheckout', {
+      content_ids: cartItems.map(i => i.name.replace(/\s+/g,'-').toLowerCase()),
+      content_type: 'product',
+      num_items: cartItems.reduce((s,i) => s + i.qty, 0),
+      value: total,
+      currency: 'PKR'
+    });
+  }
   closeCart();
   const total = cartItems.reduce((s, i) => s + i.priceNum * i.qty, 0);
   const rows = cartItems.map(i => `
@@ -2292,6 +2467,17 @@ async function submitOrder(e) {
   document.getElementById('omSummary').style.display = 'none';
   document.getElementById('omRef').textContent = 'Order Ref: ' + ref;
   document.getElementById('omSuccess').classList.add('show');
+  // ── META PIXEL: Purchase ──
+  if(typeof fbq !== 'undefined') {
+    fbq('track', 'Purchase', {
+      content_ids: orderData.items.map(i => i.name.replace(/\s+/g,'-').toLowerCase()),
+      content_type: 'product',
+      num_items: orderData.itemCount,
+      value: orderData.total,
+      currency: 'PKR',
+      order_id: ref
+    });
+  }
   cartItems = [];
   updateCartUI();
 }
@@ -2363,9 +2549,41 @@ function handleEnquiry(e) {
   setTimeout(() => m.style.display = 'none', 6000);
 }
 
-/* ── ESC CLOSES MODALS ── */
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { closeVid(); closeCart(); closeOrder(); }
+/* ── AZADI SALE COUNTDOWN ── */
+(function() {
+  const saleEnd = new Date('2025-08-15T00:00:00+05:00'); // 14 Aug midnight PST
+  function updateCountdown() {
+    const now  = new Date();
+    const diff = saleEnd - now;
+    if (diff <= 0) {
+      document.getElementById('azadiBar') && (document.getElementById('azadiBar').style.display = 'none');
+      return;
+    }
+    const days  = Math.floor(diff / (1000*60*60*24));
+    const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+    const mins  = Math.floor((diff % (1000*60*60)) / (1000*60));
+    const secs  = Math.floor((diff % (1000*60)) / 1000);
+    const pad   = n => String(n).padStart(2,'0');
+    const dEl = document.getElementById('cdDays');
+    const hEl = document.getElementById('cdHours');
+    const mEl = document.getElementById('cdMins');
+    const sEl = document.getElementById('cdSecs');
+    if(dEl) dEl.textContent = pad(days);
+    if(hEl) hEl.textContent = pad(hours);
+    if(mEl) mEl.textContent = pad(mins);
+    if(sEl) sEl.textContent = pad(secs);
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+})();
+
+/* ── META PIXEL: Search event on filter click ── */
+document.querySelectorAll('.wcat-f').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if(typeof fbq !== 'undefined' && btn.dataset.f !== 'all') {
+      fbq('track', 'Search', { search_string: btn.dataset.f });
+    }
+  });
 });
 </script>
 </body>
