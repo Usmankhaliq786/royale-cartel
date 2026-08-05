@@ -199,15 +199,45 @@ nav.sc{
 /* ─────────────────────────────────────
    VIDEO POPUP
 ───────────────────────────────────── */
-.vpop{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.95);display:none;align-items:center;justify-content:center;backdrop-filter:blur(12px);padding:20px}
+.vpop{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.97);display:none;align-items:center;justify-content:center;backdrop-filter:blur(12px);padding:clamp(8px,3vw,20px)}
 .vpop.open{display:flex}
 .vpop.open .vpin{animation:popIn .4s var(--ease2)}
-.vpin{position:relative;width:min(88vw,840px);border:1px solid rgba(201,148,58,.3);box-shadow:0 0 60px rgba(201,148,58,.12)}
-.vpin video{width:100%;display:block;margin-top:44px}
-.vptop{position:absolute;top:-1px;left:-1px;right:-1px;padding:10px 16px;background:rgba(5,5,5,.95);border-bottom:1px solid rgba(201,148,58,.18);display:flex;justify-content:space-between;align-items:center;z-index:1}
+.vpin{
+  position:relative;
+  width:100%;
+  max-width:min(88vw,840px);
+  border:1px solid rgba(201,148,58,.3);
+  box-shadow:0 0 60px rgba(201,148,58,.12);
+  background:#000;
+}
+.vptop{
+  padding:10px 14px;
+  background:rgba(5,5,5,.95);
+  border-bottom:1px solid rgba(201,148,58,.18);
+  display:flex;justify-content:space-between;align-items:center;
+}
 .vpttl{font-family:var(--f-label);font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}
-.vpcl{width:30px;height:30px;border-radius:50%;border:1px solid rgba(201,148,58,.3);background:transparent;color:var(--gold);font-size:14px;display:flex;align-items:center;justify-content:center;transition:background .3s;cursor:pointer}
+.vpcl{width:30px;height:30px;border-radius:50%;border:1px solid rgba(201,148,58,.3);background:transparent;color:var(--gold);font-size:14px;display:flex;align-items:center;justify-content:center;transition:background .3s;cursor:pointer;flex-shrink:0}
 .vpcl:hover{background:var(--gold);color:var(--bk)}
+/* 16:9 responsive video container */
+.vpin-video-wrap{
+  position:relative;
+  width:100%;
+  padding-top:56.25%; /* 16:9 ratio */
+  background:#000;
+  overflow:hidden;
+}
+.vpin-video-wrap video,
+.vpin-video-wrap iframe{
+  position:absolute;
+  top:0;left:0;
+  width:100%;height:100%;
+  border:none;display:block;
+}
+@media(max-width:480px){
+  .vpop{padding:0}
+  .vpin{max-width:100vw;border-left:none;border-right:none}
+}
 
 /* ─────────────────────────────────────
    MARQUEE
@@ -1030,15 +1060,11 @@ body.noscroll{
       <span class="vpttl">Royale Cartel — Brand Film</span>
       <button class="vpcl" id="vcl">✕</button>
     </div>
-    <div style="position:relative;width:100%;padding-top:56.25%;margin-top:44px;background:#000">
-      <iframe
-        id="ytFrame"
-        style="position:absolute;inset:0;width:100%;height:100%;border:none"
-        src=""
-        data-src="https://www.youtube.com/embed/YOUR_VIDEO_ID?autoplay=1&rel=0&modestbranding=1"
-        allow="autoplay; fullscreen"
-        allowfullscreen>
-      </iframe>
+    <div class="vpin-video-wrap">
+      <video id="pvid" controls playsinline preload="none">
+        <source src="Royale_Cartel_luxury_watch_sale_202608041446.mp4" type="video/mp4">
+        Your browser does not support video.
+      </video>
     </div>
   </div>
 </div>
@@ -1297,7 +1323,7 @@ body.noscroll{
 <section class="hero" id="home">
   <div class="hero-video-wrap">
     <video autoplay muted playsinline loop preload="auto">
-      <source src="Royale_Cartel_luxury_watch_sale_202608041446.mp4" type="video/mp4">
+      <source src="Royel-cartel-video.mp4" type="video/mp4">
     </video>
   </div>
   <div class="hero-overlay"></div>
@@ -1320,8 +1346,12 @@ body.noscroll{
       <div class="dial-circle"><img src="Masterpcs-1.png" alt="Patek Philippe Nautilus"></div>
       <div class="dial-name">Patek</div>
       <div class="dial-sub">Patek Philippe Nautilus</div>
-      <div class="dial-price">Price: 7499</div>
-      <button class="btn-cart" onclick="addToCart('Patek Philippe Nautilus','Patek Philippe Nautilus','PKR 7,499',7499,'Masterpcs-1.png')">
+      <div class="dial-price">
+        <span style="font-family:var(--f-body);font-size:13px;font-weight:300;color:var(--gr);text-decoration:line-through;display:block;margin-bottom:2px">PKR 7,999</span>
+        <span style="color:#22c55e">PKR 5,599</span>
+        <span style="font-family:var(--f-label);font-size:9px;font-weight:700;letter-spacing:1px;background:linear-gradient(135deg,#006600,#00aa00);color:#FFD700;padding:2px 7px;margin-left:6px;vertical-align:middle">30% OFF</span>
+      </div>
+      <button class="btn-cart" onclick="addToCart('Patek Philippe Nautilus','Patek Philippe Nautilus','PKR 5,599',5599,'Masterpcs-1.png')">
         <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
         Add to Cart
       </button>
@@ -1335,8 +1365,12 @@ body.noscroll{
       <div class="center-info">
         <div class="center-name">Patek Philippe</div>
         <div class="center-sub">Patek Philippe Nautilus</div>
-        <div class="center-price">RS 7499</div>
-        <button class="btn-cart" onclick="addToCart('Patek Philippe Signature','Patek Philippe Nautilus','PKR 7,499',7499,'Masterpcs-2.png')">
+        <div class="center-price">
+          <span style="font-family:var(--f-body);font-size:14px;font-weight:300;color:var(--gr);text-decoration:line-through;display:block;margin-bottom:4px">PKR 7,999</span>
+          <span style="color:#22c55e">PKR 5,599</span>
+          <span style="font-family:var(--f-label);font-size:9px;font-weight:700;letter-spacing:1px;background:linear-gradient(135deg,#006600,#00aa00);color:#FFD700;padding:3px 8px;margin-left:8px;vertical-align:middle">30% OFF 🇵🇰</span>
+        </div>
+        <button class="btn-cart" onclick="addToCart('Patek Philippe Signature','Patek Philippe Nautilus','PKR 5,599',5599,'Masterpcs-2.png')">
           <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
           Add to Cart
         </button>
@@ -1346,8 +1380,12 @@ body.noscroll{
       <div class="dial-circle"><img src="CASIRUI-single.jpeg" alt="CASIRUI Square"></div>
       <div class="dial-name">CASIRUI – Square</div>
       <div class="dial-sub">Skeleton Edition</div>
-      <div class="dial-price">Price 7499</div>
-      <button class="btn-cart" onclick="addToCart('CASIRUI Square Skeleton','Skeleton Edition','PKR 7,499',7499,'CASIRUI-single.jpeg')">
+      <div class="dial-price">
+        <span style="font-family:var(--f-body);font-size:13px;font-weight:300;color:var(--gr);text-decoration:line-through;display:block;margin-bottom:2px">PKR 7,999</span>
+        <span style="color:#22c55e">PKR 5,599</span>
+        <span style="font-family:var(--f-label);font-size:9px;font-weight:700;letter-spacing:1px;background:linear-gradient(135deg,#006600,#00aa00);color:#FFD700;padding:2px 7px;margin-left:6px;vertical-align:middle">30% OFF</span>
+      </div>
+      <button class="btn-cart" onclick="addToCart('CASIRUI Square Skeleton','Skeleton Edition','PKR 5,599',5599,'CASIRUI-single.jpeg')">
         <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
         Add to Cart
       </button>
@@ -1438,9 +1476,9 @@ const WCATALOGUE = [
     model:'CASIRUI Automatic Skeleton Series',
     ref:'CS-001',
     sub:'Stainless Steel · Open-Heart Dial',
-    price:'PKR 2,799',
-    originalPrice:'PKR 3,999',
-    priceNum:2799,
+    price:'PKR 3,149',
+    originalPrice:'PKR 4,499',
+    priceNum:3149,
     photos:['Rolex Oyster-1.jpeg','Rolex Oyster-2.jpeg','Rolex Oyster-3.png','Rolex Oyster-4.png'],
     desc:`A striking open-heart skeleton dial showcases the precision automatic mechanical movement in motion. The black and gold skeleton design, paired with a polished stainless steel bracelet, delivers a bold luxury timepiece crafted for those who appreciate modern elegance and timeless engineering.
 
@@ -1468,9 +1506,9 @@ PACKAGE INCLUDES: CASIRUI Automatic Skeleton Watch + Premium Gift Box + Delivery
     model:'Charcoal Diamond Dial Edition',
     ref:'RX-002',
     sub:'Two-Tone Stainless Steel · Diamond Dial',
-    price:'PKR 2,799',
-    originalPrice:'PKR 3,999',
-    priceNum:2799,
+    price:'PKR 3,149',
+    originalPrice:'PKR 4,499',
+    priceNum:3149,
     photos:['second-slot1.png','second-slot2.png','second-slot3.png'],
     desc:`A refined Rolex Oyster Perpetual Datejust featuring an elegant charcoal diamond dial with sparkling diamond hour markers. The gold-tone diamond-set bezel, two-tone stainless steel bracelet, and luxurious finish make it a perfect choice for both formal occasions and everyday sophistication.
 
@@ -1491,9 +1529,9 @@ PACKAGE INCLUDES: Rolex Watch + Royale Cartel Box + Delivery Charges Included`,
     model:'Silver Diamond Dial Edition',
     ref:'RX-003',
     sub:'Silver Diamond Dial · Stainless Steel Bracelet',
-    price:'PKR 2,799',
-    originalPrice:'PKR 3,999',
-    priceNum:2799,
+    price:'PKR 3,149',
+    originalPrice:'PKR 4,499',
+    priceNum:3149,
     photos:['Next-1.png','Next-2.png','Next-3.png','Next-4.png','Next-5.png'],
     desc:`A sophisticated Rolex Oyster Perpetual Datejust featuring a luxurious silver diamond dial accented with brilliant diamond hour markers. The elegant silver fluted bezel and premium stainless steel bracelet create a timeless design suitable for both formal occasions and everyday wear.
 
@@ -1514,9 +1552,9 @@ PACKAGE INCLUDES: Rolex Watch + Royale Cartel Box + Delivery Charges Included`,
     model:'Emerald Green Diamond Dial',
     ref:'RX-004',
     sub:'Emerald Green Diamond Dial · Jubilee Bracelet',
-    price:'PKR 2,799',
-    originalPrice:'PKR 3,999',
-    priceNum:2799,
+    price:'PKR 3,149',
+    originalPrice:'PKR 4,499',
+    priceNum:3149,
     photos:['Next-6.png','Next-7.png','Next-8.png','Next-9.png','Next-10.png'],
     desc:`Experience timeless luxury with the Rolex Oyster Perpetual Datejust featuring a stunning emerald green diamond dial. Crafted with a stainless steel case, elegant Jubilee bracelet, and signature silver fluted bezel.
 
@@ -1537,9 +1575,9 @@ PACKAGE INCLUDES: Rolex Watch + Premium Luxury Green Box + Delivery Charges Incl
     model:'Tissot PRX Quartz',
     ref:'TS-001',
     sub:'Green Sunburst Dial · Swiss Quartz',
-    price:'PKR 2,799',
-    originalPrice:'PKR 3,999',
-    priceNum:2799,
+    price:'PKR 3,149',
+    originalPrice:'PKR 4,499',
+    priceNum:3149,
     photos:['Tissot-1.png','Tissot-2.png','Tissot-3.png','Tissot-4.png','Tissot-5.png'],
     desc:`The Tissot PRX Quartz blends iconic Swiss craftsmanship with contemporary styling. Featuring a stunning green sunburst dial, integrated stainless steel bracelet, and scratch-resistant sapphire crystal.
 
@@ -1560,9 +1598,9 @@ PACKAGE INCLUDES: Tissot PRX Watch + Premium Luxury Watch Box + Delivery Charges
     model:'Full Diamond Green Edition',
     ref:'FM-001',
     sub:'Full Diamond Green Edition · Quartz Movement',
-    price:'PKR 2,799',
-    originalPrice:'PKR 3,999',
-    priceNum:2799,
+    price:'PKR 3,149',
+    originalPrice:'PKR 4,499',
+    priceNum:3149,
     photos:['Franck-Muller1.png','Franck-Muller2.png'],
     desc:`The Franck Muller Vanguard Full Diamond Green Edition features a fully iced-out diamond dial, signature oversized green Arabic numerals, and a premium green hybrid strap.
 
@@ -1583,9 +1621,9 @@ PACKAGE INCLUDES: Franck Muller Watch + Premium Luxury Watch Box + Delivery Char
     model:'Patek Philippe Nautilus',
     ref:'PP-001',
     sub:'Black Horizontal Embossed Dial · Quartz Movement',
-    price:'PKR 2,589',
-    originalPrice:'PKR 3,699',
-    priceNum:2589,
+    price:'PKR 2,939',
+    originalPrice:'PKR 4,199',
+    priceNum:2939,
     photos:['Patek-Philippe1.png','Patek-Philippe2.png'],
     desc:`The Patek Philippe Nautilus Black Dial embodies timeless elegance with its iconic rounded octagonal bezel and sophisticated black textured dial.
 
@@ -1606,9 +1644,9 @@ PACKAGE INCLUDES: Patek Philippe Watch + Premium Luxury Watch Box + Delivery Cha
     model:'Black Grande Tapisserie Dial',
     ref:'AP-001',
     sub:'Black Grande Tapisserie Dial · Quartz Movement',
-    price:'PKR 2,799',
-    originalPrice:'PKR 3,999',
-    priceNum:2799,
+    price:'PKR 3,149',
+    originalPrice:'PKR 4,499',
+    priceNum:3149,
     photos:['Patek-Philippe3.png','new-changes.png'],
     desc:`The Audemars Piguet Royal Oak features the signature Grande Tapisserie textured dial, octagonal bezel with exposed hexagonal screws, and an integrated stainless steel bracelet.
 
@@ -1629,9 +1667,9 @@ PACKAGE INCLUDES: Audemars Piguet Watch + Premium Luxury Watch Box + Delivery Ch
     model:'Two-Tone Green Edition',
     ref:'RS-001',
     sub:'Two-Tone Green Edition · Quartz Movement',
-    price:'PKR 2,799',
-    originalPrice:'PKR 3,999',
-    priceNum:2799,
+    price:'PKR 3,149',
+    originalPrice:'PKR 4,499',
+    priceNum:3149,
     photos:['Rolex-Submariner1.png','Rolex-Submariner2.png','Rolex-Submariner3.png'],
     desc:`The Rolex Submariner Date Two-Tone Green Edition combines iconic diving heritage with modern luxury. Featuring a striking sunburst green dial and signature green rotatable bezel.
 
@@ -1652,9 +1690,9 @@ PACKAGE INCLUDES: Rolex Submariner Watch + Premium Luxury Watch Box + Delivery C
     model:'Titanium/Grey Edition',
     ref:'HB-005',
     sub:'Geometric Orlinski Design · Quartz Movement',
-    price:'PKR 2,799',
-    originalPrice:'PKR 3,999',
-    priceNum:2799,
+    price:'PKR 3,149',
+    originalPrice:'PKR 4,499',
+    priceNum:3149,
     photos:['Hublot1.png','Hublot2.png','Hublot3.png'],
     desc:`The Hublot Classic Fusion Orlinski Edition is a bold fusion of modern art and luxury watchmaking with a faceted geometric case design inspired by Richard Orlinski.
 
@@ -1675,9 +1713,9 @@ PACKAGE INCLUDES: Hublot Watch + Premium Luxury Watch Box + Delivery Charges Inc
     model:'Brown/White Collector Edition',
     ref:'HB-004',
     sub:'Collector Vault Edition · 3-Watch Set',
-    price:'PKR 2,799',
-    originalPrice:'PKR 3,999',
-    priceNum:2799,
+    price:'PKR 3,149',
+    originalPrice:'PKR 4,499',
+    priceNum:3149,
     photos:['Hublot4.png','Hublot5.png','Hublot6.png'],
     desc:`The Dynasty Collector Set includes three signature Hublot-inspired designs housed in a handcrafted mahogany and gold presentation case.
 
@@ -1698,9 +1736,9 @@ PACKAGE INCLUDES: 3 Luxury Timepieces + Premium Collector Vault + Delivery Charg
     model:'CASIRUI Automatic Skeleton Series',
     ref:'CS-005',
     sub:'Silver Skeleton Edition · Fully Automatic',
-    price:'PKR 5,249',
-    originalPrice:'PKR 7,499',
-    priceNum:5249,
+    price:'PKR 5,599',
+    originalPrice:'PKR 7,999',
+    priceNum:5599,
     photos:['single-check1.png'],
     desc:`The CASIRUI Silver Skeleton Edition features a fully automatic movement, artistic open skeleton dial, and a premium stainless steel bracelet.
 
@@ -1721,9 +1759,9 @@ PACKAGE INCLUDES: CASIRUI Automatic Watch + Premium Luxury Watch Box + Delivery 
     model:'CASIRUI Skeleton Masterpiece',
     ref:'CS-006',
     sub:'Full Skeleton Dial · Fully Automatic',
-    price:'PKR 5,249',
-    originalPrice:'PKR 7,499',
-    priceNum:5249,
+    price:'PKR 5,599',
+    originalPrice:'PKR 7,999',
+    priceNum:5599,
     photos:['single-check2.png'],
     desc:`The CASIRUI Skeleton Masterpiece Edition features a full skeleton dial, exhibition case back, and premium stainless steel construction.
 
@@ -1744,9 +1782,9 @@ PACKAGE INCLUDES: CASIRUI Automatic Watch + Premium Luxury Watch Box + Delivery 
     model:'Rolex Cosmograph Daytona Style',
     ref:'RX-005',
     sub:'Open-Heart Tourbillon Style · Semi-Automatic',
-    price:'PKR 3,499',
-    originalPrice:'PKR 4,999',
-    priceNum:3499,
+    price:'PKR 3,849',
+    originalPrice:'PKR 5,499',
+    priceNum:3849,
     photos:['single-check3.png'],
     desc:`The Rolex Cosmograph Premium Tourbillon Edition features a dynamic rotating open-heart dial, tachymeter bezel, and premium black rubber strap.
 
@@ -1767,9 +1805,9 @@ PACKAGE INCLUDES: Rolex Cosmograph Watch + Premium Luxury Watch Box + Delivery C
     model:'Geometric Sculpted Green Edition',
     ref:'HB-011',
     sub:'Green Dial Open-Heart Edition · Quartz Movement',
-    price:'PKR 2,799',
-    originalPrice:'PKR 3,999',
-    priceNum:2799,
+    price:'PKR 3,149',
+    originalPrice:'PKR 4,499',
+    priceNum:3149,
     photos:['new-changes1.png','new-changes2.png','new-changes3.png','new-changes4.png','new-changes5.png'],
     desc:`The Hublot Classic Fusion Orlinski Green Dial Edition features a vibrant sunburst green dial, open-heart skeleton window, and the iconic faceted Orlinski case.
 
@@ -2210,13 +2248,15 @@ document.addEventListener('keydown', e => {
 /* ── VIDEO POPUP ── */
 function openVid() {
   document.getElementById('vpop').classList.add('open');
-  document.getElementById('pvid').play();
+  const v = document.getElementById('pvid');
+  if(v){ v.currentTime = 0; v.play().catch(()=>{}); }
   lockScroll();
 }
 function closeVid() {
   document.getElementById('vpop').classList.remove('open');
-  const v = document.getElementById('pvid'); v.pause(); v.currentTime = 0;
-  if (!document.getElementById('orderOverlay').classList.contains('open')) unlockScroll();
+  const v = document.getElementById('pvid');
+  if(v){ v.pause(); v.currentTime = 0; }
+  unlockScroll();
 }
 document.getElementById('vcl').addEventListener('click', closeVid);
 document.getElementById('vpop').addEventListener('click', e => { if (e.target === document.getElementById('vpop')) closeVid(); });
