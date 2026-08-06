@@ -65,34 +65,14 @@ button,a{touch-action:manipulation}
 /* Fix 100vh on iPhone Safari */
 .galaxy-hero{height:100svh;height:100vh}
 .hero{height:100svh;height:100vh}
-/* ═══════════════════════════════════
-   IPHONE / IOS SAFARI SCROLL FIX
-═══════════════════════════════════ */
-html,body{min-height:100%;width:100%}
-body.scroll-locked{
-  position:fixed;
-  left:0;
-  right:0;
-  width:100%;
-  overflow:hidden;
-  touch-action:none;
-}
-
-/* Legacy blocker is no longer needed */
-#touchBlocker{display:none!important;pointer-events:none!important}
-
-/* Only modal content is allowed to scroll */
+/* ── MOMENTUM SCROLLING for containers ── */
 .cart-items,
-.order-overlay,
 .order-modal,
-.om-body,
 .wm-info,
 .mdr{
   -webkit-overflow-scrolling:touch;
   overscroll-behavior:contain;
 }
-
-/* Prevent horizontal overflow */
 html,body{overflow-x:hidden;max-width:100vw}
 img,video,iframe,canvas{max-width:100%}
 img{max-width:100%;display:block}
@@ -535,7 +515,7 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
 ───────────────────────────────────── */
 .cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:800;display:none;backdrop-filter:blur(8px)}
 .cart-overlay.open{display:block}
-.cart-sidebar{position:fixed;top:0;right:-100%;width:min(440px,96vw);height:100vh;height:100dvh;background:var(--bk2);border-left:1px solid rgba(201,148,58,.2);z-index:801;display:flex;flex-direction:column;transition:right .5s var(--ease);box-shadow:-20px 0 60px rgba(0,0,0,.8)}
+.cart-sidebar{position:fixed;top:0;right:-100%;width:min(440px,96vw);height:100vh;background:var(--bk2);border-left:1px solid rgba(201,148,58,.2);z-index:801;display:flex;flex-direction:column;transition:right .5s var(--ease);box-shadow:-20px 0 60px rgba(0,0,0,.8)}
 .cart-sidebar.open{right:0}
 .cart-hdr{padding:22px 24px;border-bottom:1px solid rgba(201,148,58,.12);display:flex;align-items:center;justify-content:space-between;background:var(--bk3);flex-shrink:0}
 .cart-title{font-family:var(--f-label);font-size:14px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px}
@@ -584,41 +564,9 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
 /* ─────────────────────────────────────
    ORDER MODAL
 ───────────────────────────────────── */
-.order-overlay{
-  position:fixed;inset:0;z-index:1000;display:none;
-  background:rgba(0,0,0,.92);backdrop-filter:blur(12px);
-  overflow-y:auto;overflow-x:hidden;
-  align-items:flex-start;justify-content:center;
-  padding:max(12px,env(safe-area-inset-top)) 12px max(12px,env(safe-area-inset-bottom));
-  touch-action:pan-y;
-}
+.order-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(12px)}
 .order-overlay.open{display:flex}
-.order-modal{
-  width:min(580px,100%);
-  max-height:none;
-  min-height:0;
-  margin:auto 0;
-  overflow:visible;
-  background:var(--bk2);
-  border:1px solid rgba(201,148,58,.22);
-  position:relative;
-  animation:popIn .4s var(--ease2);
-}
-@supports(height:100dvh){
-  .order-overlay{height:100dvh}
-  .order-modal{max-height:calc(100dvh - 24px);overflow-y:auto}
-}
-@media(max-width:600px){
-  .order-overlay{padding:0;display:none;align-items:stretch}
-  .order-overlay.open{display:flex}
-  .order-modal{
-    width:100%;margin:0;border-left:0;border-right:0;
-    min-height:100%;max-height:100dvh;overflow-y:auto;
-    padding-bottom:env(safe-area-inset-bottom);
-  }
-  .om-hdr{position:sticky;top:0;z-index:5;padding-top:max(16px,env(safe-area-inset-top))}
-  .om-body{padding:18px 16px 32px}
-}
+.order-modal{width:min(580px,96vw);max-height:90vh;overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--bk2);border:1px solid rgba(201,148,58,.22);position:relative;animation:popIn .4s var(--ease2)}
 .order-modal::-webkit-scrollbar{width:2px}
 .order-modal::-webkit-scrollbar-thumb{background:var(--gold4)}
 .om-corner{position:absolute;width:15px;height:15px}
@@ -1057,7 +1005,6 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
 </defs></svg>
 
 <div id="cur"></div><div id="cur2"></div>
-<div id="touchBlocker"></div>
 <div class="toast" id="toast"></div>
 
 <!-- ═══ AZADI SALE BANNER ═══ -->
@@ -2264,32 +2211,13 @@ document.addEventListener('keydown', e => {
 'use strict';
 const isTch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
 
-/* ═══════════════════════════════════
-   SCROLL LOCK — iPhone / iOS Safari safe
-   Saves the page position and restores it exactly.
-═══════════════════════════════════ */
-let _scrollLocked = false;
-let _savedScrollY = 0;
-
-function lockScroll() {
-  if (_scrollLocked) return;
-  _scrollLocked = true;
-  _savedScrollY = window.scrollY || window.pageYOffset || 0;
-  document.body.style.top = `-${_savedScrollY}px`;
-  document.body.classList.add('scroll-locked');
-}
-
-function unlockScroll() {
-  if (!_scrollLocked) return;
-  _scrollLocked = false;
-  document.body.classList.remove('scroll-locked');
-  document.body.style.top = '';
-  window.scrollTo(0, _savedScrollY);
-}
-
-function forceUnlock() {
-  unlockScroll();
-}
+/* ── SCROLL LOCK — DISABLED FOR IPHONE FIX ──
+   lockScroll/unlockScroll do NOTHING.
+   Removing all body/html scroll manipulation
+   is the ONLY fix that works on iPhone Safari. */
+function lockScroll()   { /* intentionally empty */ }
+function unlockScroll() { /* intentionally empty */ }
+function forceUnlock()  { /* intentionally empty */ }
 
 /* ── CURSOR ── */
 if (!isTch) {
@@ -2499,8 +2427,7 @@ function openOrder() {
       currency: 'PKR'
     });
   }
-  document.getElementById('cartSidebar').classList.remove('open');
-  document.getElementById('cartOverlay').classList.remove('open');
+  closeCart();
   const total = cartItems.reduce((s, i) => s + i.priceNum * i.qty, 0);
   const rows = cartItems.map(i => `
     <div class="om-item-row">
@@ -2526,13 +2453,6 @@ function openOrder() {
 function closeOrder() { document.getElementById('orderOverlay').classList.remove('open'); unlockScroll(); }
 document.getElementById('omClose').addEventListener('click', closeOrder);
 document.getElementById('orderOverlay').addEventListener('click', e => { if (e.target === document.getElementById('orderOverlay')) closeOrder(); });
-
-/* Keep focused checkout fields visible above the iPhone keyboard */
-document.querySelectorAll('#orderOverlay input, #orderOverlay select, #orderOverlay textarea').forEach(field => {
-  field.addEventListener('focus', () => {
-    setTimeout(() => field.scrollIntoView({block:'center', behavior:'smooth'}), 280);
-  });
-});
 
 async function submitOrder(e) {
   e.preventDefault();
