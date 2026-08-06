@@ -50,21 +50,13 @@ html{
   font-size:16px;
   -webkit-text-size-adjust:100%;
   -ms-text-size-adjust:100%;
-  height:-webkit-fill-available;
-  /* scroll-behavior only for non-iOS - iOS has issues with it */
-  scroll-behavior:auto;
 }
 body{
   font-family:var(--f-body);
   font-weight:300;
   background:var(--bk);
   color:var(--wh2);
-  /* overflow-x:hidden causes iPhone scroll freeze - use clip instead */
-  overflow-x:clip;
   cursor:none;
-  min-height:100vh;
-  min-height:-webkit-fill-available;
-  /* Do NOT add -webkit-overflow-scrolling or overscroll here - causes bugs */
 }
 /* Remove blue flash on tap - iPhone */
 *{-webkit-tap-highlight-color:transparent}
@@ -73,6 +65,28 @@ button,a{touch-action:manipulation}
 /* Fix 100vh on iPhone Safari */
 .galaxy-hero{height:100svh;height:100vh}
 .hero{height:100svh;height:100vh}
+/* iPhone scroll lock - simple and proven */
+body.modal-open{overflow:hidden}
+
+/* ── MOMENTUM SCROLLING on iOS for all scrollable areas ── */
+.cart-items,
+.order-modal,
+.wm-info,
+.wcat-grid,
+.mdr,
+.wscr{
+  -webkit-overflow-scrolling:touch;
+  scroll-behavior:smooth;
+}
+
+/* Prevent horizontal scroll on whole page */
+html,body{
+  max-width:100%;
+  overflow-x:hidden;
+}
+
+/* Make sure nothing causes horizontal overflow on iPhone */
+img,video,iframe{max-width:100%;}
 img{max-width:100%;display:block}
 a{cursor:none;text-decoration:none}
 button{cursor:none}
@@ -878,17 +892,6 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
    When modals/sidebars open, iOS Safari needs position:fixed
    on body to prevent background scroll. We track scroll position
    to restore it when closing. */
-/* ── iOS SCROLL LOCK ──
-   ONLY applied when modal/sidebar is open.
-   position:fixed + width:100% + top = scroll position saved */
-body.noscroll{
-  overflow:hidden !important;
-  position:fixed !important;
-  width:100% !important;
-  left:0;
-  right:0;
-}
-
 /* TOAST (kept for non-cart messages) */
 .toast{position:fixed;bottom:clamp(90px,12vw,120px);left:50%;transform:translateX(-50%) translateY(16px);background:var(--bk3);border:1px solid rgba(201,148,58,.35);padding:13px 24px;z-index:900;font-family:var(--f-label);font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);white-space:nowrap;opacity:0;transition:opacity .4s,transform .4s;box-shadow:0 8px 32px rgba(0,0,0,.6)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -2220,28 +2223,22 @@ document.addEventListener('keydown', e => {
 'use strict';
 const isTch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
 
-/* ── iOS SCROLL LOCK HELPERS ──
-   Uses a counter so nested open/close calls don't break scroll.
-   e.g. cart open → order open → order close → cart still locked correctly */
-let _scrollY  = 0;
+/* ── SCROLL LOCK ── Simple and works on all devices */
 let _lockCount = 0;
+let _scrollY = 0;
 
 function lockScroll() {
-  if (_lockCount === 0) {
-    _scrollY = window.pageYOffset || document.documentElement.scrollTop;
-    document.body.style.top  = `-${_scrollY}px`;
-    document.body.classList.add('noscroll');
-  }
   _lockCount++;
+  if (_lockCount === 1) {
+    _scrollY = window.scrollY || window.pageYOffset;
+    document.body.classList.add('modal-open');
+  }
 }
 
 function unlockScroll() {
   if (_lockCount > 0) _lockCount--;
   if (_lockCount === 0) {
-    document.body.classList.remove('noscroll');
-    document.body.style.top = '';
-    // Restore scroll position
-    window.scrollTo({ top: _scrollY, left: 0, behavior: 'instant' });
+    document.body.classList.remove('modal-open');
   }
 }
 
@@ -2578,11 +2575,17 @@ function showToast(msg) {
 /* ── NAV + SCROLL ── */
 const mainNav = document.getElementById('nav'), btt = document.getElementById('btt'), socsb = document.getElementById('socsb');
 window.addEventListener('scroll', () => {
-  const s = window.scrollY;
+  const s = window.scrollY || window.pageYOffset;
   mainNav.classList.toggle('sc', s > 60);
   btt.classList.toggle('show', s > 400);
   socsb.classList.toggle('show', s > 200);
 }, {passive: true});
+
+/* ── BACK TO TOP smooth ── */
+document.getElementById('btt').addEventListener('click', e => {
+  e.preventDefault();
+  smoothScrollTo(0, 600);
+});
 
 /* ── MOBILE MENU ── */
 const ham = document.getElementById('ham'), mdr = document.getElementById('mdr'), mov = document.getElementById('mov');
@@ -2613,7 +2616,24 @@ if (!isTch) document.querySelectorAll('.btn-primary,.ncta').forEach(b => {
   b.addEventListener('mouseleave', () => b.style.transform = '');
 });
 
-/* ── SMOOTH SCROLL ── */
+/* ── SMOOTH SCROLL — Works on ALL devices including iPhone ── */
+function smoothScrollTo(targetY, duration) {
+  const startY    = window.pageYOffset || window.scrollY;
+  const distance  = targetY - startY;
+  const startTime = performance.now();
+  // Ease in-out cubic
+  function ease(t) {
+    return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
+  }
+  function step(now) {
+    const elapsed  = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    window.scrollTo(0, startY + distance * ease(progress));
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     const id = a.getAttribute('href').slice(1);
@@ -2621,9 +2641,8 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     const tgt = document.getElementById(id);
     if (tgt) {
       e.preventDefault();
-      const top = tgt.getBoundingClientRect().top + window.pageYOffset - 70;
-      // Use JS smooth scroll - works on all devices including iPhone
-      window.scrollTo({ top: top, behavior: 'smooth' });
+      const top = tgt.getBoundingClientRect().top + (window.pageYOffset || window.scrollY) - 70;
+      smoothScrollTo(top, 800); // 800ms smooth scroll
     }
   });
 });
