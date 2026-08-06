@@ -65,28 +65,36 @@ button,a{touch-action:manipulation}
 /* Fix 100vh on iPhone Safari */
 .galaxy-hero{height:100svh;height:100vh}
 .hero{height:100svh;height:100vh}
-/* iPhone scroll lock - simple and proven */
-body.modal-open{overflow:hidden}
+/* ═══════════════════════════════════
+   IPHONE SCROLL FIX — DEFINITIVE
+   Never use overflow:hidden on body/html on iPhone.
+   Instead use a touch blocker overlay.
+═══════════════════════════════════ */
 
-/* ── MOMENTUM SCROLLING on iOS for all scrollable areas ── */
+/* This sits behind all modals and blocks touch on body */
+#touchBlocker{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:299;
+  /* blocks all touch/scroll on background */
+  touch-action:none;
+  -webkit-overflow-scrolling:auto;
+}
+#touchBlocker.on{display:block}
+
+/* Scrollable containers get momentum scroll */
 .cart-items,
 .order-modal,
 .wm-info,
-.wcat-grid,
-.mdr,
-.wscr{
+.mdr{
   -webkit-overflow-scrolling:touch;
-  scroll-behavior:smooth;
+  overscroll-behavior:contain;
 }
 
-/* Prevent horizontal scroll on whole page */
-html,body{
-  max-width:100%;
-  overflow-x:hidden;
-}
-
-/* Make sure nothing causes horizontal overflow on iPhone */
-img,video,iframe{max-width:100%;}
+/* Prevent horizontal overflow */
+html,body{overflow-x:hidden;max-width:100vw}
+img,video,iframe,canvas{max-width:100%}
 img{max-width:100%;display:block}
 a{cursor:none;text-decoration:none}
 button{cursor:none}
@@ -1017,6 +1025,7 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
 </defs></svg>
 
 <div id="cur"></div><div id="cur2"></div>
+<div id="touchBlocker"></div>
 <div class="toast" id="toast"></div>
 
 <!-- ═══ AZADI SALE BANNER ═══ -->
@@ -2223,23 +2232,31 @@ document.addEventListener('keydown', e => {
 'use strict';
 const isTch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
 
-/* ── SCROLL LOCK ── Simple and works on all devices */
+/* ═══════════════════════════════════
+   SCROLL LOCK — iPhone Safe
+   Uses touch blocker overlay.
+   NEVER modifies body/html overflow.
+═══════════════════════════════════ */
 let _lockCount = 0;
-let _scrollY = 0;
+const _tb = document.getElementById('touchBlocker');
 
 function lockScroll() {
   _lockCount++;
-  if (_lockCount === 1) {
-    _scrollY = window.scrollY || window.pageYOffset;
-    document.body.classList.add('modal-open');
-  }
+  if (_tb) _tb.classList.add('on');
 }
 
 function unlockScroll() {
   if (_lockCount > 0) _lockCount--;
-  if (_lockCount === 0) {
-    document.body.classList.remove('modal-open');
+  if (_lockCount <= 0) {
+    _lockCount = 0;
+    if (_tb) _tb.classList.remove('on');
   }
+}
+
+/* Force unlock — safety net */
+function forceUnlock() {
+  _lockCount = 0;
+  if (_tb) _tb.classList.remove('on');
 }
 
 /* ── CURSOR ── */
@@ -2256,30 +2273,20 @@ if (!isTch) {
 
 /* ── INTRO ── */
 const introEl = document.getElementById('intro');
-const site = document.getElementById('site');
+const site    = document.getElementById('site');
 let introDone = false;
-
-// iPhone-safe intro scroll prevention
-// Instead of lockScroll (position:fixed), just hide overflow temporarily
-document.documentElement.style.overflow = 'hidden';
 
 function endIntro() {
   if (introDone) return;
   introDone = true;
   introEl.classList.add('out');
   site.classList.add('on');
-  // Restore scroll
-  document.documentElement.style.overflow = '';
-  document.body.style.overflow = '';
+  forceUnlock(); // make 100% sure scroll is never stuck
 }
 
-// Failsafe - always unlock after 4 seconds no matter what
 setTimeout(() => endIntro(), 2800);
-setTimeout(() => {
-  document.documentElement.style.overflow = '';
-  document.body.style.overflow = '';
-}, 4000);
-
+// Extra failsafe — always fires no matter what
+setTimeout(() => { introDone = true; introEl.classList.add('out'); site.classList.add('on'); forceUnlock(); }, 4500);
 introEl.addEventListener('click', () => endIntro());
 document.addEventListener('keydown', e => {
   if (!introDone && (e.key === 'Escape' || e.key === ' ' || e.key === 'Enter')) endIntro();
@@ -2440,7 +2447,7 @@ function openCart() {
 function closeCart() {
   document.getElementById('cartSidebar').classList.remove('open');
   document.getElementById('cartOverlay').classList.remove('open');
-  if (!document.getElementById('orderOverlay').classList.contains('open')) unlockScroll();
+  unlockScroll();
 }
 
 document.getElementById('cartClose').addEventListener('click', closeCart);
@@ -2692,6 +2699,25 @@ document.querySelectorAll('.wcat-f').forEach(btn => {
     }
   });
 });
+
+/* ── ESC KEY — close all modals + force unlock ── */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeVid();
+    closeCart();
+    closeOrder();
+    closeWatchModal();
+    forceUnlock();
+  }
+});
+
+/* ── SAFETY NET — if user somehow gets stuck, tap 3x to unlock ── */
+let _tapCount = 0;
+document.addEventListener('touchstart', () => {
+  _tapCount++;
+  if (_tapCount >= 10) { _tapCount = 0; forceUnlock(); }
+  setTimeout(() => _tapCount = 0, 2000);
+}, {passive: true});
 </script>
 </body>
 </html>
