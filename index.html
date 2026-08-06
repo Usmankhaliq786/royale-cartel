@@ -65,14 +65,32 @@ button,a{touch-action:manipulation}
 /* Fix 100vh on iPhone Safari */
 .galaxy-hero{height:100svh;height:100vh}
 .hero{height:100svh;height:100vh}
-/* ── MOMENTUM SCROLLING for containers ── */
+
+/* ═══════════════════════════════════
+   IPHONE SCROLL — FINAL REAL FIX
+   
+   Problem 1: background scrolls behind modal → fix with body.ios-lock
+   Problem 2: modal content won't scroll → fix with -webkit-overflow-scrolling:touch
+   
+   iOS Safari ONLY accepts position:fixed on body to stop background scroll.
+   We save scroll position and restore it on close.
+═══════════════════════════════════ */
+body.ios-lock{
+  position:fixed;
+  width:100%;
+  overflow-y:scroll; /* keeps scrollbar space so page doesn't jump */
+}
+
+/* All modal scrollable areas — must have these 2 lines */
 .cart-items,
 .order-modal,
 .wm-info,
 .mdr{
+  overflow-y:auto;
   -webkit-overflow-scrolling:touch;
-  overscroll-behavior:contain;
+  overscroll-behavior-y:contain;
 }
+
 html,body{overflow-x:hidden;max-width:100vw}
 img,video,iframe,canvas{max-width:100%}
 img{max-width:100%;display:block}
@@ -2211,13 +2229,40 @@ document.addEventListener('keydown', e => {
 'use strict';
 const isTch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
 
-/* ── SCROLL LOCK — DISABLED FOR IPHONE FIX ──
-   lockScroll/unlockScroll do NOTHING.
-   Removing all body/html scroll manipulation
-   is the ONLY fix that works on iPhone Safari. */
-function lockScroll()   { /* intentionally empty */ }
-function unlockScroll() { /* intentionally empty */ }
-function forceUnlock()  { /* intentionally empty */ }
+/* ═══════════════════════════════════
+   SCROLL LOCK — CORRECT iOS FIX
+   
+   iOS Safari needs position:fixed on body to stop background scroll.
+   We MUST save scrollY before locking and restore after unlocking.
+   Without saving/restoring, page jumps to top on close.
+═══════════════════════════════════ */
+let _savedScrollY = 0;
+let _lockCount    = 0;
+
+function lockScroll() {
+  _lockCount++;
+  if (_lockCount === 1) {
+    _savedScrollY = window.pageYOffset || window.scrollY || 0;
+    document.body.style.top = `-${_savedScrollY}px`;
+    document.body.classList.add('ios-lock');
+  }
+}
+
+function unlockScroll() {
+  if (_lockCount > 0) _lockCount--;
+  if (_lockCount === 0) {
+    document.body.classList.remove('ios-lock');
+    document.body.style.top = '';
+    window.scrollTo(0, _savedScrollY);
+  }
+}
+
+function forceUnlock() {
+  _lockCount = 0;
+  document.body.classList.remove('ios-lock');
+  document.body.style.top = '';
+  window.scrollTo(0, _savedScrollY);
+}
 
 /* ── CURSOR ── */
 if (!isTch) {
@@ -2416,18 +2461,19 @@ document.getElementById('cartOverlay').addEventListener('click', closeCart);
 /* ── ORDER ── */
 function openOrder() {
   if (!cartItems.length) { showToast('Your cart is empty'); return; }
-  // ── META PIXEL: InitiateCheckout ──
   if(typeof fbq !== 'undefined') {
     const total = cartItems.reduce((s,i) => s + i.priceNum * i.qty, 0);
     fbq('track', 'InitiateCheckout', {
       content_ids: cartItems.map(i => i.name.replace(/\s+/g,'-').toLowerCase()),
       content_type: 'product',
       num_items: cartItems.reduce((s,i) => s + i.qty, 0),
-      value: total,
-      currency: 'PKR'
+      value: total, currency: 'PKR'
     });
   }
-  closeCart();
+  // Close cart sidebar visually WITHOUT unlocking scroll
+  document.getElementById('cartSidebar').classList.remove('open');
+  document.getElementById('cartOverlay').classList.remove('open');
+
   const total = cartItems.reduce((s, i) => s + i.priceNum * i.qty, 0);
   const rows = cartItems.map(i => `
     <div class="om-item-row">
@@ -2447,7 +2493,7 @@ function openOrder() {
   document.getElementById('omSummary').style.display = 'block';
   document.getElementById('omSuccess').classList.remove('show');
   document.getElementById('orderOverlay').classList.add('open');
-  lockScroll();
+  // scroll is already locked from cart — no need to lock again
 }
 
 function closeOrder() { document.getElementById('orderOverlay').classList.remove('open'); unlockScroll(); }
