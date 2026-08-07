@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Royale Cartel — Luxury Timepieces | Azadi Sale 30% Off</title>
 <link rel="icon" type="image/png" sizes="32x32" href="remove-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1247,6 +1247,189 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
   }
   .wm-info { overflow:visible !important; }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   iPHONE SAFARI — FINAL MODAL SCROLL ARCHITECTURE
+   One vertical scroller per modal + JS touch fallback.
+   This block intentionally comes LAST so it overrides older fixes.
+═══════════════════════════════════════════════════════════════ */
+html.ios-device {
+  --ios-modal-h: 100dvh;
+  --ios-vv-top: 0px;
+}
+
+html.ios-device body.ios-lock {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  width: auto !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+/* The overlay NEVER scrolls. The modal itself is the only scroller. */
+html.ios-device .order-overlay,
+html.ios-device .wmod-ov {
+  position: fixed !important;
+  left: 0 !important;
+  right: 0 !important;
+  top: var(--ios-vv-top) !important;
+  bottom: auto !important;
+  width: 100% !important;
+  height: var(--ios-modal-h) !important;
+  max-height: var(--ios-modal-h) !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  -webkit-overflow-scrolling: auto !important;
+  overscroll-behavior: none !important;
+  touch-action: none !important;
+  align-items: stretch !important;
+  justify-content: stretch !important;
+}
+
+/* Preserve existing open/closed behavior. */
+html.ios-device .order-overlay.open,
+html.ios-device .wmod-ov.open {
+  display: block !important;
+}
+
+/* Checkout modal = full visible iPhone viewport and THE scroll container. */
+html.ios-device .order-modal {
+  position: relative !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  max-width: 580px !important;
+  height: var(--ios-modal-h) !important;
+  min-height: 0 !important;
+  max-height: var(--ios-modal-h) !important;
+  margin: 0 auto !important;
+  overflow-x: hidden !important;
+  overflow-y: scroll !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior-y: contain !important;
+  touch-action: pan-y !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-radius: 0 !important;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+/* Watch details modal = full visible iPhone viewport and THE scroll container. */
+html.ios-device .wmod {
+  position: relative !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  max-width: 1000px !important;
+  height: var(--ios-modal-h) !important;
+  min-height: 0 !important;
+  max-height: var(--ios-modal-h) !important;
+  margin: 0 auto !important;
+  display: block !important;
+  overflow-x: hidden !important;
+  overflow-y: scroll !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior-y: contain !important;
+  touch-action: pan-y !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-radius: 0 !important;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+/* Remove every nested vertical scroll area in View Details. */
+html.ios-device .wm-body {
+  display: block !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  touch-action: pan-y !important;
+}
+
+html.ios-device .wm-info {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  -webkit-overflow-scrolling: auto !important;
+  overscroll-behavior: auto !important;
+  touch-action: pan-y !important;
+  padding-bottom: calc(38px + env(safe-area-inset-bottom)) !important;
+}
+
+/* Gallery stays horizontal-swipe friendly but is not a vertical scroller. */
+html.ios-device .wm-gallery {
+  width: 100% !important;
+  height: min(58vw, 390px) !important;
+  min-height: 230px !important;
+  max-height: 390px !important;
+  overflow: hidden !important;
+  touch-action: none !important;
+}
+
+/* Sticky headers remain reachable while content scrolls. */
+html.ios-device .om-hdr,
+html.ios-device .wm-hdr {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 100 !important;
+  background: var(--bk3) !important;
+}
+
+html.ios-device .om-hdr {
+  padding-top: max(16px, env(safe-area-inset-top)) !important;
+}
+
+html.ios-device .wm-hdr {
+  padding-top: max(14px, env(safe-area-inset-top)) !important;
+}
+
+html.ios-device .om-body {
+  overflow: visible !important;
+  padding-bottom: calc(50px + env(safe-area-inset-bottom)) !important;
+}
+
+html.ios-device .om-form,
+html.ios-device .om-row,
+html.ios-device .om-fg {
+  overflow: visible !important;
+}
+
+/* Prevent Safari's focus zoom, which can make the form appear frozen. */
+html.ios-device .om-inp,
+html.ios-device .om-sel,
+html.ios-device .om-ta {
+  font-size: 16px !important;
+}
+
+/* Cart remains a dedicated native scroll area. */
+html.ios-device .cart-sidebar {
+  height: var(--ios-modal-h) !important;
+  max-height: var(--ios-modal-h) !important;
+  top: var(--ios-vv-top) !important;
+}
+
+html.ios-device .cart-items {
+  min-height: 0 !important;
+  overflow-y: scroll !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior-y: contain !important;
+  touch-action: pan-y !important;
+}
+
+/* Remove expensive blur from the two problem overlays on iOS.
+   Safari can drop scrolling frames when fixed + backdrop-filter + keyboard combine. */
+html.ios-device .order-overlay,
+html.ios-device .wmod-ov {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
 </style>
 </head>
 <body>
@@ -3021,5 +3204,191 @@ document.addEventListener('touchstart', () => {
   });
 })();
 </script>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   iPHONE SAFARI — HARD TOUCH SCROLL FALLBACK
+   Safari occasionally sends the swipe to the page behind a fixed
+   modal. On iOS only, this controller owns the gesture and moves
+   the active modal's scrollTop directly.
+═══════════════════════════════════════════════════════════════ */
+(function iphoneModalScrollFinalFix() {
+  const ua = navigator.userAgent || '';
+  const iOS =
+    /iPad|iPhone|iPod/.test(ua) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+  if (!iOS) return;
+
+  document.documentElement.classList.add('ios-device');
+
+  const orderOverlay = document.getElementById('orderOverlay');
+  const orderModal   = orderOverlay ? orderOverlay.querySelector('.order-modal') : null;
+  const watchOverlay = document.getElementById('wmodOv');
+  const watchModal   = watchOverlay ? watchOverlay.querySelector('.wmod') : null;
+  const cartSidebar  = document.getElementById('cartSidebar');
+  const cartItems    = document.getElementById('cartItems');
+
+  /* Follow Safari's visual viewport, including when keyboard/address bars move. */
+  function syncVisualViewport() {
+    const vv = window.visualViewport;
+    const h = vv ? vv.height : window.innerHeight;
+    const top = vv ? vv.offsetTop : 0;
+
+    document.documentElement.style.setProperty('--ios-modal-h', Math.max(1, h) + 'px');
+    document.documentElement.style.setProperty('--ios-vv-top', Math.max(0, top) + 'px');
+  }
+
+  syncVisualViewport();
+  window.addEventListener('resize', syncVisualViewport, { passive: true });
+  window.addEventListener('orientationchange', () => setTimeout(syncVisualViewport, 100), { passive: true });
+
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', syncVisualViewport, { passive: true });
+    window.visualViewport.addEventListener('scroll', syncVisualViewport, { passive: true });
+  }
+
+  function activeScroller() {
+    if (orderOverlay && orderOverlay.classList.contains('open')) return orderModal;
+    if (watchOverlay && watchOverlay.classList.contains('open')) return watchModal;
+    if (cartSidebar && cartSidebar.classList.contains('open')) return cartItems;
+    return null;
+  }
+
+  function activeOverlay() {
+    if (orderOverlay && orderOverlay.classList.contains('open')) return orderOverlay;
+    if (watchOverlay && watchOverlay.classList.contains('open')) return watchOverlay;
+    if (cartSidebar && cartSidebar.classList.contains('open')) return cartSidebar;
+    return null;
+  }
+
+  let startX = 0;
+  let startY = 0;
+  let lastY = 0;
+  let gestureScroller = null;
+
+  document.addEventListener('touchstart', function (e) {
+    const scroller = activeScroller();
+    if (!scroller || !e.touches || e.touches.length !== 1) return;
+
+    const t = e.touches[0];
+    startX = t.clientX;
+    startY = t.clientY;
+    lastY = t.clientY;
+    gestureScroller = scroller;
+  }, { passive: true, capture: true });
+
+  document.addEventListener('touchmove', function (e) {
+    const scroller = activeScroller();
+    const overlay = activeOverlay();
+
+    if (!scroller || !overlay || !e.touches || e.touches.length !== 1) return;
+
+    /* If a modal/cart is open, background page must never receive this move. */
+    e.preventDefault();
+
+    const t = e.touches[0];
+
+    if (gestureScroller !== scroller) {
+      gestureScroller = scroller;
+      startX = t.clientX;
+      startY = t.clientY;
+      lastY = t.clientY;
+      return;
+    }
+
+    const totalX = t.clientX - startX;
+    const totalY = t.clientY - startY;
+    const deltaY = t.clientY - lastY;
+    lastY = t.clientY;
+
+    /* In the watch image gallery, preserve horizontal swipe.
+       Vertical motion still scrolls the whole View Details modal. */
+    const inGallery = !!(e.target && e.target.closest && e.target.closest('.wm-gallery'));
+    if (inGallery && Math.abs(totalX) > Math.abs(totalY) + 6) {
+      return;
+    }
+
+    if (Math.abs(deltaY) < 0.5) return;
+
+    const maxScroll = Math.max(0, scroller.scrollHeight - scroller.clientHeight);
+    let next = scroller.scrollTop - deltaY;
+
+    if (next < 0) next = 0;
+    if (next > maxScroll) next = maxScroll;
+
+    scroller.scrollTop = next;
+  }, { passive: false, capture: true });
+
+  document.addEventListener('touchend', function () {
+    gestureScroller = null;
+  }, { passive: true, capture: true });
+
+  document.addEventListener('touchcancel', function () {
+    gestureScroller = null;
+  }, { passive: true, capture: true });
+
+  /* Always reset the actual scrolling element when opening a modal. */
+  function observeOpen(overlay, scroller) {
+    if (!overlay || !scroller) return;
+
+    new MutationObserver(function () {
+      if (!overlay.classList.contains('open')) return;
+
+      syncVisualViewport();
+      requestAnimationFrame(function () {
+        scroller.scrollTop = 0;
+        setTimeout(function () {
+          scroller.scrollTop = 0;
+        }, 50);
+      });
+    }).observe(overlay, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  observeOpen(orderOverlay, orderModal);
+  observeOpen(watchOverlay, watchModal);
+
+  /* When the keyboard opens, move the CHECKOUT MODAL itself, not the page. */
+  document.addEventListener('focusin', function (e) {
+    if (!orderOverlay || !orderOverlay.classList.contains('open') || !orderModal) return;
+    if (!e.target.matches('input, select, textarea')) return;
+
+    setTimeout(function () {
+      syncVisualViewport();
+
+      const modalRect = orderModal.getBoundingClientRect();
+      const fieldRect = e.target.getBoundingClientRect();
+      const safeTop = modalRect.top + 78;
+      const safeBottom = modalRect.bottom - 28;
+
+      if (fieldRect.bottom > safeBottom) {
+        orderModal.scrollTop += fieldRect.bottom - safeBottom + 18;
+      } else if (fieldRect.top < safeTop) {
+        orderModal.scrollTop -= safeTop - fieldRect.top + 18;
+      }
+    }, 260);
+  }, true);
+
+  /* Extra protection: never let an open modal leave old body-lock styles behind. */
+  const clearLegacyIOSBodyLock = function () {
+    document.body.classList.remove('ios-lock');
+    document.body.style.top = '';
+    document.body.style.position = '';
+    document.body.style.height = '';
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
+  };
+
+  clearLegacyIOSBodyLock();
+
+  [orderOverlay, watchOverlay, cartSidebar].forEach(function (el) {
+    if (!el) return;
+    new MutationObserver(function () {
+      clearLegacyIOSBodyLock();
+    }).observe(el, { attributes: true, attributeFilter: ['class'] });
+  });
+})();
+</script>
+
 </body>
 </html>
