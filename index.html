@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Royale Cartel — Luxury Timepieces | Azadi Sale 30% Off</title>
 <link rel="icon" type="image/png" sizes="32x32" href="remove-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1081,129 +1081,172 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
 @keyframes sdrop{0%{top:-100%}60%,100%{top:100%}}
 
 
-/* ═══════════════════════════════════════════════════════
-   iPHONE SAFARI MODAL SCROLL — FINAL OVERRIDE
-   Mobile uses ONE scroll container (the overlay), avoiding
-   nested overflow inside a fixed/body-locked element.
-═══════════════════════════════════════════════════════ */
-html.modal-open,
-body.modal-open{
-  overflow:hidden !important;
-  height:100% !important;
-}
-
-.cart-sidebar,
-.cart-items,
-.order-overlay,
-.order-modal,
-.wmod-ov,
-.wmod,
-.wm-body,
-.wm-info{
-  touch-action:pan-y;
-}
-
-@supports (-webkit-touch-callout:none){
-  /* Cart remains a fixed panel; only cart-items scrolls */
-  .cart-sidebar{
-    height:-webkit-fill-available !important;
-    max-height:-webkit-fill-available !important;
-  }
-  .cart-items{
-    min-height:0 !important;
-    overflow-y:auto !important;
-    -webkit-overflow-scrolling:touch !important;
-    touch-action:pan-y !important;
+/* ═══════════════════════════════════════════════════════════════
+   iPHONE / iOS SAFARI — SINGLE SCROLL SURFACE FINAL FIX
+   Do not create nested vertical scroll containers inside fixed
+   overlays on iPhone. The overlay is the one vertical scroller.
+═══════════════════════════════════════════════════════════════ */
+@supports (-webkit-touch-callout: none) {
+  html, body {
+    height:auto !important;
+    min-height:100% !important;
+    overflow-x:hidden !important;
   }
 
-  /* Checkout: overlay is the ONLY vertical scroller */
-  .order-overlay.open{
-    display:block !important;
+  body.ios-lock {
+    position:static !important;
+    top:auto !important;
+    width:auto !important;
+    height:auto !important;
+    overflow:visible !important;
+  }
+
+  /* Checkout: overlay scrolls; modal itself does not trap touch. */
+  .order-overlay {
+    position:fixed !important;
+    inset:0 !important;
+    width:100% !important;
+    height:100% !important;
+    height:100dvh !important;
+    display:none;
+    overflow-x:hidden !important;
     overflow-y:auto !important;
     -webkit-overflow-scrolling:touch !important;
     overscroll-behavior-y:contain;
     touch-action:pan-y !important;
-    padding:
-      max(10px, env(safe-area-inset-top))
-      10px
-      max(24px, env(safe-area-inset-bottom)) !important;
+    align-items:flex-start !important;
+    justify-content:center !important;
+    padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom) !important;
   }
-  .order-modal{
+  .order-overlay.open { display:block !important; }
+  .order-modal {
     width:100% !important;
     max-width:580px !important;
     max-height:none !important;
-    height:auto !important;
-    overflow:visible !important;
+    min-height:100% !important;
     margin:0 auto !important;
+    overflow:visible !important;
+    -webkit-overflow-scrolling:auto !important;
+    touch-action:pan-y !important;
+    border-left:0 !important;
+    border-right:0 !important;
   }
-  .om-hdr{
-    position:sticky;
-    top:0;
-    z-index:20;
-    padding-top:max(16px, env(safe-area-inset-top));
+  .om-hdr {
+    position:sticky !important;
+    top:0 !important;
+    z-index:20 !important;
+    padding-top:max(16px, env(safe-area-inset-top)) !important;
+  }
+  .om-body,.om-form,.om-fg,.om-row {
+    overflow:visible !important;
+    touch-action:pan-y !important;
+  }
+  .om-inp,.om-sel,.om-ta {
+    font-size:16px !important; /* prevents iOS focus zoom */
+    touch-action:manipulation !important;
+  }
+  .om-body {
+    padding-bottom:calc(40px + env(safe-area-inset-bottom)) !important;
   }
 
-  /* View Details: overlay is the ONLY vertical scroller */
-  .wmod-ov.open{
-    display:block !important;
+  /* View Details: overlay is the ONLY vertical scroller. */
+  .wmod-ov {
+    position:fixed !important;
+    inset:0 !important;
+    width:100% !important;
+    height:100% !important;
+    height:100dvh !important;
+    display:none;
+    overflow-x:hidden !important;
     overflow-y:auto !important;
     -webkit-overflow-scrolling:touch !important;
     overscroll-behavior-y:contain;
     touch-action:pan-y !important;
-    padding:
-      max(8px, env(safe-area-inset-top))
-      8px
-      max(24px, env(safe-area-inset-bottom)) !important;
+    align-items:flex-start !important;
+    justify-content:center !important;
+    padding:0 !important;
   }
-  .wmod{
+  .wmod-ov.open { display:block !important; }
+  .wmod {
     width:100% !important;
     max-width:1000px !important;
     max-height:none !important;
-    height:auto !important;
-    overflow:visible !important;
+    min-height:100% !important;
     margin:0 auto !important;
+    overflow:visible !important;
+    display:block !important;
+    touch-action:pan-y !important;
+    border-left:0 !important;
+    border-right:0 !important;
   }
-  .wm-hdr{
-    position:sticky;
-    top:0;
-    z-index:30;
-    padding-top:max(14px, env(safe-area-inset-top));
+  .wm-hdr {
+    position:sticky !important;
+    top:0 !important;
+    z-index:30 !important;
+    padding-top:max(14px, env(safe-area-inset-top)) !important;
   }
-  .wm-body{
+  .wm-body {
     display:block !important;
     overflow:visible !important;
     min-height:0 !important;
+    touch-action:pan-y !important;
   }
-  .wm-gallery{
-    height:min(62vw,420px) !important;
-    min-height:220px !important;
+  .wm-gallery {
+    width:100% !important;
+    height:min(70vw,480px) !important;
+    min-height:260px !important;
+    max-height:480px !important;
+    overflow:hidden !important;
+    touch-action:pan-y pinch-zoom !important;
   }
-  .wm-info{
+  .wm-info {
     max-height:none !important;
-    height:auto !important;
     min-height:0 !important;
+    height:auto !important;
     overflow:visible !important;
     -webkit-overflow-scrolling:auto !important;
+    overscroll-behavior:auto !important;
+    touch-action:pan-y !important;
+    padding-bottom:calc(40px + env(safe-area-inset-bottom)) !important;
+  }
+  .wm-slides,.wm-slide,.wm-slide img,.wm-desc,.wm-specs,.wm-spec,.wm-actions {
+    touch-action:pan-y !important;
+  }
+
+  /* Cart sidebar keeps ONE internal scroller for its item list. */
+  .cart-sidebar {
+    height:100% !important;
+    height:100dvh !important;
+    max-height:100dvh !important;
+    overflow:hidden !important;
+    touch-action:pan-y !important;
+    padding-bottom:env(safe-area-inset-bottom) !important;
+  }
+  .cart-items {
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    overflow-x:hidden !important;
+    overflow-y:auto !important;
+    -webkit-overflow-scrolling:touch !important;
+    touch-action:pan-y !important;
+  }
+  .cart-ftr {
+    padding-bottom:max(16px, env(safe-area-inset-bottom)) !important;
   }
 }
 
-@media(max-width:700px){
-  .order-overlay,
-  .wmod-ov{
-    align-items:flex-start !important;
-    justify-content:flex-start !important;
+@media (max-width:700px) {
+  /* This also helps Chrome/other WebKit wrappers on iPhone-sized screens. */
+  .order-overlay.open,.wmod-ov.open {
+    overflow-y:auto !important;
+    -webkit-overflow-scrolling:touch !important;
+    touch-action:pan-y !important;
   }
-  .order-modal,
-  .wmod{
-    animation:none !important;
+  .order-modal,.wmod,.wm-body,.wm-info {
+    max-height:none !important;
   }
-  .om-body{padding:18px 14px 32px !important}
-  .wm-info{padding:18px 14px 32px !important}
-  .om-inp,.om-sel,.om-ta{
-    font-size:16px !important; /* prevents iPhone zoom on focus */
-  }
+  .wm-info { overflow:visible !important; }
 }
-
 </style>
 </head>
 <body>
@@ -2422,30 +2465,43 @@ document.addEventListener('keydown', e => {
 const isTch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
 
 /* ═══════════════════════════════════
-   MODAL LOCK — iPHONE SAFE
-   Do not use position:fixed on body. It breaks scrolling
-   inside Safari modals, especially while keyboard is open.
+   SCROLL LOCK — iPHONE SAFARI SAFE
+   IMPORTANT: iOS must NOT use position:fixed on body.
+   Full-screen overlays capture scrolling themselves.
 ═══════════════════════════════════ */
+const _isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+               (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+let _savedScrollY = 0;
 let _lockCount = 0;
 
 function lockScroll() {
   _lockCount++;
-  document.documentElement.classList.add('modal-open');
-  document.body.classList.add('modal-open');
+  if (_lockCount !== 1) return;
+  _savedScrollY = window.pageYOffset || window.scrollY || 0;
+
+  // iPhone/iPad Safari: NEVER freeze body. A fixed body breaks
+  // scrolling inside checkout and product-details overlays.
+  if (_isIOS) return;
+
+  document.documentElement.style.overflow = 'hidden';
+  document.body.style.overflow = 'hidden';
 }
 
 function unlockScroll() {
   if (_lockCount > 0) _lockCount--;
-  if (_lockCount === 0) {
-    document.documentElement.classList.remove('modal-open');
-    document.body.classList.remove('modal-open');
-  }
+  if (_lockCount !== 0) return;
+
+  if (_isIOS) return;
+  document.documentElement.style.overflow = '';
+  document.body.style.overflow = '';
 }
 
 function forceUnlock() {
   _lockCount = 0;
-  document.documentElement.classList.remove('modal-open');
-  document.body.classList.remove('modal-open');
+  document.body.classList.remove('ios-lock');
+  document.body.style.top = '';
+  document.documentElement.style.overflow = '';
+  document.body.style.overflow = '';
 }
 
 /* ── CURSOR ── */
@@ -2684,15 +2740,6 @@ function closeOrder() { document.getElementById('orderOverlay').classList.remove
 document.getElementById('omClose').addEventListener('click', closeOrder);
 document.getElementById('orderOverlay').addEventListener('click', e => { if (e.target === document.getElementById('orderOverlay')) closeOrder(); });
 
-/* Keep focused checkout fields visible above iPhone keyboard */
-document.querySelectorAll('#omForm input, #omForm select, #omForm textarea').forEach(field => {
-  field.addEventListener('focus', () => {
-    setTimeout(() => {
-      field.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 350);
-  });
-});
-
 async function submitOrder(e) {
   e.preventDefault();
   const ref = 'RC-' + Date.now().toString(36).toUpperCase().slice(-8);
@@ -2917,6 +2964,62 @@ document.addEventListener('touchstart', () => {
   if (_tapCount >= 10) { _tapCount = 0; forceUnlock(); }
   setTimeout(() => _tapCount = 0, 2000);
 }, {passive: true});
+
+
+/* ═══════════════════════════════════════════════════════════════
+   iPHONE KEYBOARD + MODAL SCROLL ASSIST
+═══════════════════════════════════════════════════════════════ */
+(function setupIOSModalScrolling(){
+  if (!_isIOS) return;
+
+  const orderOverlay = document.getElementById('orderOverlay');
+  const watchOverlay = document.getElementById('wmodOv');
+
+  // Safari sometimes keeps the previous scrollTop when reopening a fixed
+  // scroller. Reset to the top every time a modal becomes visible.
+  const resetOverlay = (el) => {
+    if (!el) return;
+    requestAnimationFrame(() => {
+      el.scrollTop = 0;
+      setTimeout(() => { el.scrollTop = 0; }, 40);
+    });
+  };
+
+  const orderObserver = new MutationObserver(() => {
+    if (orderOverlay && orderOverlay.classList.contains('open')) resetOverlay(orderOverlay);
+  });
+  if (orderOverlay) orderObserver.observe(orderOverlay,{attributes:true,attributeFilter:['class']});
+
+  const watchObserver = new MutationObserver(() => {
+    if (watchOverlay && watchOverlay.classList.contains('open')) resetOverlay(watchOverlay);
+  });
+  if (watchOverlay) watchObserver.observe(watchOverlay,{attributes:true,attributeFilter:['class']});
+
+  // Keep the focused checkout field above the iPhone keyboard.
+  document.addEventListener('focusin', (e) => {
+    if (!orderOverlay || !orderOverlay.classList.contains('open')) return;
+    if (!e.target.matches('input,select,textarea')) return;
+    setTimeout(() => {
+      try { e.target.scrollIntoView({behavior:'smooth',block:'center',inline:'nearest'}); }
+      catch (_) { e.target.scrollIntoView(false); }
+    }, 320);
+  });
+
+  // visualViewport fires as Safari address/keyboard bars resize the screen.
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', () => {
+      document.documentElement.style.setProperty('--ios-vh', window.visualViewport.height + 'px');
+    }, {passive:true});
+    document.documentElement.style.setProperty('--ios-vh', window.visualViewport.height + 'px');
+  }
+
+  // Critical: do not globally prevent touchmove. Explicitly mark modal
+  // vertical areas as native touch scroll surfaces.
+  [orderOverlay,watchOverlay,document.getElementById('cartItems')].forEach(el => {
+    if (!el) return;
+    el.addEventListener('touchmove', () => {}, {passive:true});
+  });
+})();
 </script>
 </body>
 </html>
