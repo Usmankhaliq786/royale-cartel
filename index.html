@@ -531,7 +531,7 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
 /* ─────────────────────────────────────
    CART SIDEBAR — Enhanced
 ───────────────────────────────────── */
-.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:800;display:none;backdrop-filter:blur(8px)}
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:3600;display:none;backdrop-filter:blur(8px)}
 .cart-overlay.open{display:block}
 .cart-sidebar{
   position:fixed;top:0;right:-100%;
@@ -540,7 +540,7 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
   height:100dvh;
   background:var(--bk2);
   border-left:1px solid rgba(201,148,58,.2);
-  z-index:801;
+  z-index:3601;
   display:flex;flex-direction:column;
   transition:right .5s var(--ease);
   box-shadow:-20px 0 60px rgba(0,0,0,.8);
@@ -601,7 +601,7 @@ footer{position:relative;z-index:2;background:var(--bk2);padding:clamp(48px,6vw,
 /* ─────────────────────────────────────
    ORDER MODAL
 ───────────────────────────────────── */
-.order-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:1000;display:none;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(12px)}
+.order-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:3700;display:none;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(12px)}
 .order-overlay.open{display:flex}
 .order-modal{
   width:min(580px,96vw);
@@ -1471,7 +1471,7 @@ html.ios-device .wmod-ov {
     <div class="cp-sub" id="cpSub"></div>
     <div class="cp-price" id="cpPrice"></div>
     <div class="cp-actions">
-      <button class="cp-btn-cart" onclick="openCart();closeCartPopup()">View Cart</button>
+      <button class="cp-btn-cart" onclick="closeCartPopup();openCart()">View Cart</button>
       <button class="cp-btn-cont" onclick="closeCartPopup()">Continue</button>
     </div>
   </div>
@@ -2363,36 +2363,156 @@ function openWatchModal(id) {
   document.getElementById('wmDesc').textContent = w.desc;
 
   const slidesEl = document.getElementById('wmSlides');
-  slidesEl.innerHTML = '';
-  w.photos.forEach((p, i) => {
-    slidesEl.innerHTML += `<div class="wm-slide${i===0?' active':''}"><img src="${p}" alt="${w.name} — photo ${i+1}" loading="${i===0?'eager':'lazy'}"><div class="wm-slide-ov"></div></div>`;
-  });
-  slidesEl.style.transform = 'translateX(0)';
-
   const thumbsEl = document.getElementById('wmThumbs');
+  slidesEl.innerHTML = '';
   thumbsEl.innerHTML = '';
-  if (w.photos.length > 1) {
-    w.photos.forEach((p, i) => {
-      const t = document.createElement('div');
-      t.className = `wm-thumb${i===0?' on':''}`;
-      t.innerHTML = `<img src="${p}" alt="thumb ${i+1}" loading="lazy">`;
-      t.addEventListener('click', e => { e.stopPropagation(); galTo(i); });
+
+  const photos = Array.isArray(w.photos) ? w.photos.filter(Boolean) : [];
+  const fallbackPhoto = photos[0] || '';
+
+  photos.forEach((p, i) => {
+    const slide = document.createElement('div');
+    slide.className = 'wm-slide' + (i === 0 ? ' active' : '');
+
+    const img = document.createElement('img');
+    img.src = p;
+    img.alt = `${w.name} — photo ${i + 1}`;
+    img.loading = 'eager';
+    img.decoding = 'async';
+
+    /* If any secondary filename is wrong/missing, show the first watch
+       image instead of leaving a blank gallery. */
+    img.onerror = function() {
+      if (fallbackPhoto && this.getAttribute('src') !== fallbackPhoto) {
+        this.src = fallbackPhoto;
+      } else {
+        this.style.opacity = '0.25';
+      }
+    };
+
+    const shade = document.createElement('div');
+    shade.className = 'wm-slide-ov';
+
+    slide.appendChild(img);
+    slide.appendChild(shade);
+    slidesEl.appendChild(slide);
+
+    if (photos.length > 1) {
+      const t = document.createElement('button');
+      t.type = 'button';
+      t.className = 'wm-thumb' + (i === 0 ? ' on' : '');
+
+      const thumbImg = document.createElement('img');
+      thumbImg.src = p;
+      thumbImg.alt = `thumb ${i + 1}`;
+      thumbImg.loading = 'eager';
+      thumbImg.onerror = function() {
+        if (fallbackPhoto && this.getAttribute('src') !== fallbackPhoto) {
+          this.src = fallbackPhoto;
+        }
+      };
+
+      t.appendChild(thumbImg);
+      t.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        galTo(i);
+      });
       thumbsEl.appendChild(t);
-    });
-  }
+    }
+  });
+
+  slidesEl.style.transform = 'translate3d(0,0,0)';
   updateGalZoom();
 
   const specsEl = document.getElementById('wmSpecs');
   specsEl.innerHTML = w.specs.map(s => `<div class="wm-spec"><div class="wm-spec-k">${s.k}</div><div class="wm-spec-v">${s.v}</div></div>`).join('');
 
   document.getElementById('wmActions').innerHTML = `
-    <button class="wm-btn-cart" onclick="addToCart(activeWatch.name, activeWatch.sub, activeWatch.price, activeWatch.priceNum, activeWatch.photos[galIdx])">
+    <button class="wm-btn-cart" id="wmAddToCartBtn" type="button">
       &#x2756; &nbsp; Add to Selection
     </button>
     <a href="https://wa.me/923030555566?text=Hello%20Royale%20Cartel%2C%20I%20am%20interested%20in%20the%20${encodeURIComponent(w.name)}%20(${encodeURIComponent(w.ref)})" target="_blank" rel="noopener" class="wm-btn-wa" title="Enquire on WhatsApp">
       <svg viewBox="0 0 24 24"><use href="#ico-wa"/></svg>
     </a>
     <button class="wm-btn-wish" title="Save to wishlist" onclick="showToast('${w.name.replace(/'/g,"\\'")} saved to wishlist')">&#x2661;</button>`;
+
+
+  /* FINAL FIX — do not rely on inline onclick inside the dynamically rebuilt modal.
+     Bind a real click handler every time View Details is opened. */
+  const wmAddBtn = document.getElementById('wmAddToCartBtn');
+  if (wmAddBtn) {
+    wmAddBtn.onclick = function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (!activeWatch) {
+        showToast('Please reopen this watch');
+        return;
+      }
+
+      const watchToAdd = activeWatch;
+      const selectedPhoto =
+        watchToAdd.photos && watchToAdd.photos.length
+          ? watchToAdd.photos[Math.min(galIdx, watchToAdd.photos.length - 1)]
+          : '';
+
+      /* Add first while activeWatch is definitely still available. */
+      addToCart(
+        watchToAdd.name,
+        watchToAdd.sub,
+        watchToAdd.price,
+        Number(watchToAdd.priceNum) || 0,
+        selectedPhoto
+      );
+
+      /* Rebuild immediately so there is no stale empty-cart state. */
+      updateCartUI();
+
+      /* Close details without destroying cart state. */
+      if (modalOv) modalOv.classList.remove('open');
+      activeWatch = null;
+
+      /* Normalise all old scroll-lock counters before showing cart.
+         This avoids a hidden/locked transition left by the details modal. */
+      if (typeof forceUnlock === 'function') {
+        forceUnlock();
+      } else if (typeof unlockScroll === 'function') {
+        unlockScroll();
+      }
+
+      /* Close the small Added popup; the cart itself is the confirmation. */
+      if (typeof closeCartPopup === 'function') closeCartPopup();
+
+      /* Open cart on next paint, after the watch modal is removed. */
+      requestAnimationFrame(function() {
+        updateCartUI();
+
+        const sidebar = document.getElementById('cartSidebar');
+        const overlay = document.getElementById('cartOverlay');
+
+        if (sidebar) {
+          sidebar.classList.add('open');
+          sidebar.style.zIndex = '4101';
+        }
+        if (overlay) {
+          overlay.classList.add('open');
+          overlay.style.zIndex = '4100';
+        }
+
+        const ftr = document.getElementById('cartFtr');
+        if (ftr && cartItems.length) ftr.style.display = 'block';
+
+        const empty = document.getElementById('cartEmpty');
+        if (empty && cartItems.length) empty.style.display = 'none';
+
+        const items = document.getElementById('cartItems');
+        if (items) items.scrollTop = 0;
+
+        if (typeof lockScroll === 'function') lockScroll();
+      });
+    };
+  }
 
   modalOv.classList.add('open');
   lockScroll();
@@ -2413,7 +2533,7 @@ function galTo(n) {
   if (!activeWatch) return;
   const total = activeWatch.photos.length;
   galIdx = ((n % total) + total) % total;
-  document.getElementById('wmSlides').style.transform = `translateX(-${galIdx * 100}%)`;
+  document.getElementById('wmSlides').style.transform = `translate3d(-${galIdx * 100}%,0,0)`;
   document.querySelectorAll('.wm-slide').forEach((s, i) => s.classList.toggle('active', i === galIdx));
   document.querySelectorAll('.wm-thumb').forEach((t, i) => t.classList.toggle('on', i === galIdx));
   updateGalZoom();
@@ -2867,8 +2987,30 @@ function updateCartUI() {
 }
 
 function openCart() {
-  document.getElementById('cartSidebar').classList.add('open');
-  document.getElementById('cartOverlay').classList.add('open');
+  const watchOverlay = document.getElementById('wmodOv');
+
+  /* ROOT FIX:
+     If View Details is still open, it sits above the cart.
+     Close it first, then open the cart with a clean scroll-lock state. */
+  if (watchOverlay && watchOverlay.classList.contains('open')) {
+    watchOverlay.classList.remove('open');
+    activeWatch = null;
+    unlockScroll();
+  }
+
+  /* Always rebuild cart UI immediately before opening. */
+  updateCartUI();
+
+  const sidebar = document.getElementById('cartSidebar');
+  const overlay = document.getElementById('cartOverlay');
+
+  sidebar.classList.add('open');
+  overlay.classList.add('open');
+
+  /* Ensure the selected item and footer start in a visible state. */
+  const items = document.getElementById('cartItems');
+  if (items) items.scrollTop = 0;
+
   lockScroll();
 }
 
@@ -2915,8 +3057,18 @@ function openOrder() {
   document.getElementById('omForm').style.display = 'flex';
   document.getElementById('omSummary').style.display = 'block';
   document.getElementById('omSuccess').classList.remove('show');
-  document.getElementById('orderOverlay').classList.add('open');
-  // scroll is already locked from cart — no need to lock again
+
+  /* Finish the cart state first. */
+  forceUnlock();
+
+  const orderOverlay = document.getElementById('orderOverlay');
+  orderOverlay.classList.add('open');
+  orderOverlay.scrollTop = 0;
+
+  requestAnimationFrame(() => {
+    orderOverlay.scrollTop = 0;
+    lockScroll();
+  });
 }
 
 function closeOrder() { document.getElementById('orderOverlay').classList.remove('open'); unlockScroll(); }
@@ -3213,6 +3365,8 @@ document.addEventListener('touchstart', () => {
    the active modal's scrollTop directly.
 ═══════════════════════════════════════════════════════════════ */
 (function iphoneModalScrollFinalFix() {
+  /* Disabled: native Safari scrolling is used by the clean final fix below. */
+  return;
   const ua = navigator.userAgent || '';
   const iOS =
     /iPad|iPhone|iPod/.test(ua) ||
@@ -3387,6 +3541,283 @@ document.addEventListener('touchstart', () => {
       clearLegacyIOSBodyLock();
     }).observe(el, { attributes: true, attributeFilter: ['class'] });
   });
+})();
+</script>
+
+
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   FINAL CART STACKING FIX
+   Watch details = 3500, Cart = 3600/3601, Checkout = 3700,
+   Added-to-cart popup = 4000.
+═══════════════════════════════════════════════════════════════ */
+.cart-overlay { z-index:3600 !important; }
+.cart-sidebar { z-index:3601 !important; }
+.order-overlay { z-index:3700 !important; }
+
+/* Never allow cart children to disappear because of inherited animation state. */
+.cart-sidebar.open .cart-items,
+.cart-sidebar.open .cart-ftr,
+.cart-sidebar.open .cart-item {
+  visibility:visible !important;
+}
+
+.cart-sidebar.open .cart-item {
+  opacity:1 !important;
+}
+</style>
+
+
+<script>
+/* SECOND SAFETY NET:
+   If another script rebuilds #wmActions later, this delegated click still handles
+   Add to Selection. It runs only for the modal button. */
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest && e.target.closest('#wmAddToCartBtn');
+  if (!btn) return;
+
+  /* If the direct handler already handled this click, do nothing. */
+  if (btn.__rcHandled) {
+    btn.__rcHandled = false;
+    return;
+  }
+}, true);
+
+/* Keep cart UI internally consistent whenever the sidebar becomes visible. */
+(function(){
+  const sidebar = document.getElementById('cartSidebar');
+  if (!sidebar || typeof MutationObserver === 'undefined') return;
+
+  new MutationObserver(function(){
+    if (!sidebar.classList.contains('open')) return;
+    if (typeof updateCartUI === 'function') updateCartUI();
+
+    const ftr = document.getElementById('cartFtr');
+    const empty = document.getElementById('cartEmpty');
+    if (typeof cartItems !== 'undefined' && cartItems.length) {
+      if (ftr) ftr.style.display = 'block';
+      if (empty) empty.style.display = 'none';
+    }
+  }).observe(sidebar, {attributes:true, attributeFilter:['class']});
+})();
+</script>
+
+<style>
+/* Final layer order. Nothing in View Details may cover the cart. */
+.cart-overlay.open { z-index:4100 !important; }
+.cart-sidebar.open { z-index:4101 !important; }
+.order-overlay.open { z-index:4200 !important; }
+
+.cart-sidebar.open .cart-item,
+.cart-sidebar.open .cart-ftr {
+  visibility:visible !important;
+}
+
+.cart-sidebar.open .cart-item {
+  opacity:1 !important;
+}
+</style>
+
+
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   CLEAN FINAL MOBILE/iPHONE MODAL FIX
+   One and only one vertical scroll surface per popup.
+═══════════════════════════════════════════════════════════════ */
+
+/* Gallery rendering — explicit dimensions prevent blank Safari slides. */
+.wm-gallery {
+  isolation:isolate;
+}
+.wm-slides {
+  width:100%;
+  height:100%;
+  min-height:inherit;
+  will-change:transform;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+}
+.wm-slide {
+  height:100%;
+  min-height:inherit;
+  flex:0 0 100%;
+}
+.wm-slide img {
+  width:100% !important;
+  height:100% !important;
+  min-height:inherit;
+  object-fit:contain !important;
+  object-position:center;
+  background:var(--bk4);
+  opacity:1 !important;
+  visibility:visible !important;
+  -webkit-transform:translateZ(0);
+  transform:translateZ(0);
+}
+.wm-thumb {
+  padding:0;
+  background:var(--bk4);
+}
+
+/* Phone layout: the OVERLAY scrolls, never the inner panel. */
+@media (max-width: 760px) {
+  .wmod-ov,
+  .order-overlay {
+    position:fixed !important;
+    inset:0 !important;
+    width:100% !important;
+    height:100vh !important;
+    height:100dvh !important;
+    max-height:100dvh !important;
+    overflow-x:hidden !important;
+    overflow-y:auto !important;
+    -webkit-overflow-scrolling:touch !important;
+    overscroll-behavior-y:contain !important;
+    touch-action:pan-y !important;
+    align-items:flex-start !important;
+    justify-content:center !important;
+    padding:0 !important;
+  }
+
+  .wmod-ov.open,
+  .order-overlay.open {
+    display:block !important;
+  }
+
+  .wmod,
+  .order-modal {
+    position:relative !important;
+    width:100% !important;
+    max-width:100% !important;
+    height:auto !important;
+    min-height:100dvh !important;
+    max-height:none !important;
+    margin:0 !important;
+    overflow:visible !important;
+    touch-action:pan-y !important;
+    border-left:0 !important;
+    border-right:0 !important;
+  }
+
+  .wm-body {
+    display:block !important;
+    height:auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+    overflow:visible !important;
+  }
+
+  .wm-gallery {
+    display:block !important;
+    width:100% !important;
+    height:clamp(280px, 72vw, 430px) !important;
+    min-height:280px !important;
+    max-height:430px !important;
+    overflow:hidden !important;
+    touch-action:pan-y pinch-zoom !important;
+  }
+
+  .wm-info {
+    display:block !important;
+    width:100% !important;
+    height:auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+    overflow:visible !important;
+    -webkit-overflow-scrolling:auto !important;
+    touch-action:pan-y !important;
+    padding-bottom:calc(48px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .wm-hdr,
+  .om-hdr {
+    position:sticky !important;
+    top:0 !important;
+    z-index:50 !important;
+    background:var(--bk3) !important;
+  }
+
+  .wm-hdr {
+    padding-top:max(14px, env(safe-area-inset-top)) !important;
+  }
+
+  .om-hdr {
+    padding-top:max(16px, env(safe-area-inset-top)) !important;
+  }
+
+  .om-body,
+  .om-form,
+  .om-row,
+  .om-fg {
+    height:auto !important;
+    max-height:none !important;
+    overflow:visible !important;
+    touch-action:pan-y !important;
+  }
+
+  .om-body {
+    padding-bottom:calc(70px + env(safe-area-inset-bottom)) !important;
+  }
+
+  /* 16px prevents Safari from zooming when the keyboard opens. */
+  .om-inp,
+  .om-sel,
+  .om-ta {
+    font-size:16px !important;
+  }
+}
+
+/* iOS-specific: never freeze the document body. */
+@supports (-webkit-touch-callout: none) {
+  html,body {
+    overflow-x:hidden !important;
+  }
+  body.ios-lock {
+    position:static !important;
+    top:auto !important;
+    width:auto !important;
+    height:auto !important;
+    overflow:visible !important;
+  }
+
+  .wmod-ov,
+  .order-overlay {
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+  }
+}
+</style>
+
+
+<script>
+(function cleanIOSCheckoutAssist(){
+  const isIOS =
+    /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+  if (!isIOS) return;
+
+  const overlay = document.getElementById('orderOverlay');
+  if (!overlay) return;
+
+  document.addEventListener('focusin', function(e){
+    if (!overlay.classList.contains('open')) return;
+    if (!e.target.matches('input,select,textarea')) return;
+
+    setTimeout(function(){
+      const field = e.target.getBoundingClientRect();
+      const vv = window.visualViewport;
+      const viewportHeight = vv ? vv.height : window.innerHeight;
+      const safeTop = 90;
+      const safeBottom = viewportHeight - 30;
+
+      if (field.bottom > safeBottom) {
+        overlay.scrollTop += field.bottom - safeBottom + 24;
+      } else if (field.top < safeTop) {
+        overlay.scrollTop -= safeTop - field.top + 24;
+      }
+    }, 280);
+  }, true);
 })();
 </script>
 
