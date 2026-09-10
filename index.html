@@ -1388,7 +1388,9 @@ html.ios-device .wmod-ov {
     background: rgba(0,0,0,.96) !important;
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
-    touch-action: none !important;
+    touch-action: pan-y !important;
+    overscroll-behavior-y: contain !important;
+    pointer-events: auto !important;
     z-index: 3500 !important;
   }
 
@@ -4112,6 +4114,57 @@ window.addEventListener('pagehide', function () {
   }
 });
 </script>
+
+
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   VIEW DETAILS — iPHONE TOUCH GESTURE CORRECTION
+   Keep background locked, but NEVER cancel vertical pan on modal.
+═══════════════════════════════════════════════════════════════ */
+@supports (-webkit-touch-callout: none) {
+  html.watch-ios-open .wmod-ov {
+    overflow: hidden !important;
+    touch-action: pan-y !important;
+    pointer-events: auto !important;
+  }
+
+  html.watch-ios-open .wmod {
+    overflow-x: hidden !important;
+    overflow-y: scroll !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y !important;
+    pointer-events: auto !important;
+  }
+
+  html.watch-ios-open .wm-body,
+  html.watch-ios-open .wm-info,
+  html.watch-ios-open .wm-gallery,
+  html.watch-ios-open .wm-slides,
+  html.watch-ios-open .wm-slide {
+    touch-action: pan-y !important;
+    pointer-events: auto !important;
+  }
+
+  /* Important: information area must be part of the parent modal's flow.
+     Do not create a second nested vertical scroller. */
+  html.watch-ios-open .wm-info {
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  html.watch-ios-open .wm-body {
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  /* Ensure there is real scrollable content below the viewport. */
+  html.watch-ios-open .wmod {
+    padding-bottom: calc(40px + env(safe-area-inset-bottom)) !important;
+  }
+}
+</style>
 
 </body>
 </html>
